@@ -1,0 +1,26 @@
+ Revisions
+
+ 1) An error in the C version of the DAT routine was corrected. The error, not 
+    present in the Fortran version, applied only to dates in the first half of 
+    1972. The consequences were platform-dependent; in the test environment the
+    error left the results unaffected, but with other compilers and computers, 
+    wrong answers or even arithmetical exceptions were possible.
+
+ IAU SOFA Center
+ 03/03/2009
+
+
+ 1) A bug affecting the routines iauFk52h and iauH2fk5 has been corrected. This
+    caused erroneous proper motions (and also radial velocity) to be returned.
+ 
+ 2) The testbed t_sofa_c.c has been updated to reflect the changes to iauFk52h 
+    and iauH2fk5.
+
+ 3) In the C header file sofa.h, an used reference has been removed.
+
+ 4) In the C functions iauFk5hip, iauGmst00, iauObl80 and iauObl06, use of the 
+    ANSI C language feature "unary plus" has been eliminated, to avoid 
+    difficulties with older compilers. 
+
+IAU SOFA Center
+18/03/2009

@@ -1,5 +1,5 @@
 #include "sofam.h"
- 
+
 void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 /*
 **  - - - - - - - - - -
@@ -43,7 +43,7 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 **
 **  2) The nutation components in longitude and obliquity are in radians
 **     and with respect to the equinox and ecliptic of date.  The
-**     obliquity at J2000 is assumed to be the Lieske et al. (1977)
+**     obliquity at J2000.0 is assumed to be the Lieske et al. (1977)
 **     value of 84381.448 arcsec.
 **
 **     Both the luni-solar and planetary nutations are included.  The
@@ -101,12 +101,12 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 **           to psi_A and DEPSPR to both omega_A and eps_A.
 **
 **     (iii) The MHB2000 model predates the determination by Chapront
-**           et al. (2002) of a 14.6 mas displacement between the J2000
-**           mean equinox and the origin of the ICRS frame.  It should,
-**           however, be noted that neglecting this displacement when
-**           calculating star coordinates does not lead to a 14.6 mas
-**           change in right ascension, only a small second-order
-**           distortion in the pattern of the precession-nutation
+**           et al. (2002) of a 14.6 mas displacement between the
+**           J2000.0 mean equinox and the origin of the ICRS frame.  It
+**           should, however, be noted that neglecting this displacement
+**           when calculating star coordinates does not lead to a
+**           14.6 mas change in right ascension, only a small second-
+**           order distortion in the pattern of the precession-nutation
 **           effect.
 **
 **     For these reasons, the SOFA functions do not generate the "total
@@ -153,9 +153,11 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 **     Wallace, P.T., "Software for Implementing the IAU 2000
 **     Resolutions", in IERS Workshop 5.1 (2002)
 **
-**  This revision:  September June 30
+**  This revision:  2009 December 17
 **
-**  Copyright (C) 2008 IAU SOFA Review Board.  See notes at end.
+**  SOFA release 2009-12-31
+**
+**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
 */
 {
    int i;
@@ -1858,41 +1860,41 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 
 /* Interval between fundamental date J2000.0 and given date (JC). */
    t = ((date1 - DJ00) + date2) / DJC;
- 
+
 /* ------------------- */
 /* LUNI-SOLAR NUTATION */
 /* ------------------- */
- 
+
 /* Fundamental (Delaunay) arguments */
- 
+
 /* Mean anomaly of the Moon (IERS 2003). */
    el = iauFal03(t);
- 
+
 /* Mean anomaly of the Sun (MHB2000). */
    elp = fmod(1287104.79305  +
             t * (129596581.0481  +
             t * (-0.5532  +
             t * (0.000136  +
             t * (-0.00001149)))), TURNAS) * DAS2R;
- 
+
 /* Mean longitude of the Moon minus that of the ascending node */
 /* (IERS 2003. */
    f = iauFaf03(t);
- 
+
 /* Mean elongation of the Moon from the Sun (MHB2000). */
    d = fmod(1072260.70369  +
           t * (1602961601.2090  +
           t * (-6.3706  +
           t * (0.006593  +
           t * (-0.00003169)))), TURNAS) * DAS2R;
- 
+
 /* Mean longitude of the ascending node of the Moon (IERS 2003). */
    om = iauFaom03(t);
- 
+
 /* Initialize the nutation values. */
    dp = 0.0;
    de = 0.0;
- 
+
 /* Summation of luni-solar nutation series (in reverse order). */
    for (i = NLS-1; i >= 0; i--) {
 
@@ -1904,43 +1906,43 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
                  (double)xls[i].nom * om, D2PI);
       sarg = sin(arg);
       carg = cos(arg);
- 
+
    /* Term. */
       dp += (xls[i].sp + xls[i].spt * t) * sarg + xls[i].cp * carg;
       de += (xls[i].ce + xls[i].cet * t) * carg + xls[i].se * sarg;
    }
- 
+
 /* Convert from 0.1 microarcsec units to radians. */
    dpsils = dp * U2R;
    depsls = de * U2R;
- 
+
 /* ------------------ */
 /* PLANETARY NUTATION */
 /* ------------------ */
- 
+
 /* n.b.  The MHB2000 code computes the luni-solar and planetary nutation */
 /* in different functions, using slightly different Delaunay */
 /* arguments in the two cases.  This behaviour is faithfully */
 /* reproduced here.  Use of the IERS 2003 expressions for both */
 /* cases leads to negligible changes, well below */
 /* 0.1 microarcsecond. */
- 
+
 /* Mean anomaly of the Moon (MHB2000). */
    al = fmod(2.35555598 + 8328.6914269554 * t, D2PI);
 
 /* Mean longitude of the Moon minus that of the ascending node */
 /*(MHB2000). */
    af = fmod(1.627905234 + 8433.466158131 * t, D2PI);
- 
+
 /* Mean elongation of the Moon from the Sun (MHB2000). */
    ad = fmod(5.198466741 + 7771.3771468121 * t, D2PI);
- 
+
 /* Mean longitude of the ascending node of the Moon (MHB2000). */
    aom = fmod(2.18243920 - 33.757045 * t, D2PI);
- 
+
 /* General accumulated precession in longitude (IERS 2003). */
    apa = iauFapa03(t);
- 
+
 /* Planetary longitudes, Mercury through Uranus (IERS 2003). */
    alme = iauFame03(t);
    alve = iauFave03(t);
@@ -1949,14 +1951,14 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
    alju = iauFaju03(t);
    alsa = iauFasa03(t);
    alur = iauFaur03(t);
- 
+
 /* Neptune longitude (MHB2000). */
    alne = fmod(5.321159000 + 3.8127774000 * t, D2PI);
- 
+
 /* Initialize the nutation values. */
    dp = 0.0;
    de = 0.0;
- 
+
 /* Summation of planetary nutation series (in reverse order). */
    for (i = NPL-1; i >= 0; i--) {
 
@@ -1976,30 +1978,30 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
                  (double)xpl[i].npa * apa, D2PI);
       sarg = sin(arg);
       carg = cos(arg);
- 
+
    /* Term. */
       dp += (double)xpl[i].sp * sarg + (double)xpl[i].cp * carg;
       de += (double)xpl[i].se * sarg + (double)xpl[i].ce * carg;
- 
+
    }
- 
+
 /* Convert from 0.1 microarcsec units to radians. */
    dpsipl = dp * U2R;
    depspl = de * U2R;
- 
+
 /* ------- */
 /* RESULTS */
 /* ------- */
- 
+
 /* Add luni-solar and planetary components. */
    *dpsi = dpsils + dpsipl;
    *deps = depsls + depspl;
- 
+
    return;
 
-/*-----------------------------------------------------------------------
+/*----------------------------------------------------------------------
 **
-**  Copyright (C) 2008
+**  Copyright (C) 2009
 **  Standards Of Fundamental Astronomy Review Board
 **  of the International Astronomical Union.
 **
@@ -2012,64 +2014,70 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("the Board").
+**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
-**     without payment of royalties, subject to the conditions and 
+**     without payment of royalties, subject to the conditions and
 **     restrictions listed below.
 **
-**  3. You (the user) may copy and adapt the SOFA software and its 
-**     algorithms for your own purposes and you may copy and distribute
-**     a resulting "derived work" to others on a world-wide, royalty-free 
-**     basis, provided that the derived work complies with the following
-**     requirements: 
+**  3. You (the user) may copy and distribute SOFA source code to others,
+**     and use and adapt its code and algorithms in your own software,
+**     on a world-wide, royalty-free basis.  That portion of your
+**     distribution that does not consist of intact and unchanged copies
+**     of SOFA source code files is a "derived work" that must comply
+**     with the following requirements:
 **
-**     a) Your work shall be marked or carry a statement that it (i) uses
-**        routines and computations derived by you from software provided 
-**        by SOFA under license to you; and (ii) does not contain
-**        software provided by SOFA or software that has been distributed
-**        by or endorsed by SOFA.
+**     a) Your work shall be marked or carry a statement that it
+**        (i) uses routines and computations derived by you from
+**        software provided by SOFA under license to you; and
+**        (ii) does not itself constitute software provided by and/or
+**        endorsed by SOFA.
 **
 **     b) The source code of your derived work must contain descriptions
-**        of how the derived work is based upon and/or differs from the
-**        original SOFA software.
+**        of how the derived work is based upon, contains and/or differs
+**        from the original SOFA software.
 **
-**     c) The name(s) of all routine(s) that you distribute shall differ
-**        from the SOFA names, even when the SOFA content has not been
-**        otherwise changed.
+**     c) The name(s) of all routine(s) in your derived work shall not
+**        include the prefix "iau_".
 **
-**     d) The routine-naming prefix "iau" shall not be used.
-**
-**     e) The origin of the SOFA components of your derived work must not
-**        be misrepresented;  you must not claim that you wrote the
+**     d) The origin of the SOFA components of your derived work must
+**        not be misrepresented;  you must not claim that you wrote the
 **        original software, nor file a patent application for SOFA
 **        software or algorithms embedded in the SOFA software.
 **
-**     f) These requirements must be reproduced intact in any source
-**        distribution and shall apply to anyone to whom you have granted 
-**        a further right to modify the source code of your derived work.
+**     e) These requirements must be reproduced intact in any source
+**        distribution and shall apply to anyone to whom you have
+**        granted a further right to modify the source code of your
+**        derived work.
+**
+**     Note that, as originally distributed, the SOFA software is
+**     intended to be a definitive implementation of the IAU standards,
+**     and consequently third-party modifications are discouraged.  All
+**     variations, no matter how minor, must be explicitly marked as
+**     such, as explained above.
 **
 **  4. In any published work or commercial products which includes
-**     results achieved by using the SOFA software, you shall acknowledge
-**     that the SOFA software was used in obtaining those results.
+**     results achieved by using the SOFA software, you shall
+**     acknowledge that the SOFA software was used in obtaining those
+**     results.
 **
 **  5. You shall not cause the SOFA software to be brought into
-**     disrepute, either by misuse, or use for inappropriate tasks, or by
-**     inappropriate modification.
+**     disrepute, either by misuse, or use for inappropriate tasks, or
+**     by inappropriate modification.
 **
-**  6. The SOFA software is provided "as is" and the Board makes no 
-**     warranty as to its use or performance.   The Board does not and 
-**     cannot warrant the performance or results which the user may obtain 
-**     by using the SOFA software.  The Board makes no warranties, express 
-**     or implied, as to non-infringement of third party rights,
-**     merchantability, or fitness for any particular purpose.  In no
-**     event will the Board be liable to the user for any consequential,
-**     incidental, or special damages, including any lost profits or lost
-**     savings, even if a Board representative has been advised of such
-**     damages, or for any claim by any third party.
+**  6. The SOFA software is provided "as is" and SOFA makes no warranty
+**     as to its use or performance.   SOFA does not and cannot warrant
+**     the performance or results which the user may obtain by using the
+**     SOFA software.  SOFA makes no warranties, express or implied, as
+**     to non-infringement of third party rights, merchantability, or
+**     fitness for any particular purpose.  In no event will SOFA be
+**     liable to the user for any consequential, incidental, or special
+**     damages, including any lost profits or lost savings, even if a
+**     SOFA representative has been advised of such damages, or for any
+**     claim by any third party.
 **
-**  7. The provision of any version of the SOFA software under the terms 
+**  7. The provision of any version of the SOFA software under the terms
 **     and conditions specified herein does not imply that future
 **     versions will also be made available under the same terms and
 **     conditions.
@@ -2077,11 +2085,12 @@ void iauNut00a(double date1, double date2, double *dpsi, double *deps)
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**     Internet email: sofa@rl.ac.uk
-**     Postal address: IAU SOFA Center
-**                     Rutherford Appleton Laboratory
-**                     Chilton, Didcot, Oxon OX11 0QX
-**                     United Kingdom
+**      By email:  sofa@rl.ac.uk
+**      By post:   IAU SOFA Center
+**                 STFC Rutherford Appleton Laboratory
+**                 Harwell Science and Innovation Campus
+**                 Didcot, Oxfordshire, OX11 0QX
+**                 United Kingdom
 **
-**---------------------------------------------------------------------*/
+**--------------------------------------------------------------------*/
 }

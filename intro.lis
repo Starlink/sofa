@@ -1,4 +1,4 @@
-intro.lis                                                 2008 October 9
+intro.lis                                                 2010 January 8
 
 
                   -------------------------------
@@ -9,7 +9,7 @@ intro.lis                                                 2008 October 9
   SOFA stands for "Standards Of Fundamental Astronomy".  The SOFA
   software libraries are a collection of subprograms, in source-
   code form, which implement official IAU algorithms for fundamental-
-  astronomy computations.   The subprograms at present comprise 108
+  astronomy computations.   The subprograms at present comprise 113
   "astronomy" routines supported by 52 "vector/matrix" routines,
   available in both Fortran77 and C implementations.
 
@@ -75,10 +75,11 @@ SCOPE
 The routines currently available are listed in the next two chapters of
 this document.
 
-The "astronomy" library comprises 108 routines (plus one obsolete
+The "astronomy" library comprises 113 routines (plus one obsolete
 Fortran routine that now appears under a revised name).  The areas
 addressed include calendars, time scales, ephemerides, precession-
-nutation, star space-motion, and star catalog transformations.
+nutation, star space-motion, star catalog transformations and
+geodetic/geocentric transformations.
 
 The "vector-matrix" library, comprising 52 routines, contains a
 collection of simple tools for manipulating the vectors, matrices and
@@ -161,14 +162,14 @@ with the same arguments in the same order.  In a few cases, the C
 equivalent of a Fortran SUBROUTINE subprogram uses a return value rather
 than an argument.
 
-Each of the language version includes a "testbed" main-program that can
-be used to verify that the SOFA routines have been correctly compiled on
-the end user's system.  The Fortran and C versions are called
-t_sofa_f.for and t_sofa_c.c respectively.  The testbeds execute every
-SOFA routine and check that the results are within expected accuracy
-margins.  It is not possible to guarantee that all platforms will meet
-the rather stringent criteria that have been used, and an occasional
-warning message may be encountered on some systems.
+Each language version includes a "testbed" main-program that can be used
+to verify that the SOFA routines have been correctly compiled on the end
+user's system.  The Fortran and C versions are called t_sofa_f.for and
+t_sofa_c.c respectively.  The testbeds execute every SOFA routine and
+check that the results are within expected accuracy margins.  It is not
+possible to guarantee that all platforms will meet the rather stringent
+criteria that have been used, and an occasional warning message may be
+encountered on some systems.
 
 
 COPYRIGHT ISSUES
@@ -208,7 +209,4 @@ The Board's effort is provided by the members' individual institutes.
 
 Resources for operating the SOFA Center are provided by Her Majesty's
 Nautical Almanac Office, operated by the United Kingdom Hydrographic
-Office.  Support for the contributions of the SOFA Review Board chair is
-provided by the European Southern Observatory under arrangements with
-the UK Science and Technology Facilities Council through its astronomy
-programs at the Rutherford Appleton Laboratory.
+Office.

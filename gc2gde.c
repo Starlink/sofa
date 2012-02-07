@@ -1,115 +1,157 @@
 #include "sofam.h"
 
-void iauC2txy(double tta, double ttb, double uta, double utb,
-              double x, double y, double xp, double yp,
-              double rc2t[3][3])
+int iauGc2gde ( double a, double f, double xyz[3],
+                double *elong, double *phi, double *height )
 /*
-**  - - - - - - - - -
-**   i a u C 2 t x y
-**  - - - - - - - - -
+**  - - - - - - - - - -
+**   i a u G c 2 g d e
+**  - - - - - - - - - -
 **
-**  Form the celestial to terrestrial matrix given the date, the UT1,
-**  the CIP coordinates and the polar motion.  IAU 2000.
+**  Transform geocentric coordinates to geodetic for a reference
+**  ellipsoid of specified form.
 **
 **  This function is part of the International Astronomical Union's
-**  SOFA (Standards Of Fundamental Astronomy) software collection.
+**  SOFA (Standards of Fundamental Astronomy) software collection.
 **
 **  Status:  support function.
 **
 **  Given:
-**     tta,ttb  double         TT as a 2-part Julian Date (Note 1)
-**     uta,utb  double         UT1 as a 2-part Julian Date (Note 1)
-**     x,y      double         Celestial Intermediate Pole (Note 2)
-**     xp,yp    double         coordinates of the pole (radians, Note 3)
+**     a       double     equatorial radius (Notes 2,4)
+**     f       double     flattening (Note 3)
+**     xyz     double[3]  geocentric vector (Note 4)
 **
 **  Returned:
-**     rc2t     double[3][3]   celestial-to-terrestrial matrix (Note 4)
+**     elong   double     longitude (radians, east +ve)
+**     phi     double     latitude (geodetic, radians)
+**     height  double     height above ellipsoid (geodetic, Note 4)
+**
+**  Returned (function value):
+**            int       status:
+**                          0 = OK
+**                         -1 = illegal a
+**                         -2 = illegal f
 **
 **  Notes:
 **
-**  1) The TT and UT1 dates tta+ttb and uta+utb are Julian Dates,
-**     apportioned in any convenient way between the arguments uta and
-**     utb.  For example, JD(UT1)=2450123.7 could be expressed in any o
-**     these ways, among others:
+**  1) This function is based on the GCONV2H Fortran subroutine by
+**     Toshio Fukushima (see reference).
 **
-**             uta            utb
+**  2) The equatorial radius, a, can be in any units, but meters is
+**     the conventional choice.
 **
-**         2450123.7           0.0       (JD method)
-**         2451545.0       -1421.3       (J2000 method)
-**         2400000.5       50123.2       (MJD method)
-**         2450123.5           0.2       (date & time method)
+**  3) The flattening, f, is (for the Earth) a value around 0.00335,
+**     i.e. around 1/298.
 **
-**     The JD method is the most natural and convenient to use in
-**     cases where the loss of several decimal digits of resolution is
-**     acceptable.  The J2000 and MJD methods are good compromises
-**     between resolution and convenience.  In the case of uta,utb, the
-**     date & time method is best matched to the Earth rotation angle
-**     algorithm used:  maximum precision is delivered when the uta
-**     argument is for 0hrs UT1 on the day in question and the utb
-**     argument lies in the range 0 to 1, or vice versa.
+**  4) The equatorial radius, a, and the geocentric vector, xyz,
+**     must be given in the same units, and determine the units of
+**     the returned height, height.
 **
-**  2) The Celestial Intermediate Pole coordinates are the x,y
-**     components of the unit vector in the Geocentric Celestial
-**     Reference System.
+**  5) If an error occurs (status < 0), elong, phi and height are
+**     unchanged.
 **
-**  3) The arguments xp and yp are the coordinates (in radians) of the
-**     Celestial Intermediate Pole with respect to the International
-**     Terrestrial Reference System (see IERS Conventions 2003),
-**     measured along the meridians to 0 and 90 deg west respectively.
+**  6) The inverse transformation is performed in the function
+**     iauGd2gce.
 **
-**  4) The matrix rc2t transforms from celestial to terrestrial
-**     coordinates:
+**  7) The transformation for a standard ellipsoid (such as WGS84) can
+**     more conveniently be performed by calling iauGc2gd, which uses a
+**     numerical code (1 for WGS84) to identify the required A and F
+**     values.
 **
-**        [TRS] = RPOM * R_3(ERA) * RC2I * [CRS]
+**  Reference:
 **
-**              = rc2t * [CRS]
+**     Fukushima, T., "Transformation from Cartesian to geodetic
+**     coordinates accelerated by Halley's method", J.Geodesy (2006)
+**     79: 689-693
 **
-**     where [CRS] is a vector in the Geocentric Celestial Reference
-**     System and [TRS] is a vector in the International Terrestrial
-**     Reference System (see IERS Conventions 2003), ERA is the Earth
-**     Rotation Angle and RPOM is the polar motion matrix.
-**
-**  5) Although its name does not include "00", This function is in fact
-**     specific to the IAU 2000 models.
-**
-**  Called:
-**     iauC2ixy     celestial-to-intermediate matrix, given X,Y
-**     iauEra00     Earth rotation angle, IAU 2000
-**     iauSp00      the TIO locator s', IERS 2000
-**     iauPom00     polar motion matrix
-**     iauC2tcio    form CIO-based celestial-to-terrestrial matrix
-**
-** Reference:
-**
-**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
-**     IERS Technical Note No. 32, BKG (2004)
-**
-**  This revision:  2009 April 1
+**  This revision:  2009 November 2
 **
 **  SOFA release 2009-12-31
 **
 **  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
 */
 {
-   double rc2i[3][3], era, sp, rpom[3][3];
+   double aeps2, e2, e4t, ec2, ec, b, x, y, z, p2, absz, p, s0, pn, zc,
+                 c0, c02, c03, s02, s03, a02, a0, a03, d0, f0, b0, s1,
+                 cc, s12, cc2;
 
 
-/* Form the celestial-to-intermediate matrix for this TT. */
-   iauC2ixy(tta, ttb, x, y, rc2i);
+/* ------------- */
+/* Preliminaries */
+/* ------------- */
 
-/* Predict the Earth rotation angle for this UT1. */
-   era = iauEra00(uta, utb);
+/* Validate ellipsoid parameters. */
+   if ( f < 0.0 || f >= 1.0 ) return -1;
+   if ( a <= 0.0 ) return -2;
 
-/* Estimate s'. */
-   sp = iauSp00(tta, ttb);
+/* Functions of ellipsoid parameters (with further validation of f). */
+   aeps2 = a*a * 1e-32;
+   e2 = (2.0 - f) * f;
+   e4t = e2*e2 * 1.5;
+   ec2 = 1.0 - e2;
+   if ( ec2 <= 0.0 ) return -1;
+   ec = sqrt(ec2);
+   b = a * ec;
 
-/* Form the polar motion matrix. */
-   iauPom00(xp, yp, sp, rpom);
+/* Cartesian components. */
+   x = xyz[0];
+   y = xyz[1];
+   z = xyz[2];
 
-/* Combine to form the celestial-to-terrestrial matrix. */
-   iauC2tcio(rc2i, era, rpom, rc2t);
+/* Distance from polar axis squared. */
+   p2 = x*x + y*y;
 
-   return;
+/* Longitude. */
+   *elong = p2 != 0.0 ? atan2(y, x) : 0.0;
+
+/* Unsigned z-coordinate. */
+   absz = fabs(z);
+
+/* Proceed unless polar case. */
+   if ( p2 > aeps2 ) {
+
+   /* Distance from polar axis. */
+      p = sqrt(p2);
+
+   /* Normalization. */
+      s0 = absz / a;
+      pn = p / a;
+      zc = ec * s0;
+
+   /* Prepare Newton correction factors. */
+      c0 = ec * pn;
+      c02 = c0 * c0;
+      c03 = c02 * c0;
+      s02 = s0 * s0;
+      s03 = s02 * s0;
+      a02 = c02 + s02;
+      a0 = sqrt(a02);
+      a03 = a02 * a0;
+      d0 = zc*a03 + e2*s03;
+      f0 = pn*a03 - e2*c03;
+
+   /* Prepare Halley correction factor. */
+      b0 = e4t * s02 * c02 * pn * (a0 - ec);
+      s1 = d0*f0 - b0*s0;
+      cc = ec * (f0*f0 - b0*c0);
+
+   /* Evaluate latitude and height. */
+      *phi = atan(s1/cc);
+      s12 = s1 * s1;
+      cc2 = cc * cc;
+      *height = (p*cc + absz*s1 - a * sqrt(ec2*s12 + cc2)) /
+                                                        sqrt(s12 + cc2);
+   } else {
+
+   /* Exception: pole. */
+      *phi = DPI / 2.0;
+      *height = absz - b;
+   }
+
+/* Restore sign of latitude. */
+   if ( z < 0 ) *phi = -*phi;
+
+/* OK status. */
+   return 0;
 
 /*----------------------------------------------------------------------
 **
@@ -205,4 +247,5 @@ void iauC2txy(double tta, double ttb, double uta, double utb,
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/
+
 }

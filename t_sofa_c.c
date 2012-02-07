@@ -17,9 +17,9 @@ static int verbose = 0;
 **
 **  All messages go to stdout.
 **
-**  This revision:  2009 March 14
+**  This revision:  2010 January 26
 **
-**  Copyright (C) 2008 IAU SOFA Review Board.  See notes at end.
+**  Copyright1
 */
 
 static void viv(int ival, int ivalok, char *func, char *test,
@@ -34,7 +34,7 @@ static void viv(int ival, int ivalok, char *func, char *test,
 **  Internal function used by t_sofa_c program.
 **
 **  Given:
-**     ival     int          value computed by routine under test
+**     ival     int          value computed by function under test
 **     ivalok   int          correct value
 **     func     char[]       name of function under test
 **     test     char[]       name of individual test
@@ -42,7 +42,7 @@ static void viv(int ival, int ivalok, char *func, char *test,
 **  Given and returned:
 **     status   int          set to FALSE if test fails
 **
-**  This revision:  2008 October 28
+**  This revision:  2009 November 4
 */
 {
    if (ival != ivalok) {
@@ -202,14 +202,14 @@ static void t_bi00(int *status)
 **   t _ b i 0 0
 **  - - - - - - -
 **
-**  Test iauBi00  routine.
+**  Test iauBi00 function.
 **
 **  Returned:
 **     status    int         TRUE = success, FALSE = fail
 **
 **  Called:  iauBi00, vvd
 **
-**  This revision:  2008 November 28
+**  This revision:  2009 November 4
 */
 {
    double dpsibi, depsbi, dra;
@@ -1492,6 +1492,51 @@ static void t_eect00(int *status)
 
 }
 
+static void t_eform(int *status)
+/*
+**  - - - - - - - -
+**   t _ e f o r m
+**  - - - - - - - -
+**
+**  Test iauEform function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauEform, viv, vvd
+**
+**  This revision:  2010 January 26
+*/
+{
+   int j;
+   double a, f;
+
+   j = iauEform( 0, &a, &f );
+
+   viv(j, -1, "iauEform", "j0", status);
+
+   j = iauEform( 1, &a, &f );
+
+   viv(j, 0, "iauEform", "j1", status);
+   vvd(a, 6378137.0, 1e-10, "iauEform", "a1", status);
+   vvd(f, 0.0033528106647474807, 1e-18, "iauEform", "f1", status);
+
+   j = iauEform( 2, &a, &f );
+
+   viv(j, 0, "iauEform", "j2", status);
+   vvd(a, 6378137.0, 1e-10, "iauEform", "a2", status);
+   vvd(f, 0.0033528106811823189, 1e-18, "iauEform", "f2", status);
+
+   j = iauEform( 3, &a, &f );
+
+   viv(j, 0, "iauEform", "j2", status);
+   vvd(a, 6378135.0, 1e-10, "iauEform", "a3", status);
+   vvd(f, 0.0033527794541675049, 1e-18, "iauEform", "f3", status);
+
+   j = iauEform( 4, &a, &f );
+   viv(j, -1, "iauEform", "j3", status);
+}
+
 static void t_eo06a(int *status)
 /*
 **  - - - - - - - -
@@ -2059,7 +2104,7 @@ static void t_fk52h(int *status)
 **
 **  Called:  iauFk52h, vvd
 **
-**  This revision:  2009 March 14
+**  This revision:  2009 November 6
 */
 {
    double r5, d5, dr5, dd5, px5, rv5, rh, dh, drh, ddh, pxh, rvh;
@@ -2079,13 +2124,13 @@ static void t_fk52h(int *status)
        "iauFk52h", "ra", status);
    vvd(dh,  -0.2917516070530391757, 1e-14,
        "iauFk52h", "dec", status);
-   vvd(drh, -0.19618741256057241e-6,1e-19,
+   vvd(drh, -0.19618741256057224e-6,1e-19,
        "iauFk52h", "dr5", status);
-   vvd(ddh, -0.58459905176693922e-5, 1e-19,
+   vvd(ddh, -0.58459905176693911e-5, 1e-19,
        "iauFk52h", "dd5", status);
    vvd(pxh,  0.37921, 1e-14,
        "iauFk52h", "px", status);
-   vvd(rvh, -7.6000000939954067, 1e-11,
+   vvd(rvh, -7.6000000940000254, 1e-11,
        "iauFk52h", "rv", status);
 
 }
@@ -2245,6 +2290,164 @@ static void t_fw2xy(int *status)
    vvd(x, -0.3779734957034082790e-3, 1e-14, "iauFw2xy", "x", status);
    vvd(y, -0.1924880848087615651e-6, 1e-14, "iauFw2xy", "y", status);
 
+}
+
+static void t_gc2gd(int *status)
+/*
+**  - - - - - - - -
+**   t _ g c 2 g d
+**  - - - - - - - -
+**
+**  Test iauGc2gd function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauGc2gd, viv, vvd
+**
+**  This revision:  2010 January 26
+*/
+{
+   int j;
+   double xyz[] = {2e6, 3e6, 5.244e6};
+   double e, p, h;
+
+   j = iauGc2gd( 0, xyz, &e, &p, &h );
+
+   viv(j, -1, "iauGc2gd", "j0", status);
+
+   j = iauGc2gd( 1, xyz, &e, &p, &h );
+
+   viv(j, 0, "iauGc2gd", "j1", status);
+   vvd(e, 0.98279372324732907, 1e-14, "iauGc2gd", "e1", status);
+   vvd(p, 0.97160184819075459, 1e-14, "iauGc2gd", "p1", status);
+   vvd(h, 331.41724614260599, 1e-8, "iauGc2gd", "h1", status);
+
+   j = iauGc2gd( 2, xyz, &e, &p, &h );
+
+   viv(j, 0, "iauGc2gd", "j2", status);
+   vvd(e, 0.98279372324732907, 1e-14, "iauGc2gd", "e2", status);
+   vvd(p, 0.97160184820607853, 1e-14, "iauGc2gd", "p2", status);
+   vvd(h, 331.41731754844348, 1e-8, "iauGc2gd", "h2", status);
+
+   j = iauGc2gd( 3, xyz, &e, &p, &h );
+
+   viv(j, 0, "iauGc2gd", "j3", status);
+   vvd(e, 0.98279372324732907, 1e-14, "iauGc2gd", "e3", status);
+   vvd(p, 0.97160181811015119, 1e-14, "iauGc2gd", "p3", status);
+   vvd(h, 333.27707261303181, 1e-8, "iauGc2gd", "h3", status);
+
+   j = iauGc2gd( 4, xyz, &e, &p, &h );
+
+   viv(j, -1, "iauGc2gd", "j4", status);
+}
+
+static void t_gc2gde(int *status)
+/*
+**  - - - - - - - - -
+**   t _ g c 2 g d e
+**  - - - - - - - - -
+**
+**  Test iauGc2gde function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauGc2gde, viv, vvd
+**
+**  This revision:  2009 November 8
+*/
+{
+   int j;
+   double a = 6378136.0, f = 0.0033528;
+   double xyz[] = {2e6, 3e6, 5.244e6};
+   double e, p, h;
+
+   j = iauGc2gde( a, f, xyz, &e, &p, &h );
+
+   viv(j, 0, "iauGc2gde", "j", status);
+   vvd(e, 0.98279372324732907, 1e-14, "iauGc2gde", "e", status);
+   vvd(p, 0.97160183775704115, 1e-14, "iauGc2gde", "p", status);
+   vvd(h, 332.36862495764397, 1e-8, "iauGc2gde", "h", status);
+}
+
+static void t_gd2gc(int *status)
+/*
+**  - - - - - - - -
+**   t _ g d 2 g c
+**  - - - - - - - -
+**
+**  Test iauGd2gc function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauGd2gc, viv, vvd
+**
+**  This revision:  20010 January 26
+*/
+{
+   int j;
+   double e = 3.1, p = -0.5, h = 2500.0;
+   double xyz[3];
+
+   j = iauGd2gc( 0, e, p, h, xyz );
+
+   viv(j, -1, "iauGd2gc", "j0", status);
+
+   j = iauGd2gc( 1, e, p, h, xyz );
+
+   viv(j, 0, "iauGd2gc", "j1", status);
+   vvd(xyz[0], -5599000.5577049947, 1e-7, "iauGd2gc", "0/1", status);
+   vvd(xyz[1], 233011.67223479203, 1e-7, "iauGd2gc", "1/1", status);
+   vvd(xyz[2], -3040909.4706983363, 1e-7, "iauGd2gc", "2/1", status);
+
+   j = iauGd2gc( 2, e, p, h, xyz );
+
+   viv(j, 0, "iauGd2gc", "j2", status);
+   vvd(xyz[0], -5599000.5577260984, 1e-7, "iauGd2gc", "0/2", status);
+   vvd(xyz[1], 233011.6722356703, 1e-7, "iauGd2gc", "1/2", status);
+   vvd(xyz[2], -3040909.4706095476, 1e-7, "iauGd2gc", "2/2", status);
+
+   j = iauGd2gc( 3, e, p, h, xyz );
+
+   viv(j, 0, "iauGd2gc", "j3", status);
+   vvd(xyz[0], -5598998.7626301490, 1e-7, "iauGd2gc", "0/3", status);
+   vvd(xyz[1], 233011.5975297822, 1e-7, "iauGd2gc", "1/3", status);
+   vvd(xyz[2], -3040908.6861467111, 1e-7, "iauGd2gc", "2/3", status);
+
+   j = iauGd2gc( 4, e, p, h, xyz );
+
+   viv(j, -1, "iauGd2gc", "j4", status);
+}
+
+static void t_gd2gce(int *status)
+/*
+**  - - - - - - - - -
+**   t _ g d 2 g c e
+**  - - - - - - - - -
+**
+**  Test iauGd2gce function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauGd2gce, viv, vvd
+**
+**  This revision:  2009 November 6
+*/
+{
+   int j;
+   double a = 6378136.0, f = 0.0033528;
+   double e = 3.1, p = -0.5, h = 2500.0;
+   double xyz[3];
+
+   j = iauGd2gce( a, f, e, p, h, xyz );
+
+   viv(j, 0, "iauGd2gce", "j", status);
+   vvd(xyz[0], -5598999.6665116328, 1e-7, "iauGd2gce", "0", status);
+   vvd(xyz[1], 233011.63514630572, 1e-7, "iauGd2gce", "1", status);
+   vvd(xyz[2], -3040909.0517314132, 1e-7, "iauGd2gce", "2", status);
 }
 
 static void t_gmst00(int *status)
@@ -2472,7 +2675,7 @@ static void t_h2fk5(int *status)
 **
 **  Called:  iauH2fk5, vvd
 **
-**  This revision:  2009 Match 14
+**  This revision:  2009 November 6
 */
 {
    double rh, dh, drh, ddh, pxh, rvh, r5, d5, dr5, dd5, px5, rv5;
@@ -2492,13 +2695,13 @@ static void t_h2fk5(int *status)
        "iauH2fk5", "ra", status);
    vvd(d5, -0.2917513626469638890, 1e-13,
        "iauH2fk5", "dec", status);
-   vvd(dr5, -0.27597945024511196e-5, 1e-18,
+   vvd(dr5, -0.27597945024511204e-5, 1e-18,
        "iauH2fk5", "dr5", status);
-   vvd(dd5, -0.59308014093262826e-5, 1e-18,
+   vvd(dd5, -0.59308014093262838e-5, 1e-18,
        "iauH2fk5", "dd5", status);
    vvd(px5, 0.37921, 1e-13,
        "iauH2fk5", "px", status);
-   vvd(rv5, -7.6000001309079099, 1e-10,
+   vvd(rv5, -7.6000001309071126, 1e-10,
        "iauH2fk5", "rv", status);
 
 }
@@ -4918,7 +5121,7 @@ static void t_pvstar(int *status)
 **
 **  Called:  iauPvstar, vvd, viv
 **
-**  This revision:  2008 November 30
+**  This revision:  2009 November 6
 */
 {
    double pv[2][3], ra, dec, pmr, pmd, px, rv;
@@ -4935,17 +5138,12 @@ static void t_pvstar(int *status)
 
    j = iauPvstar(pv, &ra, &dec, &pmr, &pmd, &px, &rv);
 
-   vvd(ra,   0.1686756000000000115e-1, 1e-12,
-       "iauPvstar", "ra", status);
-   vvd(dec, -1.093989827999999980, 1e-12, "iauPvstar", "dec", status);
-   vvd(pmr, -0.1783235160000000364e-4, 1e-16,
-       "iauPvstar", "pmr", status);
-   vvd(pmd,  0.2336024047000002360e-5, 1e-16,
-       "iauPvstar", "pmd", status);
-   vvd(px,   0.7472299999999999502, 1e-12,
-       "iauPvstar", "px", status);
-   vvd(rv, -21.60000000000000677, 1e-11,
-       "iauPvstar", "rv", status);
+   vvd(ra, 0.1686756e-1, 1e-12, "iauPvstar", "ra", status);
+   vvd(dec, -1.093989828, 1e-12, "iauPvstar", "dec", status);
+   vvd(pmr, -0.178323516e-4, 1e-16, "iauPvstar", "pmr", status);
+   vvd(pmd, 0.2336024047e-5, 1e-16, "iauPvstar", "pmd", status);
+   vvd(px, 0.74723, 1e-12, "iauPvstar", "px", status);
+   vvd(rv, -21.6, 1e-11, "iauPvstar", "rv", status);
 
    viv(j, 0, "iauPvstar", "j", status);
 
@@ -6380,7 +6578,7 @@ int main(int argc, char *argv[])
 **   m a i n
 **  - - - - -
 **
-**  This revision:  2008 November 30
+**  This revision:  2009 November 4
 */
 {
    int status;
@@ -6395,7 +6593,7 @@ int main(int argc, char *argv[])
 /* Preset the &status to FALSE = success. */
    status = 0;
 
-/* Test all of the SOFA routines and functions. */
+/* Test all of the SOFA functions. */
    t_a2af(&status);
    t_a2tf(&status);
    t_anp(&status);
@@ -6430,6 +6628,7 @@ int main(int argc, char *argv[])
    t_ee00b(&status);
    t_ee06a(&status);
    t_eect00(&status);
+   t_eform(&status);
    t_eo06a(&status);
    t_eors(&status);
    t_epb(&status);
@@ -6458,6 +6657,10 @@ int main(int argc, char *argv[])
    t_fk5hz(&status);
    t_fw2m(&status);
    t_fw2xy(&status);
+   t_gc2gd(&status);
+   t_gc2gde(&status);
+   t_gd2gc(&status);
+   t_gd2gce(&status);
    t_gmst00(&status);
    t_gmst06(&status);
    t_gmst82(&status);

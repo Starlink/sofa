@@ -1,5 +1,5 @@
 #include "sofam.h"
- 
+
 double iauDtdb(double date1, double date2,
                double ut, double elong, double u, double v)
 /*
@@ -162,15 +162,17 @@ double iauDtdb(double date1, double date2,
 **     Simon, J.L., Bretagnon, P., Chapront, J., Chapront-Touze, M.,
 **     Francou, G. & Laskar, J., Astron.Astrophys., 282, 663-683 (1994).
 **
-**  This revision:  2008 May 24
+**  This revision:  2009 December 17
 **
-**  Copyright (C) 2008 IAU SOFA Review Board.  See notes at end.
+**  SOFA release 2009-12-31
+**
+**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
 */
 {
    double t, tsol, w, elsun, emsun, d, elj, els, wt, w0, w1, w2, w3, w4,
           wf, wj;
    int j;
- 
+
 /*
 ** =====================
 ** Fairhead et al. model
@@ -180,7 +182,7 @@ double iauDtdb(double date1, double date2,
 **
 ** Each set is
 **    amplitude (microseconds)
-**      frequency (radians per Julian millennium since J2000)
+**      frequency (radians per Julian millennium since J2000.0)
 **      phase (radians)
 **
 ** Sets   1-474 are the T**0 terms
@@ -189,7 +191,7 @@ double iauDtdb(double date1, double date2,
 **  "   765-784  "   "  T**3
 **  "   785-787  "   "  T**4
 */
- 
+
    static const double fairhd[787][3] = {
    /* 1, 10 */
       { 1656.674564e-6,     6283.075849991,  6.240054195 },
@@ -713,7 +715,7 @@ double iauDtdb(double date1, double date2,
       {    0.000101e-6,      111.430161497,  5.711033677 },
       {    0.000103e-6,      909.818733055,  2.812745443 },
       {    0.000101e-6,     1790.642637886,  1.965746028 },
- 
+
    /* T */
       {  102.156724e-6,     6283.075849991,  4.249032005 },
       {    1.706807e-6,    12566.151699983,  4.205904248 },
@@ -940,7 +942,7 @@ double iauDtdb(double date1, double date2,
       {    0.000104e-6,      949.175608970,  5.674287810 },
       {    0.000101e-6,    13517.870106233,  2.196632348 },
       {    0.000100e-6,    11933.367960670,  4.056084160 },
- 
+
    /* T^2 */
       {    4.322990e-6,     6283.075849991,  2.642893748 },
    /* 681, 690 */
@@ -1036,7 +1038,7 @@ double iauDtdb(double date1, double date2,
       {    0.000131e-6,   -71430.695617928,  0.000379226 },
       {    0.000124e-6,     6279.552731642,  2.122264908 },
       {    0.000108e-6,    -6256.777530192,  0.883445696 },
- 
+
    /* T^3 */
       {    0.143388e-6,     6283.075849991,  1.131453581 },
       {    0.006671e-6,    12566.151699983,  0.775148887 },
@@ -1060,7 +1062,7 @@ double iauDtdb(double date1, double date2,
       {    0.000200e-6,      553.569402842,  5.355983739 },
       {    0.000141e-6,     5223.693919802,  1.336556009 },
       {    0.000104e-6,     5856.477659115,  4.239842759 },
- 
+
    /* T^4 */
       {    0.003826e-6,     6283.075849991,  5.705257275 },
       {    0.000303e-6,    12566.151699983,  5.407132842 },
@@ -1070,34 +1072,34 @@ double iauDtdb(double date1, double date2,
 
 /* Time since J2000.0 in Julian millennia. */
    t = ((date1 - DJ00) + date2) / DJM;
- 
+
 /* ================= */
 /* Topocentric terms */
 /* ================= */
- 
+
 /* Convert UT to local solar time in radians. */
    tsol = fmod(ut, 1.0) * D2PI + elong;
- 
+
 /* FUNDAMENTAL ARGUMENTS:  Simon et al. 1994. */
- 
+
 /* Combine time argument (millennia) with deg/arcsec factor. */
    w = t / 3600.0;
- 
+
 /* Sun Mean Longitude. */
    elsun = fmod(280.46645683 + 1296027711.03429 * w, 360.0) * DD2R;
- 
+
 /* Sun Mean Anomaly. */
    emsun = fmod(357.52910918 + 1295965810.481 * w, 360.0) * DD2R;
- 
+
 /* Mean Elongation of Moon from Sun. */
    d = fmod(297.85019547 + 16029616012.090 * w, 360.0) * DD2R;
- 
+
 /* Mean Longitude of Jupiter. */
    elj = fmod(34.35151874 + 109306899.89453 * w, 360.0) * DD2R;
- 
+
 /* Mean Longitude of Saturn. */
    els = fmod(50.07744430 + 44046398.47038 * w, 360.0) * DD2R;
- 
+
 /* TOPOCENTRIC TERMS:  Moyer 1981 and Murray 1983. */
    wt =   +  0.00029e-10 * u * sin(tsol + elsun - els)
           +  0.00100e-10 * u * sin(tsol - 2.0 * emsun)
@@ -1109,63 +1111,63 @@ double iauDtdb(double date1, double date2,
           -  0.13677e-10 * u * sin(tsol + 2.0 * elsun)
           -  1.31840e-10 * v * cos(elsun)
           +  3.17679e-10 * u * sin(tsol);
- 
+
 /* ===================== */
 /* Fairhead et al. model */
 /* ===================== */
- 
+
 /* T**0 */
    w0 = 0;
    for (j = 473; j >= 0; j--) {
       w0 += fairhd[j][0] * sin(fairhd[j][1] * t + fairhd[j][2]);
    }
- 
+
 /* T**1 */
    w1 = 0;
    for (j = 678; j >= 474; j--) {
       w1 += fairhd[j][0] * sin(fairhd[j][1] * t + fairhd[j][2]);
    }
- 
+
 /* T**2 */
    w2 = 0;
    for (j = 763; j >= 679; j--) {
       w2 += fairhd[j][0] * sin(fairhd[j][1] * t + fairhd[j][2]);
    }
- 
+
 /* T**3 */
    w3 = 0;
    for (j = 783; j >= 764; j--) {
       w3 += fairhd[j][0] * sin(fairhd[j][1] * t + fairhd[j][2]);
    }
- 
+
 /* T**4 */
    w4 = 0;
    for (j = 786; j >= 784; j--) {
       w4 += fairhd[j][0] * sin(fairhd[j][1] * t + fairhd[j][2]);
    }
- 
+
 /* Multiply by powers of T and combine. */
    wf = t * (t * (t * (t * w4 + w3) + w2) + w1) + w0;
- 
+
 /* Adjustments to use JPL planetary masses instead of IAU. */
    wj =   0.00065e-6 * sin(6069.776754 * t + 4.021194) +
           0.00033e-6 * sin( 213.299095 * t + 5.543132) +
         (-0.00196e-6 * sin(6208.294251 * t + 5.696701)) +
         (-0.00173e-6 * sin(  74.781599 * t + 2.435900)) +
           0.03638e-6 * t * t;
- 
+
 /* ============ */
 /* Final result */
 /* ============ */
- 
+
 /* TDB-TT in seconds. */
    w = wt + wf + wj;
 
    return w;
 
-/*-----------------------------------------------------------------------
+/*----------------------------------------------------------------------
 **
-**  Copyright (C) 2008
+**  Copyright (C) 2009
 **  Standards Of Fundamental Astronomy Review Board
 **  of the International Astronomical Union.
 **
@@ -1178,64 +1180,70 @@ double iauDtdb(double date1, double date2,
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("the Board").
+**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
-**     without payment of royalties, subject to the conditions and 
+**     without payment of royalties, subject to the conditions and
 **     restrictions listed below.
 **
-**  3. You (the user) may copy and adapt the SOFA software and its 
-**     algorithms for your own purposes and you may copy and distribute
-**     a resulting "derived work" to others on a world-wide, royalty-free 
-**     basis, provided that the derived work complies with the following
-**     requirements: 
+**  3. You (the user) may copy and distribute SOFA source code to others,
+**     and use and adapt its code and algorithms in your own software,
+**     on a world-wide, royalty-free basis.  That portion of your
+**     distribution that does not consist of intact and unchanged copies
+**     of SOFA source code files is a "derived work" that must comply
+**     with the following requirements:
 **
-**     a) Your work shall be marked or carry a statement that it (i) uses
-**        routines and computations derived by you from software provided 
-**        by SOFA under license to you; and (ii) does not contain
-**        software provided by SOFA or software that has been distributed
-**        by or endorsed by SOFA.
+**     a) Your work shall be marked or carry a statement that it
+**        (i) uses routines and computations derived by you from
+**        software provided by SOFA under license to you; and
+**        (ii) does not itself constitute software provided by and/or
+**        endorsed by SOFA.
 **
 **     b) The source code of your derived work must contain descriptions
-**        of how the derived work is based upon and/or differs from the
-**        original SOFA software.
+**        of how the derived work is based upon, contains and/or differs
+**        from the original SOFA software.
 **
-**     c) The name(s) of all routine(s) that you distribute shall differ
-**        from the SOFA names, even when the SOFA content has not been
-**        otherwise changed.
+**     c) The name(s) of all routine(s) in your derived work shall not
+**        include the prefix "iau_".
 **
-**     d) The routine-naming prefix "iau" shall not be used.
-**
-**     e) The origin of the SOFA components of your derived work must not
-**        be misrepresented;  you must not claim that you wrote the
+**     d) The origin of the SOFA components of your derived work must
+**        not be misrepresented;  you must not claim that you wrote the
 **        original software, nor file a patent application for SOFA
 **        software or algorithms embedded in the SOFA software.
 **
-**     f) These requirements must be reproduced intact in any source
-**        distribution and shall apply to anyone to whom you have granted 
-**        a further right to modify the source code of your derived work.
+**     e) These requirements must be reproduced intact in any source
+**        distribution and shall apply to anyone to whom you have
+**        granted a further right to modify the source code of your
+**        derived work.
+**
+**     Note that, as originally distributed, the SOFA software is
+**     intended to be a definitive implementation of the IAU standards,
+**     and consequently third-party modifications are discouraged.  All
+**     variations, no matter how minor, must be explicitly marked as
+**     such, as explained above.
 **
 **  4. In any published work or commercial products which includes
-**     results achieved by using the SOFA software, you shall acknowledge
-**     that the SOFA software was used in obtaining those results.
+**     results achieved by using the SOFA software, you shall
+**     acknowledge that the SOFA software was used in obtaining those
+**     results.
 **
 **  5. You shall not cause the SOFA software to be brought into
-**     disrepute, either by misuse, or use for inappropriate tasks, or by
-**     inappropriate modification.
+**     disrepute, either by misuse, or use for inappropriate tasks, or
+**     by inappropriate modification.
 **
-**  6. The SOFA software is provided "as is" and the Board makes no 
-**     warranty as to its use or performance.   The Board does not and 
-**     cannot warrant the performance or results which the user may obtain 
-**     by using the SOFA software.  The Board makes no warranties, express 
-**     or implied, as to non-infringement of third party rights,
-**     merchantability, or fitness for any particular purpose.  In no
-**     event will the Board be liable to the user for any consequential,
-**     incidental, or special damages, including any lost profits or lost
-**     savings, even if a Board representative has been advised of such
-**     damages, or for any claim by any third party.
+**  6. The SOFA software is provided "as is" and SOFA makes no warranty
+**     as to its use or performance.   SOFA does not and cannot warrant
+**     the performance or results which the user may obtain by using the
+**     SOFA software.  SOFA makes no warranties, express or implied, as
+**     to non-infringement of third party rights, merchantability, or
+**     fitness for any particular purpose.  In no event will SOFA be
+**     liable to the user for any consequential, incidental, or special
+**     damages, including any lost profits or lost savings, even if a
+**     SOFA representative has been advised of such damages, or for any
+**     claim by any third party.
 **
-**  7. The provision of any version of the SOFA software under the terms 
+**  7. The provision of any version of the SOFA software under the terms
 **     and conditions specified herein does not imply that future
 **     versions will also be made available under the same terms and
 **     conditions.
@@ -1243,11 +1251,12 @@ double iauDtdb(double date1, double date2,
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**     Internet email: sofa@rl.ac.uk
-**     Postal address: IAU SOFA Center
-**                     Rutherford Appleton Laboratory
-**                     Chilton, Didcot, Oxon OX11 0QX
-**                     United Kingdom
+**      By email:  sofa@rl.ac.uk
+**      By post:   IAU SOFA Center
+**                 STFC Rutherford Appleton Laboratory
+**                 Harwell Science and Innovation Campus
+**                 Didcot, Oxfordshire, OX11 0QX
+**                 United Kingdom
 **
-**---------------------------------------------------------------------*/
+**--------------------------------------------------------------------*/
 }

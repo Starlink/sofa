@@ -1,5 +1,5 @@
 #include "sofam.h"
- 
+
 void iauNut80(double date1, double date2, double *dpsi, double *deps)
 /*
 **  - - - - - - - - -
@@ -55,7 +55,9 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
 **
 **  This revision:  2008 September 30
 **
-**  Copyright (C) 2008 IAU SOFA Review Board.  See notes at end.
+**  SOFA release 2009-12-31
+**
+**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
 */
 {
    double t, el, elp, f, d, om, dp, de, arg, s, c;
@@ -63,11 +65,11 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
 
 /* Units of 0.1 milliarcsecond to radians */
    const double U2R = DAS2R / 1e4;
- 
+
 /* ------------------------------------------------ */
 /* Table of multiples of arguments and coefficients */
 /* ------------------------------------------------ */
- 
+
 /* The units for the sine and cosine coefficients are 0.1 mas and */
 /* the same per Julian century */
 
@@ -210,40 +212,40 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
    const int NT = (int) (sizeof x / sizeof x[0]);
 
 /*--------------------------------------------------------------------*/
- 
+
 /* Interval between fundamental epoch J2000.0 and given date (JC). */
    t = ((date1 - DJ00) + date2) / DJC;
 
 /* --------------------- */
 /* Fundamental arguments */
 /* --------------------- */
- 
+
 /* Mean longitude of Moon minus mean longitude of Moon's perigee. */
    el = iauAnpm(
         (485866.733 + (715922.633 + (31.310 + 0.064 * t) * t) * t)
         * DAS2R + fmod(1325.0 * t, 1.0) * D2PI);
- 
+
 /* Mean longitude of Sun minus mean longitude of Sun's perigee. */
    elp = iauAnpm(
          (1287099.804 + (1292581.224 + (-0.577 - 0.012 * t) * t) * t)
          * DAS2R + fmod(99.0 * t, 1.0) * D2PI);
- 
+
 /* Mean longitude of Moon minus mean longitude of Moon's node. */
    f = iauAnpm(
        (335778.877 + (295263.137 + (-13.257 + 0.011 * t) * t) * t)
        * DAS2R + fmod(1342.0 * t, 1.0) * D2PI);
- 
+
 /* Mean elongation of Moon from Sun. */
    d = iauAnpm(
        (1072261.307 + (1105601.328 + (-6.891 + 0.019 * t) * t) * t)
        * DAS2R + fmod(1236.0 * t, 1.0) * D2PI);
- 
+
 /* Longitude of the mean ascending node of the lunar orbit on the */
 /* ecliptic, measured from the mean equinox of date. */
    om = iauAnpm(
         (450160.280 + (-482890.539 + (7.455 + 0.008 * t) * t) * t)
         * DAS2R + fmod(-5.0 * t, 1.0) * D2PI);
- 
+
 /* --------------- */
 /* Nutation series */
 /* --------------- */
@@ -251,10 +253,10 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
 /* Initialize nutation components. */
    dp = 0.0;
    de = 0.0;
- 
+
 /* Sum the nutation terms, ending with the biggest. */
    for (j = NT-1; j >= 0; j--) {
- 
+
    /* Form argument for current term. */
       arg = (double)x[j].nl  * el
           + (double)x[j].nlp * elp
@@ -268,16 +270,16 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
       if (s != 0.0) dp += s * sin(arg);
       if (c != 0.0) de += c * cos(arg);
    }
- 
+
 /* Convert results from 0.1 mas units to radians. */
    *dpsi = dp * U2R;
    *deps = de * U2R;
 
    return;
 
-/*-----------------------------------------------------------------------
+/*----------------------------------------------------------------------
 **
-**  Copyright (C) 2008
+**  Copyright (C) 2009
 **  Standards Of Fundamental Astronomy Review Board
 **  of the International Astronomical Union.
 **
@@ -290,64 +292,70 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("the Board").
+**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
-**     without payment of royalties, subject to the conditions and 
+**     without payment of royalties, subject to the conditions and
 **     restrictions listed below.
 **
-**  3. You (the user) may copy and adapt the SOFA software and its 
-**     algorithms for your own purposes and you may copy and distribute
-**     a resulting "derived work" to others on a world-wide, royalty-free 
-**     basis, provided that the derived work complies with the following
-**     requirements: 
+**  3. You (the user) may copy and distribute SOFA source code to others,
+**     and use and adapt its code and algorithms in your own software,
+**     on a world-wide, royalty-free basis.  That portion of your
+**     distribution that does not consist of intact and unchanged copies
+**     of SOFA source code files is a "derived work" that must comply
+**     with the following requirements:
 **
-**     a) Your work shall be marked or carry a statement that it (i) uses
-**        routines and computations derived by you from software provided 
-**        by SOFA under license to you; and (ii) does not contain
-**        software provided by SOFA or software that has been distributed
-**        by or endorsed by SOFA.
+**     a) Your work shall be marked or carry a statement that it
+**        (i) uses routines and computations derived by you from
+**        software provided by SOFA under license to you; and
+**        (ii) does not itself constitute software provided by and/or
+**        endorsed by SOFA.
 **
 **     b) The source code of your derived work must contain descriptions
-**        of how the derived work is based upon and/or differs from the
-**        original SOFA software.
+**        of how the derived work is based upon, contains and/or differs
+**        from the original SOFA software.
 **
-**     c) The name(s) of all routine(s) that you distribute shall differ
-**        from the SOFA names, even when the SOFA content has not been
-**        otherwise changed.
+**     c) The name(s) of all routine(s) in your derived work shall not
+**        include the prefix "iau_".
 **
-**     d) The routine-naming prefix "iau" shall not be used.
-**
-**     e) The origin of the SOFA components of your derived work must not
-**        be misrepresented;  you must not claim that you wrote the
+**     d) The origin of the SOFA components of your derived work must
+**        not be misrepresented;  you must not claim that you wrote the
 **        original software, nor file a patent application for SOFA
 **        software or algorithms embedded in the SOFA software.
 **
-**     f) These requirements must be reproduced intact in any source
-**        distribution and shall apply to anyone to whom you have granted 
-**        a further right to modify the source code of your derived work.
+**     e) These requirements must be reproduced intact in any source
+**        distribution and shall apply to anyone to whom you have
+**        granted a further right to modify the source code of your
+**        derived work.
+**
+**     Note that, as originally distributed, the SOFA software is
+**     intended to be a definitive implementation of the IAU standards,
+**     and consequently third-party modifications are discouraged.  All
+**     variations, no matter how minor, must be explicitly marked as
+**     such, as explained above.
 **
 **  4. In any published work or commercial products which includes
-**     results achieved by using the SOFA software, you shall acknowledge
-**     that the SOFA software was used in obtaining those results.
+**     results achieved by using the SOFA software, you shall
+**     acknowledge that the SOFA software was used in obtaining those
+**     results.
 **
 **  5. You shall not cause the SOFA software to be brought into
-**     disrepute, either by misuse, or use for inappropriate tasks, or by
-**     inappropriate modification.
+**     disrepute, either by misuse, or use for inappropriate tasks, or
+**     by inappropriate modification.
 **
-**  6. The SOFA software is provided "as is" and the Board makes no 
-**     warranty as to its use or performance.   The Board does not and 
-**     cannot warrant the performance or results which the user may obtain 
-**     by using the SOFA software.  The Board makes no warranties, express 
-**     or implied, as to non-infringement of third party rights,
-**     merchantability, or fitness for any particular purpose.  In no
-**     event will the Board be liable to the user for any consequential,
-**     incidental, or special damages, including any lost profits or lost
-**     savings, even if a Board representative has been advised of such
-**     damages, or for any claim by any third party.
+**  6. The SOFA software is provided "as is" and SOFA makes no warranty
+**     as to its use or performance.   SOFA does not and cannot warrant
+**     the performance or results which the user may obtain by using the
+**     SOFA software.  SOFA makes no warranties, express or implied, as
+**     to non-infringement of third party rights, merchantability, or
+**     fitness for any particular purpose.  In no event will SOFA be
+**     liable to the user for any consequential, incidental, or special
+**     damages, including any lost profits or lost savings, even if a
+**     SOFA representative has been advised of such damages, or for any
+**     claim by any third party.
 **
-**  7. The provision of any version of the SOFA software under the terms 
+**  7. The provision of any version of the SOFA software under the terms
 **     and conditions specified herein does not imply that future
 **     versions will also be made available under the same terms and
 **     conditions.
@@ -355,11 +363,12 @@ void iauNut80(double date1, double date2, double *dpsi, double *deps)
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**     Internet email: sofa@rl.ac.uk
-**     Postal address: IAU SOFA Center
-**                     Rutherford Appleton Laboratory
-**                     Chilton, Didcot, Oxon OX11 0QX
-**                     United Kingdom
+**      By email:  sofa@rl.ac.uk
+**      By post:   IAU SOFA Center
+**                 STFC Rutherford Appleton Laboratory
+**                 Harwell Science and Innovation Campus
+**                 Didcot, Oxfordshire, OX11 0QX
+**                 United Kingdom
 **
-**---------------------------------------------------------------------*/
+**--------------------------------------------------------------------*/
 }

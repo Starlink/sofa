@@ -1,5 +1,5 @@
 #include "sofam.h"
- 
+
 void iauNut00b(double date1, double date2, double *dpsi, double *deps)
 /*
 **  - - - - - - - - - -
@@ -42,7 +42,7 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
 **
 **  2) The nutation components in longitude and obliquity are in radians
 **     and with respect to the equinox and ecliptic of date.  The
-**     obliquity at J2000 is assumed to be the Lieske et al. (1977)
+**     obliquity at J2000.0 is assumed to be the Lieske et al. (1977)
 **     value of 84381.448 arcsec.  (The errors that result from using
 **     this function with the IAU 2006 value of 84381.406 arcsec can be
 **     neglected.)
@@ -56,7 +56,7 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
 **     2000.  The function computes the MHB_2000_SHORT luni-solar
 **     nutation series (Luzum 2001), but without the associated
 **     corrections for the precession rate adjustments and the offset
-**     between the GCRS and J2000 mean poles.
+**     between the GCRS and J2000.0 mean poles.
 **
 **  4) The full IAU 2000A (MHB2000) nutation model contains nearly 1400
 **     terms.  The IAU 2000B model (McCarthy & Luzum 2003) contains only
@@ -121,9 +121,11 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
 **     Simon, J.-L., Bretagnon, P., Chapront, J., Chapront-Touze, M.,
 **     Francou, G., Laskar, J., Astron.Astrophys. 282, 663-683 (1994)
 **
-**  This revision:  2008 September 30
+**  This revision:  2009 December 17
 **
-**  Copyright (C) 2008 IAU SOFA Review Board.  See notes at end.
+**  SOFA release 2009-12-31
+**
+**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
 */
 {
    double t, el, elp, f, d, om, arg, dp, de, sarg, carg,
@@ -131,15 +133,15 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
    int i;
 
 /* Units of 0.1 microarcsecond to radians */
-   const double U2R = DAS2R / 1e7;
+   static const double U2R = DAS2R / 1e7;
 
 /* ---------------------------------------- */
 /* Fixed offsets in lieu of planetary terms */
 /* ---------------------------------------- */
- 
-   const double DPPLAN = -0.135 * DMAS2R;
-   const double DEPLAN =  0.388 * DMAS2R;
- 
+
+   static const double DPPLAN = -0.135 * DMAS2R;
+   static const double DEPLAN =  0.388 * DMAS2R;
+
 /* --------------------------------------------------- */
 /* Luni-solar nutation: argument and term coefficients */
 /* --------------------------------------------------- */
@@ -153,7 +155,7 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
       double ec,ect,es;     /* obliquity cos, t*cos, sin coefficients */
 
    } x[] = {
- 
+
    /* 1-10 */
       { 0, 0, 0, 0,1,
          -172064161.0, -174666.0, 33386.0, 92052331.0, 9086.0, 15377.0},
@@ -257,35 +259,35 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
 
 /* Interval between fundamental epoch J2000.0 and given date (JC). */
    t = ((date1 - DJ00) + date2) / DJC;
- 
+
 /* --------------------*/
 /* LUNI-SOLAR NUTATION */
 /* --------------------*/
- 
+
 /* Fundamental (Delaunay) arguments from Simon et al. (1994) */
- 
+
 /* Mean anomaly of the Moon. */
    el = fmod(485868.249036 + (1717915923.2178) * t, TURNAS) * DAS2R;
- 
+
 /* Mean anomaly of the Sun. */
    elp = fmod(1287104.79305 + (129596581.0481) * t, TURNAS) * DAS2R;
- 
+
 /* Mean argument of the latitude of the Moon. */
    f = fmod(335779.526232 + (1739527262.8478) * t, TURNAS) * DAS2R;
- 
+
 /* Mean elongation of the Moon from the Sun. */
    d = fmod(1072260.70369 + (1602961601.2090) * t, TURNAS) * DAS2R;
- 
+
 /* Mean longitude of the ascending node of the Moon. */
    om = fmod(450160.398036 + (-6962890.5431) * t, TURNAS) * DAS2R;
- 
+
 /* Initialize the nutation values. */
    dp = 0.0;
    de = 0.0;
- 
+
 /* Summation of luni-solar nutation series (smallest terms first). */
    for (i = NLS-1; i >= 0; i--) {
- 
+
    /* Argument and functions. */
       arg = fmod( (double)x[i].nl  * el  +
                   (double)x[i].nlp * elp +
@@ -294,31 +296,31 @@ void iauNut00b(double date1, double date2, double *dpsi, double *deps)
                   (double)x[i].nom * om, D2PI  );
       sarg = sin(arg);
       carg = cos(arg);
- 
+
    /* Term. */
       dp += (x[i].ps + x[i].pst * t) * sarg + x[i].pc * carg;
       de += (x[i].ec + x[i].ect * t) * carg + x[i].es * sarg;
    }
- 
+
 /* Convert from 0.1 microarcsec units to radians. */
    dpsils = dp * U2R;
    depsls = de * U2R;
- 
+
 /* ------------------------------*/
 /* IN LIEU OF PLANETARY NUTATION */
 /* ------------------------------*/
- 
+
 /* Fixed offset to correct for missing terms in truncated series. */
    dpsipl = DPPLAN;
    depspl = DEPLAN;
- 
+
 /* --------*/
 /* RESULTS */
 /* --------*/
- 
+
 /* Add luni-solar and planetary components. */
    *dpsi = dpsils + dpsipl;
    *deps = depsls + depspl;
- 
+
    return;
 }

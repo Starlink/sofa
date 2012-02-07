@@ -1,4 +1,4 @@
-sofa_lib.lis                                            2008 December 17
+sofa_lib.lis                                             2009 November 2
 
                      ----------------------
                      SOFA Astronomy Library
@@ -197,6 +197,15 @@ ROUTINES
      HFK5Z     Hipparcos to FK5 assuming zero Hipparcos proper motion
      STARPM    proper motion between two epochs
 
+  Geodetic/geocentric
+
+     EFORM     a,f for a nominated Earth reference ellipsoid
+     GC2GD     geocentric to geodetic for a nominated ellipsoid
+     GC2GDE    geocentric to geodetic given ellipsoid a,f
+     GD2GC     geodetic to geocentric for a nominated ellipsoid
+     GD2GCE    geodetic to geocentric given ellipsoid a,f
+
+
   Obsolete
 
      C2TCEO    former name of C2TCIO
@@ -230,6 +239,7 @@ CALLS: FORTRAN VERSION
    D =  iau_EE00B  ( DATE1, DATE2 )
    D =  iau_EE06A  ( DATE1, DATE2 )
    D =  iau_EECT00 ( DATE1, DATE2 )
+   CALL iau_EFORM  ( N, A, F, J )
    D =  iau_EO06A  ( DATE1, DATE2 )
    D =  iau_EORS   ( RNPB, S )
    D =  iau_EPB    ( DJ1, DJ2 )
@@ -259,6 +269,10 @@ CALLS: FORTRAN VERSION
    CALL iau_FK5HZ  ( R5, D5, DATE1, DATE2, RH, DH )
    CALL iau_FW2M   ( GAMB, PHIB, PSI, EPS, R )
    CALL iau_FW2XY  ( GAMB, PHIB, PSI, EPS, X, Y )
+   CALL iau_GC2GD  ( N, XYZ, ELONG, PHI, HEIGHT, J )
+   CALL iau_GC2GDE ( A, F, XYZ, ELONG, PHI, HEIGHT, J )
+   CALL iau_GD2GC  ( N, ELONG, PHI, HEIGHT, XYZ, J )
+   CALL iau_GD2GCE ( A, F, ELONG, PHI, HEIGHT, XYZ, J )
    D =  iau_GMST00 ( UTA, UTB, TTA, TTB )
    D =  iau_GMST06 ( UTA, UTB, TTA, TTB )
    D =  iau_GMST82 ( UTA, UTB )
@@ -320,7 +334,7 @@ CALLS: FORTRAN VERSION
   :                  EP1A, EP1B, EP2A, EP2B,
   :                  RA2, DEC2, PMR2, PMD2, PX2, RV2, J )
    CALL iau_STARPV ( RA, DEC, PMR, PMD, PX, RV, PV, J )
-   CALL iau_XYS06  ( DATE1, DATE2, X, Y )
+   CALL iau_XY06   ( DATE1, DATE2, X, Y )
    CALL iau_XYS00A ( DATE1, DATE2, X, Y, S )
    CALL iau_XYS00B ( DATE1, DATE2, X, Y, S )
    CALL iau_XYS06A ( DATE1, DATE2, X, Y, S )
@@ -353,6 +367,7 @@ CALLS: C VERSION
    d = iauEe00b  ( date1, date2 );
    d = iauEe06   ( date1, date2 );
    d = iauEect00 ( date1, date2 );
+   i = iauEform  ( n, &a, &f );
    d = iauEo06   ( date1, date2 );
    d = iauEors   ( rnpb, s );
    d = iauEpb    ( dj1, dj2 );
@@ -382,6 +397,10 @@ CALLS: C VERSION
        iauFk5hz  ( r5, d5, date1, date2, &rh, &dh );
        iauFw2m   ( gamb, phib, psi, eps, r );
        iauFw2xy  ( gamb, phib, psi, eps, &x, &y );
+   i = iauGc2gd  ( n, xyz, &elong, &phi, &height );
+   i = iauGc2gde ( a, f, xyz, &elong, &phi, &height );
+   i = iauGd2gc  ( n, elong, phi, height, xyz );
+   i = iauGd2gce ( a, f, elong, phi, height, xyz );
    d = iauGmst00 ( uta, utb, tta, ttb );
    d = iauGmst06 ( uta, utb, tta, ttb );
    d = iauGmst82 ( uta, utb );
@@ -445,7 +464,7 @@ CALLS: C VERSION
                    ep1a, ep1b, ep2a, ep2b,
                    &ra2, &dec2, &pmr2, &pmd2, &px2, &rv2 );
    i = iauStarpv ( ra, dec, pmr, pmd, px, rv, pv );
-       iauXys06  ( date1, date2, &x, &y );
+       iauXy06   ( date1, date2, &x, &y );
        iauXys00a ( date1, date2, &x, &y, &s );
        iauXys00b ( date1, date2, &x, &y, &s );
        iauXys06a ( date1, date2, &x, &y, &s );

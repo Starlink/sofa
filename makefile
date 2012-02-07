@@ -1,30 +1,47 @@
 #-----------------------------------------------------------------------
 #
 # Description:  make file for the ANSI-C version of SOFA.  This
-# makefile creates a Unix .a library.  Designed for Linux/gcc but
+# make file creates a Unix .a library.  Designed for Linux/gcc but
 # can be adapted for other platforms or run in an appropriate way
-# by means of the CCOMPC (compiler command), CFLAGF (qualifiers for
-# compiling functions) and CFLAGX (qualifiers for compiling
-# executables) macros.  For example on Sun/Solaris, to build the
-# library type "make CCOMPC=cc CFLAGF=-c".
+# by means of the macros CCOMPC (compiler command), CFLAGF (qualifiers
+# for compiling functions) and CFLAGX (qualifiers for compiling
+# executables).
 #
 # Usage:
 #
-#    To make the library and install the library and include files, type:
+#    To build the library:
 #
 #      make
 #
-#    To delete all object files and the local copy of the library, type:
+#    To install the library and include files:
+#
+#      make install
+#
+#    To delete all object files:
 #
 #      make clean
 #
-#    To build and execute the testbed, type:
+#    To build and run the test program using the installed library:
 #
 #      make test
 #
-# Last revision:   2008 October 8
+#    Also:
+#      make all           same as make
+#      make deinstall     deinstall the library
+#      make check         test the build
+#      make installcheck  same as make test
+#      make distclean     clean up and deinstall
+#      make realclean     same as make clean
+#
+# Last revision:   2009 November 20
 #
 # Copyright International Astronomical Union.  All rights reserved.
+#
+#-----------------------------------------------------------------------
+
+#-----------------------------------------------------------------------
+#
+#  DEFINITIONS
 #
 #-----------------------------------------------------------------------
 
@@ -52,6 +69,8 @@ CFLAGX = -pedantic -Wall -W -O
 
 #----YOU SHOULDN'T HAVE TO MODIFY ANYTHING BELOW THIS LINE---------
 
+SHELL = /bin/sh
+
 # The list of installation directories.
 
 INSTALL_DIRS = $(SOFA_LIB_DIR) $(SOFA_INC_DIR)
@@ -66,8 +85,9 @@ SOFA_LIB = $(SOFA_LIB_DIR)$(SOFA_LIB_NAME)
 SOFA_TEST_NAME = t_sofa_c.c
 SOFA_TEST = t_sofa_c
 
-# Name the SOFA/C includes in their target location.
+# Name the SOFA/C includes in their source and target locations.
 
+SOFA_INC_NAMES = sofa.h sofam.h
 SOFA_INC = $(SOFA_INC_DIR)sofa.h $(SOFA_INC_DIR)sofam.h
 
 # The list of SOFA/C library object files.
@@ -106,6 +126,7 @@ SOFA_OBS = iauA2af.o \
            iauEe00b.o \
            iauEe06a.o \
            iauEect00.o \
+           iauEform.o \
            iauEo06a.o \
            iauEors.o \
            iauEpb.o \
@@ -134,6 +155,10 @@ SOFA_OBS = iauA2af.o \
            iauFk5hz.o \
            iauFw2m.o \
            iauFw2xy.o \
+           iauGc2gd.o \
+           iauGc2gde.o \
+           iauGd2gc.o \
+           iauGd2gce.o \
            iauGmst00.o \
            iauGmst06.o \
            iauGmst82.o \
@@ -234,38 +259,62 @@ SOFA_OBS = iauA2af.o \
            iauZr.o
 
 #-----------------------------------------------------------------------
+#
+#  TARGETS
+#
+#-----------------------------------------------------------------------
 
-default: $(INSTALL_DIRS) $(SOFA_INC) $(SOFA_LIB)
+# Build (but do not install) the library.
+all : $(SOFA_LIB_NAME)
+	-@ echo ""
+	-@ echo "*** Now type 'make test'" \
+                " to install the library and run tests ***"
+	-@ echo ""
 
-# Make the installation directories if necessary.
+# Install the library and header files.
+install $(SOFA_LIB) : $(INSTALL_DIRS) $(SOFA_LIB_NAME) $(SOFA_INC)
+	cp $(SOFA_LIB_NAME) $(SOFA_LIB_DIR)
 
-$(INSTALL_DIRS):
-	mkdir -p $@
+# Deinstall the library and header files.
+deinstall:
+	rm -f $(SOFA_LIB) $(SOFA_INC)
 
-# Make and install the library.
-
-$(SOFA_LIB): $(SOFA_OBS)
-	ar ru $(SOFA_LIB_NAME) $?
-	cp $(SOFA_LIB_NAME) $@
-
-# Keep the installed include files up to date.
-
-$(SOFA_INC): sofa.h sofam.h
-	cp sofa.h $(SOFA_INC_DIR).
-	cp sofam.h $(SOFA_INC_DIR).
-
-# Run the test.
-
-test: $(SOFA_TEST_NAME) $(SOFA_INC) $(SOFA_LIB)
-	$(CCOMPC) $(CFLAGX) $(SOFA_TEST_NAME) -o $(SOFA_TEST) \
-    -I$(SOFA_INC_DIR) -L$(SOFA_LIB_DIR) -lsofa_c -lm
+# Test the build.
+check: $(SOFA_TEST_NAME) $(SOFA_INC_NAMES) $(SOFA_LIB_NAME)
+	$(CCOMPC) $(CFLAGX) $(SOFA_TEST_NAME) $(SOFA_LIB_NAME) \
+        -lm -o $(SOFA_TEST)
 	./$(SOFA_TEST)
 	rm -f $(SOFA_TEST)
 
-clean:
+# Test the installed library.
+installcheck test: $(SOFA_TEST_NAME) $(SOFA_INC) $(SOFA_LIB)
+	$(CCOMPC) $(CFLAGX) $(SOFA_TEST_NAME) -I$(SOFA_INC_DIR) \
+        -L$(SOFA_LIB_DIR) -lsofa_c -lm -o $(SOFA_TEST)
+	./$(SOFA_TEST)
+	rm -f $(SOFA_TEST)
+
+# Local clean up.
+clean realclean:
 	rm -f $(SOFA_OBS) $(SOFA_LIB_NAME)
 
+# Clean up and deinstall.
+distclean:
+	rm -f $(SOFA_OBS) $(SOFA_LIB_NAME) $(SOFA_INC) $(SOFA_LIB)
+
+# Create the installation directories if not already present.
+$(INSTALL_DIRS):
+	mkdir -p $@
+
+# Build the library.
+$(SOFA_LIB_NAME): $(SOFA_OBS)
+	ar ru $(SOFA_LIB_NAME) $?
+
+# Install the header files.
+$(SOFA_INC) : $(INSTALL_DIRS) $(SOFA_INC_NAMES)
+	cp $(SOFA_INC_NAMES) $(SOFA_INC_DIR)
+
 #-----------------------------------------------------------------------
+
 # The list of object file dependencies
 
 iauA2af.o   : a2af.c   sofa.h sofam.h
@@ -336,6 +385,8 @@ iauEe06a.o  : ee06a.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ ee06a.c
 iauEect00.o : eect00.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ eect00.c
+iauEform.o : eform.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ eform.c
 iauEo06a.o  : eo06a.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ eo06a.c
 iauEors.o   : eors.c   sofa.h sofam.h
@@ -392,6 +443,14 @@ iauFw2m.o   : fw2m.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ fw2m.c
 iauFw2xy.o  : fw2xy.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ fw2xy.c
+iauGc2gd.o : gc2gd.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ gc2gd.c
+iauGc2gde.o : gc2gde.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ gc2gde.c
+iauGd2gc.o : gd2gc.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ gd2gc.c
+iauGd2gce.o : gd2gce.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ gd2gce.c
 iauGmst00.o : gmst00.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ gmst00.c
 iauGmst06.o : gmst06.c sofa.h sofam.h

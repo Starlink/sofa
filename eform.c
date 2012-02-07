@@ -1,115 +1,107 @@
 #include "sofam.h"
 
-void iauC2txy(double tta, double ttb, double uta, double utb,
-              double x, double y, double xp, double yp,
-              double rc2t[3][3])
+int iauEform ( int n, double *a, double *f )
 /*
 **  - - - - - - - - -
-**   i a u C 2 t x y
+**   i a u E f o r m
 **  - - - - - - - - -
 **
-**  Form the celestial to terrestrial matrix given the date, the UT1,
-**  the CIP coordinates and the polar motion.  IAU 2000.
+**  Earth reference ellipsoids.
 **
 **  This function is part of the International Astronomical Union's
-**  SOFA (Standards Of Fundamental Astronomy) software collection.
+**  SOFA (Standards of Fundamental Astronomy) software collection.
 **
-**  Status:  support function.
+**  Status:  canonical.
 **
 **  Given:
-**     tta,ttb  double         TT as a 2-part Julian Date (Note 1)
-**     uta,utb  double         UT1 as a 2-part Julian Date (Note 1)
-**     x,y      double         Celestial Intermediate Pole (Note 2)
-**     xp,yp    double         coordinates of the pole (radians, Note 3)
+**     n       int      ellipsoid identifier (Note 1)
 **
 **  Returned:
-**     rc2t     double[3][3]   celestial-to-terrestrial matrix (Note 4)
+**     a       double   equatorial radius (meters, Note 2)
+**     f       double   flattening (Note 2)
+**
+**  Returned (function value):
+**            int       status:
+**                          0 = OK
+**                         -1 = illegal identifier (Note 3)
 **
 **  Notes:
 **
-**  1) The TT and UT1 dates tta+ttb and uta+utb are Julian Dates,
-**     apportioned in any convenient way between the arguments uta and
-**     utb.  For example, JD(UT1)=2450123.7 could be expressed in any o
-**     these ways, among others:
+**  1) The identifier n is a number that specifies the choice of
+**     reference ellipsoid.  The following are supported:
 **
-**             uta            utb
+**        n   ellipsoid
 **
-**         2450123.7           0.0       (JD method)
-**         2451545.0       -1421.3       (J2000 method)
-**         2400000.5       50123.2       (MJD method)
-**         2450123.5           0.2       (date & time method)
+**        1    WGS84
+**        2    GRS80
+**        3    WGS72
 **
-**     The JD method is the most natural and convenient to use in
-**     cases where the loss of several decimal digits of resolution is
-**     acceptable.  The J2000 and MJD methods are good compromises
-**     between resolution and convenience.  In the case of uta,utb, the
-**     date & time method is best matched to the Earth rotation angle
-**     algorithm used:  maximum precision is delivered when the uta
-**     argument is for 0hrs UT1 on the day in question and the utb
-**     argument lies in the range 0 to 1, or vice versa.
+**     The number n has no significance outside the SOFA software.
 **
-**  2) The Celestial Intermediate Pole coordinates are the x,y
-**     components of the unit vector in the Geocentric Celestial
-**     Reference System.
+**  2) The ellipsoid parameters are returned in the form of equatorial
+**     radius in meters (a) and flattening (f).  The latter is a number
+**     around 0.00335, i.e. around 1/298.
 **
-**  3) The arguments xp and yp are the coordinates (in radians) of the
-**     Celestial Intermediate Pole with respect to the International
-**     Terrestrial Reference System (see IERS Conventions 2003),
-**     measured along the meridians to 0 and 90 deg west respectively.
+**  3) For the case where an unsupported n value is supplied, zero a and
+**     f are returned, as well as error status.
 **
-**  4) The matrix rc2t transforms from celestial to terrestrial
-**     coordinates:
+**  References:
 **
-**        [TRS] = RPOM * R_3(ERA) * RC2I * [CRS]
+**     Department of Defense World Geodetic System 1984, National
+**     Imagery and Mapping Agency Technical Report 8350.2, Third
+**     Edition, p3-2.
 **
-**              = rc2t * [CRS]
+**     Moritz, H., Bull. Geodesique 66-2, 187 (1992).
 **
-**     where [CRS] is a vector in the Geocentric Celestial Reference
-**     System and [TRS] is a vector in the International Terrestrial
-**     Reference System (see IERS Conventions 2003), ERA is the Earth
-**     Rotation Angle and RPOM is the polar motion matrix.
+**     The Department of Defense World Geodetic System 1972, World
+**     Geodetic System Committee, May 1974.
 **
-**  5) Although its name does not include "00", This function is in fact
-**     specific to the IAU 2000 models.
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992),
+**     p220.
 **
-**  Called:
-**     iauC2ixy     celestial-to-intermediate matrix, given X,Y
-**     iauEra00     Earth rotation angle, IAU 2000
-**     iauSp00      the TIO locator s', IERS 2000
-**     iauPom00     polar motion matrix
-**     iauC2tcio    form CIO-based celestial-to-terrestrial matrix
-**
-** Reference:
-**
-**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
-**     IERS Technical Note No. 32, BKG (2004)
-**
-**  This revision:  2009 April 1
+**  This revision:  2010 January 18
 **
 **  SOFA release 2009-12-31
 **
 **  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
 */
 {
-   double rc2i[3][3], era, sp, rpom[3][3];
 
+/* Look up a and f for the specified reference ellipsoid. */
+   switch ( n ) {
+   case 1:
 
-/* Form the celestial-to-intermediate matrix for this TT. */
-   iauC2ixy(tta, ttb, x, y, rc2i);
+   /* WGS84. */
+      *a = 6378137.0;
+      *f = 1.0 / 298.257223563;
+      break;
 
-/* Predict the Earth rotation angle for this UT1. */
-   era = iauEra00(uta, utb);
+   case 2:
 
-/* Estimate s'. */
-   sp = iauSp00(tta, ttb);
+   /* GRS80. */
+      *a = 6378137.0;
+      *f = 1.0 / 298.257222101;
+      break;
 
-/* Form the polar motion matrix. */
-   iauPom00(xp, yp, sp, rpom);
+   case 3:
 
-/* Combine to form the celestial-to-terrestrial matrix. */
-   iauC2tcio(rc2i, era, rpom, rc2t);
+   /* WGS72. */
+      *a = 6378135.0;
+      *f = 1.0 / 298.26;
+      break;
 
-   return;
+   default:
+
+   /* Invalid identifier. */
+      *a = 0.0;
+      *f = 0.0;
+      return -1;
+
+   }
+
+/* OK status. */
+   return 0;
 
 /*----------------------------------------------------------------------
 **
@@ -205,4 +197,5 @@ void iauC2txy(double tta, double ttb, double uta, double utb,
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/
+
 }

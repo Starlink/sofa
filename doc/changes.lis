@@ -1,0 +1,53 @@
+Changes for SOFA Issue: 2012-12-01
+
+New routines:
+============
+
+af2a.c
+d2dtf.c
+dtf2d.c
+taitt.c
+taiut1.c
+taiutc.c
+tcbtdb.c
+tcgtt.c
+tdbtcb.c
+tdbtt.c
+tf2a.c
+tf2d.c
+tttai.c
+tttcg.c
+tttdb.c
+ttut1.c
+ut1tai.c
+ut1tt.c
+ut1utc.c
+utctai.c
+utcut1.c
+
+Changes:
+=======
+
+* dtdb.c: status downgraded from canonical model to support routine
+
+* gc2gd.c: WGS72 reference ellipsoid added to note.
+
+* gc2gde.c: commenting error for status corrected.
+
+* gd2gc.c: WGS72 reference ellipsoid added to note.
+
+* jdcalf.c: bug corrected - result was truncated not rounded.
+
+* makefile: new routines added.
+
+* nut00b.c: copyright statement was missing.
+
+* rm2v.c: use of mixed-mode eliminated.
+
+* sofa.h: new routines added.
+
+* sofam.h: constants for time scale support added.
+
+* t_sofa_c.c: new routines added.
+
+2010/12/01

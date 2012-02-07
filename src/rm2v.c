@@ -34,11 +34,11 @@ void iauRm2v(double r[3][3], double w[3])
 **  3) The reference frame rotates clockwise as seen looking along
 **     the rotation vector from the origin.
 **
-**  This revision:  2008 May 12
+**  This revision:  2010 August 27
 **
-**  SOFA release 2009-12-31
+**  SOFA release 2010-12-01
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 {
    double x, y, z, s2, c2, phi, f;
@@ -49,7 +49,7 @@ void iauRm2v(double r[3][3], double w[3])
    z = r[0][1] - r[1][0];
    s2 = sqrt(x*x + y*y + z*z);
    if (s2 != 0) {
-      c2 = r[0][0] + r[1][1] + r[2][2] - 1;
+      c2 = r[0][0] + r[1][1] + r[2][2] - 1.0;
       phi = atan2(s2, c2);
       f =  phi / s2;
       w[0] = x * f;
@@ -65,8 +65,8 @@ void iauRm2v(double r[3][3], double w[3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -78,7 +78,7 @@ void iauRm2v(double r[3][3], double w[3])
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -103,7 +103,7 @@ void iauRm2v(double r[3][3], double w[3])
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -149,11 +149,12 @@ void iauRm2v(double r[3][3], double w[3])
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

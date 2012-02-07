@@ -11,11 +11,11 @@
 **  This file is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  This revision:   2009 November 3
+**  This revision:   2010 September 10
 **
-**  SOFA release 2009-12-31
+**  SOFA release YYYY-MM-DD
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 
 #include "math.h"
@@ -204,23 +204,58 @@ int iauStarpm(double ra1, double dec1,
               double *pmr2, double *pmd2, double *px2, double *rv2);
 
 /* Astronomy/Geodetic/Geocentric */
-int iauEform(int, double*, double*);
-int iauGc2gd(int, double[3], double*, double*, double*);
-int iauGc2gde(double, double, double[3], double*, double*, double*);
-int iauGd2gc(int, double, double, double, double[3]);
-int iauGd2gce(double, double, double, double, double, double[3]);
+int iauEform(int n, double *a, double *f);
+int iauGc2gd(int n, double xyz[3],
+             double *elong, double *phi, double *height);
+int iauGc2gde(double a, double f, double xyz[3],
+              double *elong, double *phi, double *height);
+int iauGd2gc(int n, double elong, double phi, double height,
+             double xyz[3]);
+int iauGd2gce(double a, double f,
+              double elong, double phi, double height, double xyz[3]);
 
 /* Astronomy/Timescales */
+int iauD2dtf(char *scale, int ndp, double d1, double d2,
+             int *iy, int *im, int *id, int ihmsf[4]);
 int iauDat(int iy, int im, int id, double fd, double *deltat);
 double iauDtdb(double date1, double date2,
                double ut, double elong, double u, double v);
+int iauDtf2d(char *scale, int iy, int im, int id,
+             int ihr, int imn, double sec, double *d1, double *d2);
+int iauTaitt(double tai1, double tai2, double *tt1, double *tt2);
+int iauTaiut1(double tai1, double tai2, double dta,
+              double *ut11, double *ut12);
+int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2);
+int iauTcbtdb(double tcb1, double tcb2, double *tdb1, double *tdb2);
+int iauTcgtt(double tcg1, double tcg2, double *tt1, double *tt2);
+int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2);
+int iauTdbtt(double tdb1, double tdb2, double dtr,
+             double *tt1, double *tt2);
+int iauTttai(double tt1, double tt2, double *tai1, double *tai2);
+int iauTttcg(double tt1, double tt2, double *tcg1, double *tcg2);
+int iauTttdb(double tt1, double tt2, double dtr,
+             double *tdb1, double *tdb2);
+int iauTtut1(double tt1, double tt2, double dt,
+             double *ut11, double *ut12);
+int iauUt1tai(double ut11, double ut12, double dta,
+              double *tai1, double *tai2);
+int iauUt1tt(double ut11, double ut12, double dt,
+             double *tt1, double *tt2);
+int iauUt1utc(double ut11, double ut12, double dut1,
+              double *utc1, double *utc2);
+int iauUtctai(double utc1, double utc2, double *tai1, double *tai2);
+int iauUtcut1(double utc1, double utc2, double dut1,
+              double *ut11, double *ut12);
 
 /* VectorMatrix/AngleOps */
 void iauA2af(int ndp, double angle, char *sign, int idmsf[4]);
 void iauA2tf(int ndp, double angle, char *sign, int ihmsf[4]);
+int iauAf2a(int s, int ideg, int iamin, double asec, double *rad);
 double iauAnp(double a);
 double iauAnpm(double a);
 void iauD2tf(int ndp, double days, char *sign, int ihmsf[4]);
+int iauTf2a(int s, int ihour, int imin, double sec, double *rad);
+int iauTf2d(int s, int ihour, int imin, double sec, double *days);
 
 /* VectorMatrix/BuildRotations */
 void iauRx(double phi, double r[3][3]);
@@ -299,8 +334,8 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3]);
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -312,7 +347,7 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3]);
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -337,7 +372,7 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3]);
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -383,11 +418,12 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3]);
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

@@ -1,4 +1,4 @@
-intro.lis                                                 2010 January 8
+intro.lis                                               2010 September 5
 
 
                   -------------------------------
@@ -9,8 +9,8 @@ intro.lis                                                 2010 January 8
   SOFA stands for "Standards Of Fundamental Astronomy".  The SOFA
   software libraries are a collection of subprograms, in source-
   code form, which implement official IAU algorithms for fundamental-
-  astronomy computations.   The subprograms at present comprise 113
-  "astronomy" routines supported by 52 "vector/matrix" routines,
+  astronomy computations.   The subprograms at present comprise 131
+  "astronomy" routines supported by 55 "vector/matrix" routines,
   available in both Fortran77 and C implementations.
 
 
@@ -75,13 +75,13 @@ SCOPE
 The routines currently available are listed in the next two chapters of
 this document.
 
-The "astronomy" library comprises 113 routines (plus one obsolete
+The "astronomy" library comprises 131 routines (plus one obsolete
 Fortran routine that now appears under a revised name).  The areas
 addressed include calendars, time scales, ephemerides, precession-
 nutation, star space-motion, star catalog transformations and
 geodetic/geocentric transformations.
 
-The "vector-matrix" library, comprising 52 routines, contains a
+The "vector-matrix" library, comprising 55 routines, contains a
 collection of simple tools for manipulating the vectors, matrices and
 angles used by the astronomy routines.
 
@@ -109,8 +109,8 @@ advantages to prospective users.  In particular, the routines are:
 
 VERSIONS
 
-Once it has been published, an issue will not be revised or updated and
-will remain accessible indefinitely.  Subsequent issues may, however,
+Once it has been published, an issue is never revised or updated, and
+remains accessible indefinitely.  Subsequent issues may, however,
 include corrected versions under the original routine name and
 filenames.  However, where a different model is introduced, it will have
 a different name.

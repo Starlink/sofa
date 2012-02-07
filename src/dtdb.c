@@ -43,7 +43,7 @@ double iauDtdb(double date1, double date2,
 **  This function is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  Status:  canonical model.
+**  Status:  support routine.
 **
 **  Given:
 **     date1,date2   double  date, TDB (Notes 1-3)
@@ -162,11 +162,11 @@ double iauDtdb(double date1, double date2,
 **     Simon, J.L., Bretagnon, P., Chapront, J., Chapront-Touze, M.,
 **     Francou, G. & Laskar, J., Astron.Astrophys., 282, 663-683 (1994).
 **
-**  This revision:  2009 December 17
+**  This revision:  2010 July 29
 **
-**  SOFA release 2009-12-31
+**  SOFA release 2010-12-01
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 {
    double t, tsol, w, elsun, emsun, d, elj, els, wt, w0, w1, w2, w3, w4,
@@ -1167,8 +1167,8 @@ double iauDtdb(double date1, double date2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -1180,7 +1180,7 @@ double iauDtdb(double date1, double date2,
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -1205,7 +1205,7 @@ double iauDtdb(double date1, double date2,
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -1251,11 +1251,12 @@ double iauDtdb(double date1, double date2,
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

@@ -10,16 +10,18 @@ static int verbose = 0;
 **
 **  Validate the SOFA C functions.
 **
-**  Each SOFA function is tested to some useful but not exhaustive
-**  level.  Successful completion is signalled by an absence of
-**  output messages.  Failure of a given function or group of functions
-**  results in error messages.
+**  Each SOFA function is at least called and a usually quite basic test
+**  is performed.  Successful completion is signalled by a confirming
+**  message.  Failure of a given function or group of functions results
+**  in error messages.
 **
 **  All messages go to stdout.
 **
-**  This revision:  2010 January 26
+**  This revision:  2010 September 7
 **
-**  Copyright1
+**  SOFA release 2010-12-01
+**
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 
 static void viv(int ival, int ivalok, char *func, char *test,
@@ -155,6 +157,33 @@ static void t_a2tf(int *status)
    viv(ihmsf[1],   30, "iauA2tf", "1", status);
    viv(ihmsf[2],   22, "iauA2tf", "2", status);
    viv(ihmsf[3], 6484, "iauA2tf", "3", status);
+
+}
+
+static void t_af2a(int *status)
+/*
+**  - - - - - - -
+**   t _ a f 2 a
+**  - - - - - - -
+**
+**  Test iauAf2a function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauAf2a, viv
+**
+**  This revision:  2010 September 6
+*/
+{
+   double a;
+   int j;
+
+
+   j = iauAf2a('-', 45, 13, 27.2, &a);
+
+   vvd(a, -0.7893115794313644842, 1e-12, "iauAf2a", "a", status);
+   viv(j, 0, "iauAf2a", "j", status);
 
 }
 
@@ -1277,6 +1306,38 @@ static void t_cr(int *status)
    vvd(c[2][2], 5.0, 0.0, "iauCr", "33", status);
 }
 
+static void t_d2dtf(int *status )
+/*
+**  - - - - - - - -
+**   t _ d 2 d t f
+**  - - - - - - - -
+**
+**  Test iauD2dtf function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauD2dtf, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   int j, iy, im, id, ihmsf[4];
+
+
+   j = iauD2dtf("UTC", 5, 2400000.5, 49533.99999, &iy, &im, &id, ihmsf);
+
+   viv(iy, 1994, "iauD2dtf", "y", status);
+   viv(im, 6, "iauD2dtf", "mo", status);
+   viv(id, 30, "iauD2dtf", "d", status);
+   viv(ihmsf[0], 23, "iauD2dtf", "h", status);
+   viv(ihmsf[1], 59, "iauD2dtf", "m", status);
+   viv(ihmsf[2], 60, "iauD2dtf", "s", status);
+   viv(ihmsf[3], 13599, "iauD2dtf", "f", status);
+   viv(j, 0, "iauD2dtf", "j", status);
+
+}
+
 static void t_d2tf(int *status)
 /*
 **  - - - - - - -
@@ -1362,6 +1423,33 @@ static void t_dtdb(int *status)
    dtdb = iauDtdb(2448939.5, 0.123, 0.76543, 5.0123, 5525.242, 3190.0);
 
    vvd(dtdb, -0.1280368005936998991e-2, 1e-15, "iauDtdb", "", status);
+
+}
+
+static void t_dtf2d(int *status)
+/*
+**  - - - - - - - -
+**   t _ d t f 2 d
+**  - - - - - - - -
+**
+**  Test iauDtf2d function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauDtf2d, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauDtf2d("UTC", 1994, 6, 30, 23, 59, 60.13599, &u1, &u2);
+
+   vvd(u1+u2, 2449534.49999, 1e-6, "iauDtf2d", "u", status);
+   viv(j, 0, "iauDtf2d", "j", status);
 
 }
 
@@ -1505,35 +1593,35 @@ static void t_eform(int *status)
 **
 **  Called:  iauEform, viv, vvd
 **
-**  This revision:  2010 January 26
+**  This revision:  2010 September 7
 */
 {
    int j;
    double a, f;
 
-   j = iauEform( 0, &a, &f );
+   j = iauEform(0, &a, &f);
 
    viv(j, -1, "iauEform", "j0", status);
 
-   j = iauEform( 1, &a, &f );
+   j = iauEform(1, &a, &f);
 
    viv(j, 0, "iauEform", "j1", status);
    vvd(a, 6378137.0, 1e-10, "iauEform", "a1", status);
    vvd(f, 0.0033528106647474807, 1e-18, "iauEform", "f1", status);
 
-   j = iauEform( 2, &a, &f );
+   j = iauEform(2, &a, &f);
 
    viv(j, 0, "iauEform", "j2", status);
    vvd(a, 6378137.0, 1e-10, "iauEform", "a2", status);
    vvd(f, 0.0033528106811823189, 1e-18, "iauEform", "f2", status);
 
-   j = iauEform( 3, &a, &f );
+   j = iauEform(3, &a, &f);
 
    viv(j, 0, "iauEform", "j2", status);
    vvd(a, 6378135.0, 1e-10, "iauEform", "a3", status);
    vvd(f, 0.0033527794541675049, 1e-18, "iauEform", "f3", status);
 
-   j = iauEform( 4, &a, &f );
+   j = iauEform(4, &a, &f);
    viv(j, -1, "iauEform", "j3", status);
 }
 
@@ -2305,39 +2393,39 @@ static void t_gc2gd(int *status)
 **
 **  Called:  iauGc2gd, viv, vvd
 **
-**  This revision:  2010 January 26
+**  This revision:  2010 September 7
 */
 {
    int j;
    double xyz[] = {2e6, 3e6, 5.244e6};
    double e, p, h;
 
-   j = iauGc2gd( 0, xyz, &e, &p, &h );
+   j = iauGc2gd(0, xyz, &e, &p, &h);
 
    viv(j, -1, "iauGc2gd", "j0", status);
 
-   j = iauGc2gd( 1, xyz, &e, &p, &h );
+   j = iauGc2gd(1, xyz, &e, &p, &h);
 
    viv(j, 0, "iauGc2gd", "j1", status);
    vvd(e, 0.98279372324732907, 1e-14, "iauGc2gd", "e1", status);
    vvd(p, 0.97160184819075459, 1e-14, "iauGc2gd", "p1", status);
    vvd(h, 331.41724614260599, 1e-8, "iauGc2gd", "h1", status);
 
-   j = iauGc2gd( 2, xyz, &e, &p, &h );
+   j = iauGc2gd(2, xyz, &e, &p, &h);
 
    viv(j, 0, "iauGc2gd", "j2", status);
    vvd(e, 0.98279372324732907, 1e-14, "iauGc2gd", "e2", status);
    vvd(p, 0.97160184820607853, 1e-14, "iauGc2gd", "p2", status);
    vvd(h, 331.41731754844348, 1e-8, "iauGc2gd", "h2", status);
 
-   j = iauGc2gd( 3, xyz, &e, &p, &h );
+   j = iauGc2gd(3, xyz, &e, &p, &h);
 
    viv(j, 0, "iauGc2gd", "j3", status);
    vvd(e, 0.98279372324732907, 1e-14, "iauGc2gd", "e3", status);
    vvd(p, 0.97160181811015119, 1e-14, "iauGc2gd", "p3", status);
    vvd(h, 333.27707261303181, 1e-8, "iauGc2gd", "h3", status);
 
-   j = iauGc2gd( 4, xyz, &e, &p, &h );
+   j = iauGc2gd(4, xyz, &e, &p, &h);
 
    viv(j, -1, "iauGc2gd", "j4", status);
 }
@@ -2355,7 +2443,7 @@ static void t_gc2gde(int *status)
 **
 **  Called:  iauGc2gde, viv, vvd
 **
-**  This revision:  2009 November 8
+**  This revision:  2010 September 7
 */
 {
    int j;
@@ -2363,7 +2451,7 @@ static void t_gc2gde(int *status)
    double xyz[] = {2e6, 3e6, 5.244e6};
    double e, p, h;
 
-   j = iauGc2gde( a, f, xyz, &e, &p, &h );
+   j = iauGc2gde(a, f, xyz, &e, &p, &h);
 
    viv(j, 0, "iauGc2gde", "j", status);
    vvd(e, 0.98279372324732907, 1e-14, "iauGc2gde", "e", status);
@@ -2384,39 +2472,39 @@ static void t_gd2gc(int *status)
 **
 **  Called:  iauGd2gc, viv, vvd
 **
-**  This revision:  20010 January 26
+**  This revision:  2010 September 7
 */
 {
    int j;
    double e = 3.1, p = -0.5, h = 2500.0;
    double xyz[3];
 
-   j = iauGd2gc( 0, e, p, h, xyz );
+   j = iauGd2gc(0, e, p, h, xyz);
 
    viv(j, -1, "iauGd2gc", "j0", status);
 
-   j = iauGd2gc( 1, e, p, h, xyz );
+   j = iauGd2gc(1, e, p, h, xyz);
 
    viv(j, 0, "iauGd2gc", "j1", status);
    vvd(xyz[0], -5599000.5577049947, 1e-7, "iauGd2gc", "0/1", status);
    vvd(xyz[1], 233011.67223479203, 1e-7, "iauGd2gc", "1/1", status);
    vvd(xyz[2], -3040909.4706983363, 1e-7, "iauGd2gc", "2/1", status);
 
-   j = iauGd2gc( 2, e, p, h, xyz );
+   j = iauGd2gc(2, e, p, h, xyz);
 
    viv(j, 0, "iauGd2gc", "j2", status);
    vvd(xyz[0], -5599000.5577260984, 1e-7, "iauGd2gc", "0/2", status);
    vvd(xyz[1], 233011.6722356703, 1e-7, "iauGd2gc", "1/2", status);
    vvd(xyz[2], -3040909.4706095476, 1e-7, "iauGd2gc", "2/2", status);
 
-   j = iauGd2gc( 3, e, p, h, xyz );
+   j = iauGd2gc(3, e, p, h, xyz);
 
    viv(j, 0, "iauGd2gc", "j3", status);
    vvd(xyz[0], -5598998.7626301490, 1e-7, "iauGd2gc", "0/3", status);
    vvd(xyz[1], 233011.5975297822, 1e-7, "iauGd2gc", "1/3", status);
    vvd(xyz[2], -3040908.6861467111, 1e-7, "iauGd2gc", "2/3", status);
 
-   j = iauGd2gc( 4, e, p, h, xyz );
+   j = iauGd2gc(4, e, p, h, xyz);
 
    viv(j, -1, "iauGd2gc", "j4", status);
 }
@@ -2434,7 +2522,7 @@ static void t_gd2gce(int *status)
 **
 **  Called:  iauGd2gce, viv, vvd
 **
-**  This revision:  2009 November 6
+**  This revision:  2010 September 7
 */
 {
    int j;
@@ -2442,7 +2530,7 @@ static void t_gd2gce(int *status)
    double e = 3.1, p = -0.5, h = 2500.0;
    double xyz[3];
 
-   j = iauGd2gce( a, f, e, p, h, xyz );
+   j = iauGd2gce(a, f, e, p, h, xyz);
 
    viv(j, 0, "iauGd2gce", "j", status);
    vvd(xyz[0], -5598999.6665116328, 1e-7, "iauGd2gce", "0", status);
@@ -6207,6 +6295,256 @@ static void t_sxpv(int *status)
 
 }
 
+static void t_taitt(int *status)
+/*
+**  - - - - - - - -
+**   t _ t a i t t
+**  - - - - - - - -
+**
+**  Test iauTaitt function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTaitt, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double t1, t2;
+   int j;
+
+
+   j = iauTaitt(2453750.5, 0.892482639, &t1, &t2);
+
+   vvd(t1, 2453750.5, 1e-6, "iauTaitt", "t1", status);
+   vvd(t2, 0.892855139, 1e-12, "iauTaitt", "t2", status);
+   viv(j, 0, "iauTaitt", "j", status);
+
+}
+
+static void t_taiut1(int *status)
+/*
+**  - - - - - - - - -
+**   t _ t a i u t 1
+**  - - - - - - - - -
+**
+**  Test iauTaiut1 function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTaiut1, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauTaiut1(2453750.5, 0.892482639, -32.6659, &u1, &u2);
+
+   vvd(u1, 2453750.5, 1e-6, "iauTaiut1", "u1", status);
+   vvd(u2, 0.8921045614537037037, 1e-12, "iauTaiut1", "u2", status);
+   viv(j, 0, "iauTaiut1", "j", status);
+
+}
+
+static void t_taiutc(int *status)
+/*
+**  - - - - - - - - -
+**   t _ t a i u t c
+**  - - - - - - - - - - - -
+**
+**  Test iauTaiutc function.
+**
+**  Returned:
+**     status    LOGICAL     TRUE = success, FALSE = fail
+**
+**  Called:  iauTaiutc, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauTaiutc(2453750.5, 0.892482639, &u1, &u2);
+
+   vvd(u1, 2453750.5, 1e-6, "iauTaiutc", "u1", status);
+   vvd(u2, 0.8921006945555555556, 1e-12, "iauTaiutc", "u2", status);
+   viv(j, 0, "iauTaiutc", "j", status);
+
+}
+
+static void t_tcbtdb(int *status)
+/*
+**  - - - - - - - - -
+**   t _ t c b t d b
+**  - - - - - - - - -
+**
+**  Test iauTcbtdb function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTcbtdb, vvd, viv
+**
+**  This revision:  2010 September 6
+*/
+{
+   double b1, b2;
+   int j;
+
+
+   j = iauTcbtdb(2453750.5, 0.893019599, &b1, &b2);
+
+   vvd(b1, 2453750.5, 1e-6, "iauTcbtdb", "b1", status);
+   vvd(b2, 0.8928551362746343397, 1e-12, "iauTcbtdb", "b2", status);
+   viv(j, 0, "iauTcbtdb", "j", status);
+
+}
+
+static void t_tcgtt(int *status)
+/*
+**  - - - - - - - -
+**   t _ t c g t t
+**  - - - - - - - -
+**
+**  Test iauTcgtt function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTcgtt, vvd, viv
+**
+**  This revision:  2010 September g
+*/
+{
+   double t1, t2;
+   int j;
+
+
+   j = iauTcgtt(2453750.5, 0.892862531, &t1, &t2);
+
+   vvd(t1, 2453750.5, 1e-6, "iauTcgtt", "t1", status);
+   vvd(t2, 0.8928551387488816828, 1e-12, "iauTcgtt", "t2", status);
+   viv(j, 0, "iauTcgtt", "j", status);
+
+}
+
+static void t_tdbtcb(int *status)
+/*
+**  - - - - - - - - -
+**   t _ t d b t c b
+**  - - - - - - - - -
+**
+**  Test iauTdbtcb function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTdbtcb, vvd, viv
+**
+**  This revision:  2010 September 6
+*/
+{
+   double b1, b2;
+   int j;
+
+
+   j = iauTdbtcb(2453750.5, 0.892855137, &b1, &b2);
+
+   vvd( b1, 2453750.5, 1e-6, "iauTdbtcb", "b1", status);
+   vvd( b2, 0.8930195997253656716, 1e-12, "iauTdbtcb", "b2", status);
+   viv(j, 0, "iauTdbtcb", "j", status);
+
+}
+
+static void t_tdbtt(int *status)
+/*
+**  - - - - - - - -
+**   t _ t d b t t
+**  - - - - - - - -
+**
+**  Test iauTdbtt function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTdbtt, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double t1, t2;
+   int j;
+
+
+   j = iauTdbtt(2453750.5, 0.892855137, -0.000201, &t1, &t2);
+
+   vvd(t1, 2453750.5, 1e-6, "iauTdbtt", "t1", status);
+   vvd(t2, 0.8928551393263888889, 1e-12, "iauTdbtt", "t2", status);
+   viv(j, 0, "iauTdbtt", "j", status);
+
+}
+
+static void t_tf2a(int *status)
+/*
+**  - - - - - - -
+**   t _ t f 2 a
+**  - - - - - - -
+**
+**  Test iauTf2a function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTf2a, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double a;
+   int j;
+
+
+   j = iauTf2a('+', 4, 58, 20.2, &a);
+
+   vvd(a, 1.301739278189537429, 1e-12, "iauTf2a", "a", status);
+   viv(j, 0, "iauTf2a", "j", status);
+
+}
+
+static void t_tf2d(int *status)
+/*
+**  - - - - - - -
+**   t _ t f 2 d
+**  - - - - - - -
+**
+**  Test iauTf2d function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTf2d, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double d;
+   int j;
+
+
+   j = iauTf2d(' ', 23, 55, 10.9, &d);
+
+   vvd(d, 0.9966539351851851852, 1e-12, "iauTf2d", "d", status);
+   viv(j, 0, "iauTf2d", "j", status);
+
+}
+
 static void t_tr(int *status)
 /*
 **  - - - - -
@@ -6345,6 +6683,258 @@ static void t_trxpv(int *status)
    vvd(trpv[1][0], 3.9, 1e-12, "iauTrxpv", "v1", status);
    vvd(trpv[1][1], 5.3, 1e-12, "iauTrxpv", "v2", status);
    vvd(trpv[1][2], 4.1, 1e-12, "iauTrxpv", "v3", status);
+
+}
+
+static void t_tttai(int *status)
+/*
+**  - - - - - - - -
+**   t _ t t t a i
+**  - - - - - - - -
+**
+**  Test iauTttai function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTttai, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double a1, a2;
+   int j;
+
+
+   j = iauTttai(2453750.5, 0.892482639, &a1, &a2);
+
+   vvd(a1, 2453750.5, 1e-6, "iauTttai", "a1", status);
+   vvd(a2, 0.892110139, 1e-12, "iauTttai", "a2", status);
+   viv(j, 0, "iauTttai", "j", status);
+
+}
+
+static void t_tttcg(int *status)
+/*
+**  - - - - - - - -
+**   t _ t t t c g
+**  - - - - - - - -
+**
+**  Test iauTttcg function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTttcg, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double g1, g2;
+   int j;
+
+
+   j = iauTttcg(2453750.5, 0.892482639, &g1, &g2);
+
+   vvd( g1, 2453750.5, 1e-6, "iauTttcg", "g1", status);
+   vvd( g2, 0.8924900312508587113, 1e-12, "iauTttcg", "g2", status);
+   viv(j, 0, "iauTttcg", "j", status);
+
+}
+
+static void t_tttdb(int *status)
+/*
+**  - - - - - - - -
+**   t _ t t t d b
+**  - - - - - - - -
+**
+**  Test iauTttdb function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTttdb, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double b1, b2;
+   int j;
+
+
+   j = iauTttdb(2453750.5, 0.892855139, -0.000201, &b1, &b2);
+
+   vvd(b1, 2453750.5, 1e-6, "iauTttdb", "b1", status);
+   vvd(b2, 0.8928551366736111111, 1e-12, "iauTttdb", "b2", status);
+   viv(j, 0, "iauTttdb", "j", status);
+
+}
+
+static void t_ttut1(int *status)
+/*
+**  - - - - - - - -
+**   t _ t t u t 1
+**  - - - - - - - -
+**
+**  Test iauTtut1 function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauTtut1, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauTtut1(2453750.5, 0.892855139, 64.8499, &u1, &u2);
+
+   vvd(u1, 2453750.5, 1e-6, "iauTtut1", "u1", status);
+   vvd(u2, 0.8921045614537037037, 1e-12, "iauTtut1", "u2", status);
+   viv(j, 0, "iauTtut1", "j", status);
+
+}
+
+static void t_ut1tai(int *status)
+/*
+**  - - - - - - - - -
+**   t _ u t 1 t a i
+**  - - - - - - - - -
+**
+**  Test iauUt1tai function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauUt1tai, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double a1, a2;
+   int j;
+
+
+   j = iauUt1tai(2453750.5, 0.892104561, -32.6659, &a1, &a2);
+
+   vvd(a1, 2453750.5, 1e-6, "iauUt1tai", "a1", status);
+   vvd(a2, 0.8924826385462962963, 1e-12, "iauUt1tai", "a2", status);
+   viv(j, 0, "iauUt1tai", "j", status);
+
+}
+
+static void t_ut1tt(int *status)
+/*
+**  - - - - - - - - - - -
+**   t _ u t 1 t t
+**  - - - - - - - - - - -
+**
+**  Test iauUt1tt function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauUt1tt, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double t1, t2;
+   int j;
+
+
+   j = iauUt1tt(2453750.5, 0.892104561, 64.8499, &t1, &t2);
+
+   vvd(t1, 2453750.5, 1e-6, "iauUt1tt", "t1", status);
+   vvd(t2, 0.8928551385462962963, 1e-12, "iauUt1tt", "t2", status);
+   viv(j, 0, "iauUt1tt", "j", status);
+
+}
+
+static void t_ut1utc(int *status)
+/*
+**  - - - - - - - - -
+**   t _ u t 1 u t c
+**  - - - - - - - - -
+**
+**  Test iauUt1utc function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauUt1utc, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauUt1utc(2453750.5, 0.892104561, 0.3341, &u1, &u2);
+
+   vvd(u1, 2453750.5, 1e-6, "iauUt1utc", "u1", status);
+   vvd(u2, 0.8921006941018518519, 1e-12, "iauUt1utc", "u2", status);
+   viv(j, 0, "iauUt1utc", "j", status);
+
+}
+
+static void t_utctai(int *status)
+/*
+**  - - - - - - - - -
+**   t _ u t c t a i
+**  - - - - - - - - -
+**
+**  Test iauUtctai function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauUtctai, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauUtctai(2453750.5, 0.892100694, &u1, &u2);
+
+   vvd(u1, 2453750.5, 1e-6, "iauUtctai", "u1", status);
+   vvd(u2, 0.8924826384444444444, 1e-12, "iauUtctai", "u2", status);
+   viv(j, 0, "iauUtctai", "j", status);
+
+}
+
+static void t_utcut1(int *status)
+/*
+**  - - - - - - - - -
+**   t _ u t c u t 1
+**  - - - - - - - - -
+**
+**  Test iauUtcut1 function.
+**
+**  Returned:
+**     status    int         TRUE = success, FALSE = fail
+**
+**  Called:  iauUtcut1, vvd, viv
+**
+**  This revision:  2010 September 7
+*/
+{
+   double u1, u2;
+   int j;
+
+
+   j = iauUtcut1(2453750.5, 0.892100694, 0.3341, &u1, &u2);
+
+   vvd(u1, 2453750.5, 1e-6, "iauUtcut1", "u1", status);
+   vvd(u2, 0.8921045608981481481, 1e-12, "iauUtcut1", "u2", status);
+   viv(j, 0, "iauUtcut1", "j", status);
 
 }
 
@@ -6578,7 +7168,7 @@ int main(int argc, char *argv[])
 **   m a i n
 **  - - - - -
 **
-**  This revision:  2009 November 4
+**  This revision:  2010 September 7
 */
 {
    int status;
@@ -6596,6 +7186,7 @@ int main(int argc, char *argv[])
 /* Test all of the SOFA functions. */
    t_a2af(&status);
    t_a2tf(&status);
+   t_af2a(&status);
    t_anp(&status);
    t_anpm(&status);
    t_bi00(&status);
@@ -6620,9 +7211,11 @@ int main(int argc, char *argv[])
    t_cp(&status);
    t_cpv(&status);
    t_cr(&status);
+   t_d2dtf(&status);
    t_d2tf(&status);
    t_dat(&status);
    t_dtdb(&status);
+   t_dtf2d(&status);
    t_ee00(&status);
    t_ee00a(&status);
    t_ee00b(&status);
@@ -6749,9 +7342,27 @@ int main(int argc, char *argv[])
    t_starpv(&status);
    t_sxp(&status);
    t_sxpv(&status);
+   t_taitt(&status);
+   t_taiut1(&status);
+   t_taiutc(&status);
+   t_tcbtdb(&status);
+   t_tcgtt(&status);
+   t_tdbtcb(&status);
+   t_tdbtt(&status);
+   t_tf2a(&status);
+   t_tf2d(&status);
    t_tr(&status);
    t_trxp(&status);
    t_trxpv(&status);
+   t_tttai(&status);
+   t_tttcg(&status);
+   t_tttdb(&status);
+   t_ttut1(&status);
+   t_ut1tai(&status);
+   t_ut1tt(&status) ;
+   t_ut1utc(&status);
+   t_utctai(&status);
+   t_utcut1(&status);
    t_xy06(&status);
    t_xys00a(&status);
    t_xys00b(&status);

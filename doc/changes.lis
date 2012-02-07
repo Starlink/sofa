@@ -1,102 +1,53 @@
-Changes for SOFA issue: 2009-12-31
+Changes for SOFA Issue: 2012-12-01
 
-New functions
+New routines:
+============
 
-  iauEform     a,f for a nominated Earth reference ellipsoid
-  iauGc2gd     geocentric to geodetic for a nominated ellipsoid
-  iauGc2gde    geocentric to geodetic given ellipsoid a,f
-  iauGd2gc     geodetic to geocentric for a nominated ellipsoid
-  iauGd2gce    geodetic to geocentric given ellipsoid a,f
+af2a.c
+d2dtf.c
+dtf2d.c
+taitt.c
+taiut1.c
+taiutc.c
+tcbtdb.c
+tcgtt.c
+tdbtcb.c
+tdbtt.c
+tf2a.c
+tf2d.c
+tttai.c
+tttcg.c
+tttdb.c
+ttut1.c
+ut1tai.c
+ut1tt.c
+ut1utc.c
+utctai.c
+utcut1.c
 
-Miscellaneous
+Changes:
+=======
 
-  Code now includes SOFA release ID.
+* dtdb.c: status downgraded from canonical model to support routine
 
-  Where appropriate, Julian and Besselian epochs such as J2000 and
-  B1900 have had the conventional ".0" added.  About one quarter of
-  all routines (plus one of the header files) were affected by this
-  cosmetic change.
+* gc2gd.c: WGS72 reference ellipsoid added to note.
 
-board.lis
+* gc2gde.c: commenting error for status corrected.
 
-  Change in email address.
+* gd2gc.c: WGS72 reference ellipsoid added to note.
 
-copyr.lis
+* jdcalf.c: bug corrected - result was truncated not rounded.
 
-  Revised copyright/license statement.
+* makefile: new routines added.
 
-cal2jd.c
+* nut00b.c: copyright statement was missing.
 
-  Additional static declaration.
+* rm2v.c: use of mixed-mode eliminated.
 
-dat.c
+* sofa.h: new routines added.
 
-  Variable dat changed to da to avoid clash with abbreviated
-  function name.
+* sofam.h: constants for time scale support added.
 
-fk5hz.c
+* t_sofa_c.c: new routines added.
 
-  Corrections to preamble comments.
-
-intro.lis
-
-  Revised.
-
-nut00b.c
-
-  Additional static declarations.
-
-s06.c
-
-  Additional static declarations.
-
-sofa.h
-
-  Reference to non-existent iauC2tceo function removed.
-
-starpv.c
-
-  Code improvements to avoid testing floating point quantities
-  for equality.
-
-t_sofa_c.c
-
-  Enhanced.
-
-title.lis
-
-  Updated.
-
-xy06.c
-
-  Additional static declarations.
-
-21/12/2009
-
-
-
-Revisions - 25/01/2010
-======================
-
-1) bp00.c, bpn2xy.c, c2i00a.c, c2i00b.c, c2ibpn.c, pn00a.c, pn00b.c, pn00.c, 
-   s00a.c, s00b.c, s00.c, s06a.c - correct Astronomy & Astrophysics reference.
-
-2) eform.c - add WGS72 reference ellipsoid.
-
-3) gc2gd.c, gd2gc.c - Correct name of routine for inverse transformation.
-
-4) gd2gc.for/c use routine ZP to zero vector.
-
-5) Correction to comment in pnm80.c.
-
-6) t_sofa_f.c - Update validation routine.
-
-7) Correct typos in manual.lis and intro.lis.
-
-
-
-Revision - 27/01/2010
-=====================
-
-1) Test program t_sofa_c.c has been updated to provide correct verification of
-   eform.c, gc2gd.c and gd2gc.c. 
+2010/12/01

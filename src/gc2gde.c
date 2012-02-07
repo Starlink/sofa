@@ -28,8 +28,8 @@ int iauGc2gde ( double a, double f, double xyz[3],
 **  Returned (function value):
 **            int       status:
 **                          0 = OK
-**                         -1 = illegal a
-**                         -2 = illegal f
+**                         -1 = illegal f
+**                         -2 = illegal a
 **
 **  Notes:
 **
@@ -63,11 +63,11 @@ int iauGc2gde ( double a, double f, double xyz[3],
 **     coordinates accelerated by Halley's method", J.Geodesy (2006)
 **     79: 689-693
 **
-**  This revision:  2009 November 2
+**  This revision:  2010 October 22
 **
-**  SOFA release 2009-12-31
+**  SOFA release 2010-12-01
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 {
    double aeps2, e2, e4t, ec2, ec, b, x, y, z, p2, absz, p, s0, pn, zc,
@@ -155,8 +155,8 @@ int iauGc2gde ( double a, double f, double xyz[3],
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -168,7 +168,7 @@ int iauGc2gde ( double a, double f, double xyz[3],
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -193,7 +193,7 @@ int iauGc2gde ( double a, double f, double xyz[3],
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -239,11 +239,12 @@ int iauGc2gde ( double a, double f, double xyz[3],
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

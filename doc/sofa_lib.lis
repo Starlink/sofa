@@ -1,4 +1,4 @@
-sofa_lib.lis                                             2009 November 2
+sofa_lib.lis                                            2010 September 5
 
                      ----------------------
                      SOFA Astronomy Library
@@ -77,8 +77,26 @@ ROUTINES
 
   Time scales
 
+     D2DTF     format 2-part JD for output
      DAT       Delta(AT) (=TAI-UTC) for a given UTC date
      DTDB      TDB-TT
+     DTF2D     encode time and date fields into 2-part JD
+     TAITT     TAI to TT
+     TAIUT1    TAI to UT1
+     TAIUTC    TAI to UTC
+     TCBTDB    TCB to TDB
+     TCGTT     TCG to TT
+     TDBTCB    TDB to TCB
+     TDBTT     TDB to TT
+     TTTAI     TT to TAI
+     TTTCG     TT to TCG
+     TTTDB     TT to TDB
+     TTUT1     TT to UT1
+     UT1TAI    UT1 to TAI
+     UT1TT     UT1 to TT
+     UT1UTC    UT1 to UTC
+     UTCTAI    UTC to TAI
+     UTCUT1    UTC to UT1
 
   Earth rotation angle and sidereal time
 
@@ -232,8 +250,10 @@ CALLS: FORTRAN VERSION
    CALL iau_C2TPE  ( TTA, TTB, UTA, UTB, DPSI, DEPS, XP, YP, RC2T )
    CALL iau_C2TXY  ( TTA, TTB, UTA, UTB, X, Y, XP, YP, RC2T )
    CALL iau_CAL2JD ( IY, IM, ID, DJM0, DJM, J )
+   CALL iau_D2DTF  ( SCALE, NDP, D1, D2, IY, IM, ID, IHMSF, J )
    CALL iau_DAT    ( IY, IM, ID, FD, DELTAT, J )
    D =  iau_DTDB   ( DATE1, DATE2, UT, ELONG, U, V )
+   CALL iau_DTF2D  ( SCALE, IY, IM, ID, IHR, IMN, SEC, D1, D2, J )
    D =  iau_EE00   ( DATE1, DATE2, EPSA, DPSI )
    D =  iau_EE00A  ( DATE1, DATE2 )
    D =  iau_EE00B  ( DATE1, DATE2 )
@@ -334,6 +354,22 @@ CALLS: FORTRAN VERSION
   :                  EP1A, EP1B, EP2A, EP2B,
   :                  RA2, DEC2, PMR2, PMD2, PX2, RV2, J )
    CALL iau_STARPV ( RA, DEC, PMR, PMD, PX, RV, PV, J )
+   CALL iau_TAITT  ( TAI1, TAI2, TT1, TT2, J )
+   CALL iau_TAIUT1 ( TAI1, TAI2, DTA, UT11, UT12, J )
+   CALL iau_TAIUTC ( TAI1, TAI2, UTC1, UTC2, J )
+   CALL iau_TCBTDB ( TCB1, TCB2, TDB1, TDB2, J )
+   CALL iau_TCGTT  ( TCG1, TCG2, TT1, TT2, J )
+   CALL iau_TDBTCB ( TDB1, TDB2, TCB1, TCB2, J )
+   CALL iau_TDBTT  ( TDB1, TDB2, DTR, TT1, TT2, J )
+   CALL iau_TTTAI  ( TT1, TT2, TAI1, TAI2, J )
+   CALL iau_TTTCG  ( TT1, TT2, TCG1, TCG2, J )
+   CALL iau_TTTDB  ( TT1, TT2, DTR, TDB1, TDB2, J )
+   CALL iau_TTUT1  ( TT1, TT2, DT, UT11, UT12, J )
+   CALL iau_UT1TAI ( UT11, UT12, TAI1, TAI2, J )
+   CALL iau_UT1TT  ( UT11, UT12, DT, TT1, TT2, J )
+   CALL iau_UT1UTC ( UT11, UT12, DUT, UTC1, UTC2, J )
+   CALL iau_UTCTAI ( UTC1, UTC2, DTA, TAI1, TAI2, J )
+   CALL iau_UTCUT1 ( UTC1, UTC2, DUT, UT11, UT12, J )
    CALL iau_XY06   ( DATE1, DATE2, X, Y )
    CALL iau_XYS00A ( DATE1, DATE2, X, Y, S )
    CALL iau_XYS00B ( DATE1, DATE2, X, Y, S )
@@ -360,8 +396,11 @@ CALLS: C VERSION
        iauC2tpe  ( tta, ttb, uta, utb, dpsi, deps, xp, yp, rc2t );
        iauC2txy  ( tta, ttb, uta, utb, x, y, xp, yp, rc2t );
    i = iauCal2jd ( iy, im, id, &djm0, &djm );
+   i = iauD2dtf  ( scale, ndp, d1, d2, &iy, &im, &id, ihmsf );
+
    i = iauDat    ( iy, im, id, fd, &deltat );
    d = iauDtdb   ( date1, date2, ut, elong, u, v );
+   i = iauDtf2d  ( scale, iy, im, id, ihr, imn, sec, &d1, &d2 );
    d = iauEe00   ( date1, date2, epsa, dpsi );
    d = iauEe00a  ( date1, date2 );
    d = iauEe00b  ( date1, date2 );
@@ -464,6 +503,22 @@ CALLS: C VERSION
                    ep1a, ep1b, ep2a, ep2b,
                    &ra2, &dec2, &pmr2, &pmd2, &px2, &rv2 );
    i = iauStarpv ( ra, dec, pmr, pmd, px, rv, pv );
+   i = iauTaitt  ( tai1, tai2, &tt1, &tt2 );
+   i = iauTaiut1 ( tai1, tai2, dta, &ut11, &ut12 );
+   i = iauTaiutc ( tai1, tai2, &utc1, &utc2 );
+   i = iauTcbtdb ( tcb1, tcb2, &tdb1, &tdb2 );
+   i = iauTcgtt  ( tcg1, tcg2, &tt1, &tt2 );
+   i = iauTdbtcb ( tdb1, tdb2, &tcb1, &tcb2 );
+   i = iauTdbtt  ( tdb1, tdb2, dtr, &tt1, &tt2 );
+   i = iauTttai  ( tt1, tt2, &tai1, &tai2 );
+   i = iauTttcg  ( tt1, tt2, &tcg1, &tcg2 );
+   i = iauTttdb  ( tt1, tt2, dtr, &tdb1, &tdb2 );
+   i = iauTtut1  ( tt1, tt2, dt, &ut11, &ut12 );
+   i = iauUt1tai ( ut11, ut12, &tai1, &tai2 );
+   i = iauUt1tt  ( ut11, ut12, dt, &tt1, &tt2 );
+   i = iauUt1utc ( ut11, ut12, dut, &utc1, &utc2 );
+   i = iauUtctai ( utc1, utc2, dta, &tai1, &tai2 );
+   i = iauUtcut1 ( utc1, utc2, dut, &ut11, &ut12 );
        iauXy06   ( date1, date2, &x, &y );
        iauXys00a ( date1, date2, &x, &y, &s );
        iauXys00b ( date1, date2, &x, &y, &s );

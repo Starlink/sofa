@@ -41,9 +41,9 @@ double iauFave03(double t)
 **
 **  This revision:  2009 December 16
 **
-**  SOFA release 2009-12-31
+**  SOFA release 2010-12-01
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 {
    double a;
@@ -56,8 +56,8 @@ double iauFave03(double t)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -69,7 +69,7 @@ double iauFave03(double t)
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -94,7 +94,7 @@ double iauFave03(double t)
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -140,11 +140,12 @@ double iauFave03(double t)
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

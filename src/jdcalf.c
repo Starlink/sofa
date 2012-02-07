@@ -60,11 +60,11 @@ int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4])
 **     P. Kenneth Seidelmann (ed), University Science Books (1992),
 **     Section 12.92 (p604).
 **
-**  This revision:  2008 October 28
+**  This revision:  2010 July 27
 **
-**  SOFA release 2009-12-31
+**  SOFA release 2010-12-01
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 {
    int j, js;
@@ -97,12 +97,12 @@ int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4])
    d2 = floor(d2 - f2);
 
 /* Round the total fraction to the specified number of places. */
-   f = floor((f1 + f2) * denom) / denom;
+   f = floor((f1+f2)*denom + 0.5) / denom;
 
 /* Re-assemble the rounded date and re-align to noon. */
    d2 += f + 0.5;
 
-/* Convert to Gregorian Calendar. */
+/* Convert to Gregorian calendar. */
    js = iauJd2cal(d1, d2, &iymdf[0], &iymdf[1], &iymdf[2], &f);
    if (js == 0) {
       iymdf[3] = (int) (f * denom);
@@ -115,8 +115,8 @@ int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -128,7 +128,7 @@ int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4])
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -153,7 +153,7 @@ int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4])
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -199,11 +199,12 @@ int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4])
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

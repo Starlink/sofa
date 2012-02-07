@@ -33,7 +33,7 @@
 #      make distclean     clean up and deinstall
 #      make realclean     same as make clean
 #
-# Last revision:   2009 November 20
+# Last revision:   2010 September 7
 #
 # Copyright International Astronomical Union.  All rights reserved.
 #
@@ -91,9 +91,9 @@ SOFA_INC_NAMES = sofa.h sofam.h
 SOFA_INC = $(SOFA_INC_DIR)sofa.h $(SOFA_INC_DIR)sofam.h
 
 # The list of SOFA/C library object files.
-
 SOFA_OBS = iauA2af.o \
            iauA2tf.o \
+           iauAf2a.o \
            iauAnp.o \
            iauAnpm.o \
            iauBi00.o \
@@ -118,9 +118,11 @@ SOFA_OBS = iauA2af.o \
            iauCp.o \
            iauCpv.o \
            iauCr.o \
+           iauD2dtf.o \
            iauD2tf.o \
            iauDat.o \
            iauDtdb.o \
+           iauDtf2d.o \
            iauEe00.o \
            iauEe00a.o \
            iauEe00b.o \
@@ -247,9 +249,27 @@ SOFA_OBS = iauA2af.o \
            iauStarpv.o \
            iauSxp.o \
            iauSxpv.o \
+           iauTaitt.o \
+           iauTaiut1.o \
+           iauTaiutc.o \
+           iauTcbtdb.o \
+           iauTcgtt.o \
+           iauTdbtcb.o \
+           iauTdbtt.o \
+           iauTf2a.o \
+           iauTf2d.o \
            iauTr.o \
            iauTrxp.o \
            iauTrxpv.o \
+           iauTttai.o \
+           iauTttcg.o \
+           iauTttdb.o \
+           iauTtut1.o \
+           iauUt1tai.o \
+           iauUt1tt.o \
+           iauUt1utc.o \
+           iauUtctai.o \
+           iauUtcut1.o \
            iauXy06.o \
            iauXys00a.o \
            iauXys00b.o \
@@ -321,6 +341,8 @@ iauA2af.o   : a2af.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ a2af.c
 iauA2tf.o   : a2tf.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ a2tf.c
+iauAf2a.o   : af2a.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ af2a.c
 iauAnp.o    : anp.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ anp.c
 iauAnpm.o   : anpm.c   sofa.h sofam.h
@@ -369,12 +391,16 @@ iauCpv.o    : cpv.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ cpv.c
 iauCr.o     : cr.c     sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ cr.c
+iauD2dtf.o  : d2dtf.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ d2dtf.c
 iauD2tf.o   : d2tf.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ d2tf.c
 iauDat.o    : dat.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ dat.c
 iauDtdb.o   : dtdb.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ dtdb.c
+iauDtf2d.o  : dtf2d.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ dtf2d.c
 iauEe00.o   : ee00.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ ee00.c
 iauEe00a.o  : ee00a.c  sofa.h sofam.h
@@ -627,12 +653,48 @@ iauSxp.o    : sxp.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ sxp.c
 iauSxpv.o   : sxpv.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ sxpv.c
+iauTaitt.o  : taitt.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ taitt.c
+iauTaiut1.o : taiut1.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ taiut1.c
+iauTaiutc.o : taiutc.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ taiutc.c
+iauTcbtdb.o : tcbtdb.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tcbtdb.c
+iauTcgtt.o  : tcgtt.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tcgtt.c
+iauTdbtcb.o : tdbtcb.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tdbtcb.c
+iauTdbtt.o  : tdbtt.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tdbtt.c
+iauTf2a.o   : tf2a.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tf2a.c
+iauTf2d.o   : tf2d.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tf2d.c
 iauTr.o     : tr.c     sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ tr.c
 iauTrxp.o   : trxp.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ trxp.c
 iauTrxpv.o  : trxpv.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ trxpv.c
+iauTttai.o  : tttai.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tttai.c
+iauTttcg.o  : tttcg.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tttcg.c
+iauTttdb.o  : tttdb.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ tttdb.c
+iauTtut1.o  : ttut1.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ttut1.c
+iauUt1tai.o : ut1tai.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ut1tai.c
+iauUt1tt.o  : ut1tt.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ut1tt.c
+iauUt1utc.o : ut1utc.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ut1utc.c
+iauUtctai.o : utctai.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ utctai.c
+iauUtcut1.o : utcut1.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ utcut1.c
 iauXy06.o   : xy06.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ xy06.c
 iauXys00a.o : xys00a.c sofa.h sofam.h

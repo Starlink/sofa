@@ -49,15 +49,15 @@
                   Commission 19: Rotation of the Earth
 
 
-            Standards Of Fundamental Astronomy Review Board
+                Standards Of Fundamental Astronomy Board
 
 
 
 
 
-                               Release 6
+                              8th Release
 
-                            2008 December 1
+                           2010 September 5
 
 contents.lis                                           2008 September 30
 
@@ -85,7 +85,7 @@ contents.lis                                           2008 September 30
 
                  A3   SOFA Review Board membership
 
-intro.lis                                                2009 November 2
+intro.lis                                               2010 September 5
 
 
                   -------------------------------
@@ -96,8 +96,8 @@ intro.lis                                                2009 November 2
   SOFA stands for "Standards Of Fundamental Astronomy".  The SOFA
   software libraries are a collection of subprograms, in source-
   code form, which implement official IAU algorithms for fundamental-
-  astronomy computations.   The subprograms at present comprise 113
-  "astronomy" routines supported by 52 "vector/matrix" routines,
+  astronomy computations.   The subprograms at present comprise 131
+  "astronomy" routines supported by 55 "vector/matrix" routines,
   available in both Fortran77 and C implementations.
 
 
@@ -162,13 +162,13 @@ SCOPE
 The routines currently available are listed in the next two chapters of
 this document.
 
-The "astronomy" library comprises 113 routines (plus one obsolete
+The "astronomy" library comprises 131 routines (plus one obsolete
 Fortran routine that now appears under a revised name).  The areas
 addressed include calendars, time scales, ephemerides, precession-
 nutation, star space-motion, star catalog transformations and
 geodetic/geocentric transformations.
 
-The "vector-matrix" library, comprising 52 routines, contains a
+The "vector-matrix" library, comprising 55 routines, contains a
 collection of simple tools for manipulating the vectors, matrices and
 angles used by the astronomy routines.
 
@@ -196,8 +196,8 @@ advantages to prospective users.  In particular, the routines are:
 
 VERSIONS
 
-Once it has been published, an issue will not be revised or updated and
-will remain accessible indefinitely.  Subsequent issues may, however,
+Once it has been published, an issue is never revised or updated, and
+remains accessible indefinitely.  Subsequent issues may, however,
 include corrected versions under the original routine name and
 filenames.  However, where a different model is introduced, it will have
 a different name.
@@ -298,7 +298,7 @@ Resources for operating the SOFA Center are provided by Her Majesty's
 Nautical Almanac Office, operated by the United Kingdom Hydrographic
 Office.
 
-sofa_lib.lis                                             2009 November 2
+sofa_lib.lis                                            2010 September 5
 
                      ----------------------
                      SOFA Astronomy Library
@@ -377,8 +377,26 @@ ROUTINES
 
   Time scales
 
+     D2DTF     format 2-part JD for output
      DAT       Delta(AT) (=TAI-UTC) for a given UTC date
      DTDB      TDB-TT
+     DTF2D     encode time and date fields into 2-part JD
+     TAITT     TAI to TT
+     TAIUT1    TAI to UT1
+     TAIUTC    TAI to UTC
+     TCBTDB    TCB to TDB
+     TCGTT     TCG to TT
+     TDBTCB    TDB to TCB
+     TDBTT     TDB to TT
+     TTTAI     TT to TAI
+     TTTCG     TT to TCG
+     TTTDB     TT to TDB
+     TTUT1     TT to UT1
+     UT1TAI    UT1 to TAI
+     UT1TT     UT1 to TT
+     UT1UTC    UT1 to UTC
+     UTCTAI    UTC to TAI
+     UTCUT1    UTC to UT1
 
   Earth rotation angle and sidereal time
 
@@ -532,8 +550,10 @@ CALLS: FORTRAN VERSION
    CALL iau_C2TPE  ( TTA, TTB, UTA, UTB, DPSI, DEPS, XP, YP, RC2T )
    CALL iau_C2TXY  ( TTA, TTB, UTA, UTB, X, Y, XP, YP, RC2T )
    CALL iau_CAL2JD ( IY, IM, ID, DJM0, DJM, J )
+   CALL iau_D2DTF  ( SCALE, NDP, D1, D2, IY, IM, ID, IHMSF, J )
    CALL iau_DAT    ( IY, IM, ID, FD, DELTAT, J )
    D =  iau_DTDB   ( DATE1, DATE2, UT, ELONG, U, V )
+   CALL iau_DTF2D  ( SCALE, IY, IM, ID, IHR, IMN, SEC, D1, D2, J )
    D =  iau_EE00   ( DATE1, DATE2, EPSA, DPSI )
    D =  iau_EE00A  ( DATE1, DATE2 )
    D =  iau_EE00B  ( DATE1, DATE2 )
@@ -634,6 +654,22 @@ CALLS: FORTRAN VERSION
   :                  EP1A, EP1B, EP2A, EP2B,
   :                  RA2, DEC2, PMR2, PMD2, PX2, RV2, J )
    CALL iau_STARPV ( RA, DEC, PMR, PMD, PX, RV, PV, J )
+   CALL iau_TAITT  ( TAI1, TAI2, TT1, TT2, J )
+   CALL iau_TAIUT1 ( TAI1, TAI2, DTA, UT11, UT12, J )
+   CALL iau_TAIUTC ( TAI1, TAI2, UTC1, UTC2, J )
+   CALL iau_TCBTDB ( TCB1, TCB2, TDB1, TDB2, J )
+   CALL iau_TCGTT  ( TCG1, TCG2, TT1, TT2, J )
+   CALL iau_TDBTCB ( TDB1, TDB2, TCB1, TCB2, J )
+   CALL iau_TDBTT  ( TDB1, TDB2, DTR, TT1, TT2, J )
+   CALL iau_TTTAI  ( TT1, TT2, TAI1, TAI2, J )
+   CALL iau_TTTCG  ( TT1, TT2, TCG1, TCG2, J )
+   CALL iau_TTTDB  ( TT1, TT2, DTR, TDB1, TDB2, J )
+   CALL iau_TTUT1  ( TT1, TT2, DT, UT11, UT12, J )
+   CALL iau_UT1TAI ( UT11, UT12, TAI1, TAI2, J )
+   CALL iau_UT1TT  ( UT11, UT12, DT, TT1, TT2, J )
+   CALL iau_UT1UTC ( UT11, UT12, DUT, UTC1, UTC2, J )
+   CALL iau_UTCTAI ( UTC1, UTC2, DTA, TAI1, TAI2, J )
+   CALL iau_UTCUT1 ( UTC1, UTC2, DUT, UT11, UT12, J )
    CALL iau_XY06   ( DATE1, DATE2, X, Y )
    CALL iau_XYS00A ( DATE1, DATE2, X, Y, S )
    CALL iau_XYS00B ( DATE1, DATE2, X, Y, S )
@@ -660,8 +696,11 @@ CALLS: C VERSION
        iauC2tpe  ( tta, ttb, uta, utb, dpsi, deps, xp, yp, rc2t );
        iauC2txy  ( tta, ttb, uta, utb, x, y, xp, yp, rc2t );
    i = iauCal2jd ( iy, im, id, &djm0, &djm );
+   i = iauD2dtf  ( scale, ndp, d1, d2, &iy, &im, &id, ihmsf );
+
    i = iauDat    ( iy, im, id, fd, &deltat );
    d = iauDtdb   ( date1, date2, ut, elong, u, v );
+   i = iauDtf2d  ( scale, iy, im, id, ihr, imn, sec, &d1, &d2 );
    d = iauEe00   ( date1, date2, epsa, dpsi );
    d = iauEe00a  ( date1, date2 );
    d = iauEe00b  ( date1, date2 );
@@ -764,12 +803,28 @@ CALLS: C VERSION
                    ep1a, ep1b, ep2a, ep2b,
                    &ra2, &dec2, &pmr2, &pmd2, &px2, &rv2 );
    i = iauStarpv ( ra, dec, pmr, pmd, px, rv, pv );
+   i = iauTaitt  ( tai1, tai2, &tt1, &tt2 );
+   i = iauTaiut1 ( tai1, tai2, dta, &ut11, &ut12 );
+   i = iauTaiutc ( tai1, tai2, &utc1, &utc2 );
+   i = iauTcbtdb ( tcb1, tcb2, &tdb1, &tdb2 );
+   i = iauTcgtt  ( tcg1, tcg2, &tt1, &tt2 );
+   i = iauTdbtcb ( tdb1, tdb2, &tcb1, &tcb2 );
+   i = iauTdbtt  ( tdb1, tdb2, dtr, &tt1, &tt2 );
+   i = iauTttai  ( tt1, tt2, &tai1, &tai2 );
+   i = iauTttcg  ( tt1, tt2, &tcg1, &tcg2 );
+   i = iauTttdb  ( tt1, tt2, dtr, &tdb1, &tdb2 );
+   i = iauTtut1  ( tt1, tt2, dt, &ut11, &ut12 );
+   i = iauUt1tai ( ut11, ut12, &tai1, &tai2 );
+   i = iauUt1tt  ( ut11, ut12, dt, &tt1, &tt2 );
+   i = iauUt1utc ( ut11, ut12, dut, &utc1, &utc2 );
+   i = iauUtctai ( utc1, utc2, dta, &tai1, &tai2 );
+   i = iauUtcut1 ( utc1, utc2, dut, &ut11, &ut12 );
        iauXy06   ( date1, date2, &x, &y );
        iauXys00a ( date1, date2, &x, &y, &s );
        iauXys00b ( date1, date2, &x, &y, &s );
        iauXys06a ( date1, date2, &x, &y, &s );
 
-sofa_vml.lis                                              2008 October 7
+sofa_vml.lis                                            2010 September 5
 
                    --------------------------
                    SOFA Vector/Matrix Library
@@ -952,15 +1007,19 @@ OPERATIONS ON ANGLES
 
      ANP       normalize radians to range 0 to 2pi
      ANPM      normalize radians to range -pi to +pi
-     A2TF      decompose radians into hms
-     A2AF      decompose radians into d ' "
-     D2TF      decompose days into hms
+     A2TF      decompose radians into hours, minutes, seconds
+     A2AF      decompose radians into degrees, arcminutes, arcseconds
+     AF2A      degrees, arcminutes, arcseconds to radians
+     D2TF      decompose days into hours, minutes, seconds
+     TF2A      hours, minutes, seconds to radians
+     TF2D      hours, minutes, seconds to days
 
 
 CALLS: FORTRAN VERSION
 
    CALL iau_A2AF  ( NDP, ANGLE, SIGN, IDMSF )
    CALL iau_A2TF  ( NDP, ANGLE, SIGN, IHMSF )
+   CALL iau_AF2A  ( S, IDEG, IAMIN, ASEC, RAD, J )
    D =  iau_ANP   ( A )
    D =  iau_ANPM  ( A )
    CALL iau_C2S   ( P, THETA, PHI )
@@ -1005,6 +1064,8 @@ CALLS: FORTRAN VERSION
    CALL iau_SEPS  ( AL, AP, BL, BP, S )
    CALL iau_SXP   ( S, P, SP )
    CALL iau_SXPV  ( S, PV, SPV )
+   CALL iau_TF2A  ( S, IHOUR, IMIN, SEC, RAD, J )
+   CALL iau_TF2D  ( S, IHOUR, IMIN, SEC, DAYS, J )
    CALL iau_TR    ( R, RT )
    CALL iau_TRXP  ( R, P, TRP )
    CALL iau_TRXPV ( R, PV, TRPV )
@@ -1017,6 +1078,7 @@ CALLS: C VERSION
 
         iauA2af  ( ndp, angle, &sign, idmsf );
         iauA2tf  ( ndp, angle, &sign, ihmsf );
+   i =  iauAf2a  ( s, ideg, iamin, asec, &rad );
    d =  iauAnp   ( a );
    d =  iauAnpm  ( a );
         iauC2s   ( p, &theta, &phi );
@@ -1061,6 +1123,8 @@ CALLS: C VERSION
     d = iauSeps  ( al, ap, bl, bp );
         iauSxp   ( s, p, sp );
         iauSxpv  ( s, pv, spv );
+    i = iauTf2a  ( s, ihour, imin, sec, &rad );
+    i = iauTf2d  ( s, ihour, imin, sec, &days );
         iauTr    ( r, rt );
         iauTrxp  ( r, p, trp );
         iauTrxpv ( r, pv, trpv );
@@ -1185,6 +1249,45 @@ void iauA2tf(int ndp, double angle, char *sign, int ihmsf[4])
 **     does not, it is up to the caller to test for and handle the
 **     case where angle is very nearly 2pi and rounds up to 24 hours,
 **     by testing for ihmsf[0]=24 and setting ihmsf(0-3) to zero.
+**
+*/
+
+
+
+int iauAf2a(int s, int ideg, int iamin, double asec, double *rad)
+/*
+**  - - - - - - - -
+**   i a u A f 2 a
+**  - - - - - - - -
+**
+**  Convert degrees, arcminutes, arcseconds to radians.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  support function.
+**
+**  Given:
+**     s         int     sign:  '-' = negative, otherwise positive
+**     ideg      int     degrees
+**     iamin     int     arcminutes
+**     asec      double  arcseconds
+**
+**  Returned:
+**     rad       double  angle in radians
+**
+**  Returned (function value):
+**               int     status:  0 = OK
+**                                1 = ideg outside range 0-359
+**                                2 = iamin outside range 0-59
+**                                3 = asec outside range 0-59.999...
+**
+**  Notes:
+**
+**  1)  The result is computed even if any of the range checks fail.
+**
+**  2)  Negative ideg, iamin and/or asec produce a warning status, but
+**      the absolute value is used in the conversion.
 **
 */
 
@@ -1356,7 +1459,7 @@ void iauBp00(double date1, double date2,
 **  Reference:
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -1467,7 +1570,7 @@ void iauBpn2xy(double rbpn[3][3], double *x, double *y)
 **
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154
+**     nutation model", Astron.Astrophys. 400, 1145-1154
 **     (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
@@ -1541,7 +1644,7 @@ void iauC2i00a(double date1, double date2, double rc2i[3][3])
 **
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154
+**     nutation model", Astron.Astrophys. 400, 1145-1154
 **     (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
@@ -1618,7 +1721,7 @@ void iauC2i00b(double date1, double date2, double rc2i[3][3])
 **
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154
+**     nutation model", Astron.Astrophys. 400, 1145-1154
 **     (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
@@ -1767,7 +1870,7 @@ void iauC2ibpn(double date1, double date2, double rbpn[3][3],
 **  References:
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -2616,6 +2719,82 @@ void iauCr(double r[3][3], double c[3][3])
 
 
 
+int iauD2dtf(char *scale, int ndp, double d1, double d2,
+             int *iy, int *im, int *id, int ihmsf[4])
+/*
+**  - - - - - - - - -
+**   i a u D 2 d t f
+**  - - - - - - - - -
+**
+**  Format for output a 2-part Julian Date (or in the case of UTC a
+**  quasi-JD form that includes special provision for leap seconds).
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  support function.
+**
+**  Given:
+**     scale     char[]  time scale ID (Note 1)
+**     ndp       int     resolution (Note 2)
+**     d1,d2     double  time as a 2-part Julian Date (Notes 3,4)
+**
+**  Returned:
+**     iy,im,id  int     year, month, day in Gregorian calendar (Note 5)
+**     ihmsf     int[4]  hours, minutes, seconds, fraction (Note 1)
+**
+**  Returned (function value):
+**                int       status: +1 = dubious year (Note 5)
+**                                   0 = OK
+**                                  -1 = unacceptable date (Note 6)
+**
+**  Notes:
+**
+**  1) scale identifies the time scale.  Only the value "UTC" (in upper
+**     case) is significant, and enables handling of leap seconds (see
+**     Note 4).
+**
+**  2) ndp is the number of decimal places in the seconds field, and can
+**     have negative as well as positive values, such as:
+**
+**     ndp         resolution
+**     -4            1 00 00
+**     -3            0 10 00
+**     -2            0 01 00
+**     -1            0 00 10
+**      0            0 00 01
+**      1            0 00 00.1
+**      2            0 00 00.01
+**      3            0 00 00.001
+**
+**     The limits are platform dependent, but a safe range is -5 to +9.
+**
+**  3) d1+d2 is Julian Date, apportioned in any convenient way between
+**     the two arguments, for example where d1 is the Julian Day Number
+**     and d2 is the fraction of a day.  In the case of UTC, where the
+**     use of JD is problematical, special conventions apply:  see the
+**     next note.
+**
+**  4) JD cannot unambiguously represent UTC during a leap second unless
+**     special measures are taken.  The SOFA internal convention is that
+**     the quasi-JD day represents UTC days whether the length is 86399,
+**     86400 or 86401 SI seconds.
+**
+**  5) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat for further details.
+**
+**  6) For calendar conventions and limitations, see iauCal2jd.
+**
+**  Called:
+**     iauJd2cal    JD to Gregorian calendar
+**     iauD2tf      decompose days to hms
+**     iauDat       delta(AT) = TAI-UTC
+**
+*/
+
+
+
 void iauD2tf(int ndp, double days, char *sign, int ihmsf[4])
 /*
 **  - - - - - - - -
@@ -2837,7 +3016,7 @@ double iauDtdb(double date1, double date2,
 **  This function is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  Status:  canonical model.
+**  Status:  support routine.
 **
 **  Given:
 **     date1,date2   double  date, TDB (Notes 1-3)
@@ -2955,6 +3134,86 @@ double iauDtdb(double date1, double date2,
 **
 **     Simon, J.L., Bretagnon, P., Chapront, J., Chapront-Touze, M.,
 **     Francou, G. & Laskar, J., Astron.Astrophys., 282, 663-683 (1994).
+**
+*/
+
+
+
+int iauDtf2d(char *scale, int iy, int im, int id,
+             int ihr, int imn, double sec, double *d1, double *d2)
+/*
+**  - - - - - - - - -
+**   i a u D t f 2 d
+**  - - - - - - - - -
+**
+**  Encode date and time fields into 2-part Julian Date (or in the case
+**  of UTC a quasi-JD form that includes special provision for leap
+**  seconds).
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  support function.
+**
+**  Given:
+**     scale     char[]  time scale ID (Note 1)
+**     iy,im,id  int     year, month, day in Gregorian calendar (Note 2)
+**     ihr,imn   int     hour, minute
+**     sec       double  seconds
+**
+**  Returned:
+**     dj1,dj2   double  2-part Julian Date (Notes 3,4)
+**
+**  Returned (function value):
+**               int     status: +3 = both of next two
+**                               +2 = time is after end of day (Note 5)
+**                               +1 = dubious year (Note 6)
+**                                0 = OK
+**                               -1 = bad year
+**                               -2 = bad month
+**                               -3 = bad day
+**                               -4 = bad hour
+**                               -5 = bad minute
+**                               -6 = bad second (<0)
+**
+**  Notes:
+**
+**  1) scale identifies the time scale.  Only the value "UTC" (in upper
+**     case) is significant, and enables handling of leap seconds (see
+**     Note 4).
+**
+**  2) For calendar conventions and limitations, see iauCal2jd.
+**
+**  3) The sum of the results, d1+d2, is Julian Date, where normally d1
+**     is the Julian Day Number and d2 is the fraction of a day.  In the
+**     case of UTC, where the use of JD is problematical, special
+**     conventions apply:  see the next note.
+**
+**  4) JD cannot unambiguously represent UTC during a leap second unless
+**     special measures are taken.  The SOFA internal convention is that
+**     the quasi-JD day represents UTC days whether the length is 86399,
+**     86400 or 86401 SI seconds.
+**
+**  5) The warning status "time is after end of day" usually means that
+**     the sec argument is greater than 60.0.  However, in a day ending
+**     in a leap second the limit changes to 61.0 (or 59.0 in the case
+**     of a negative leap second).
+**
+**  6) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat for further details.
+**
+**  7) Only in the case of continuous and regular time scales (TAI, TT,
+**     TCG, TCB and TDB) is the result DJ1+DJ2 a Julian Date, strictly
+**     speaking.  In the other cases (UT1 and UTC) the result must be
+**     used with circumspection;  in particular the difference between
+**     two such results cannot be interpreted as a precise time
+**     interval.
+**
+**  Called:
+**     iauCal2jd    Gregorian calendar to JD
+**     iauDat       delta(AT) = TAI-UTC
+**     iauJd2cal    JD to Gregorian calendar
 **
 */
 
@@ -3362,6 +3621,7 @@ int iauEform ( int n, double *a, double *f )
 **
 **        1    WGS84
 **        2    GRS80
+**        3    WGS72
 **
 **     The number n has no significance outside the SOFA software.
 **
@@ -3379,6 +3639,9 @@ int iauEform ( int n, double *a, double *f )
 **     Edition, p3-2.
 **
 **     Moritz, H., Bull. Geodesique 66-2, 187 (1992).
+**
+**     The Department of Defense World Geodetic System 1972, World
+**     Geodetic System Committee, May 1974.
 **
 **     Explanatory Supplement to the Astronomical Almanac,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992),
@@ -4797,6 +5060,7 @@ int iauGc2gd ( int n, double xyz[3],
 **
 **        1    WGS84
 **        2    GRS80
+**        3    WGS72
 **
 **     The number n has no significance outside the SOFA software.
 **
@@ -4807,7 +5071,7 @@ int iauGc2gd ( int n, double xyz[3],
 **     error status -2 is theoretically impossible.  In all error cases,
 **     phi and height are both set to -1e9.
 **
-**  4) The inverse transformation is performed in the function iauGd2c.
+**  4) The inverse transformation is performed in the function iauGd2gc.
 **
 **  Called:
 **     iauEform     Earth reference ellipsoids
@@ -4845,8 +5109,8 @@ int iauGc2gde ( double a, double f, double xyz[3],
 **  Returned (function value):
 **            int       status:
 **                          0 = OK
-**                         -1 = illegal a
-**                         -2 = illegal f
+**                         -1 = illegal f
+**                         -2 = illegal a
 **
 **  Notes:
 **
@@ -4923,6 +5187,7 @@ int iauGd2gc ( int n, double elong, double phi, double height,
 **
 **        1    WGS84
 **        2    GRS80
+**        3    WGS72
 **
 **     The number n has no significance outside the SOFA software.
 **
@@ -4935,12 +5200,12 @@ int iauGd2gc ( int n, double elong, double phi, double height,
 **     lead to arithmetic exceptions.  In all error cases, xyz is set
 **     to zeros.
 **
-**  4) The inverse transformation is performed in the function
-**     iauGc2gde.
+**  4) The inverse transformation is performed in the function iauGc2gd.
 **
 **  Called:
 **     iauEform     Earth reference ellipsoids
 **     iauGd2gce    geodetic to geocentric transformation, general
+**     iauZp        zero p-vector
 **
 */
 
@@ -7699,7 +7964,7 @@ void iauPn00(double date1, double date2, double dpsi, double deps,
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -7802,7 +8067,7 @@ void iauPn00a(double date1, double date2,
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -7905,7 +8170,7 @@ void iauPn00b(double date1, double date2,
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003).
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003).
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -8314,9 +8579,9 @@ void iauPnm80(double date1, double date2, double rmatpn[3][3])
 **
 **  Notes:
 **
-**  1) The TT date date1+date2 is a Julian Date, apportioned in any
+**  1) The TDB date date1+date2 is a Julian Date, apportioned in any
 **     convenient way between the two arguments.  For example,
-**     JD(TT)=2450123.7 could be expressed in any of these ways,
+**     JD(TDB)=2450123.7 could be expressed in any of these ways,
 **     among others:
 **
 **            date1          date2
@@ -9383,7 +9648,7 @@ double iauS00(double date1, double date2, double x, double y)
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -9461,7 +9726,7 @@ double iauS00a(double date1, double date2)
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -9539,7 +9804,7 @@ double iauS00b(double date1, double date2)
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -9697,7 +9962,7 @@ double iauS06a(double date1, double date2)
 **     Capitaine, N., Chapront, J., Lambert, S. and Wallace, P.,
 **     "Expressions for the Celestial Intermediate Pole and Celestial
 **     Ephemeris Origin consistent with the IAU 2000A precession-
-**     nutation model", Astronomy & Astrophysics, 400, 1145-1154 (2003)
+**     nutation model", Astron.Astrophys. 400, 1145-1154 (2003)
 **
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
@@ -10246,6 +10511,441 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3])
 
 
 
+int iauTaitt(double tai1, double tai2, double *tt1, double *tt2)
+/*
+**  - - - - - - - - -
+**   i a u T a i t t
+**  - - - - - - - - -
+**
+**  Time scale transformation:  International Atomic Time, TAI, to
+**  Terrestrial Time, TT.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tai1,tai2  double    TAI as a 2-part Julian Date
+**
+**  Returned:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Note:
+**
+**     tai1+tai2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tai1 is the Julian
+**     Day Number and tai2 is the fraction of a day.  The returned
+**     tt1,tt2 follow suit.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauTaiut1(double tai1, double tai2, double dta,
+              double *ut11, double *ut12)
+/*
+**  - - - - - - - - - -
+**   i a u T a i u t 1
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  International Atomic Time, TAI, to
+**  Universal Time, UT1.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tai1,tai2  double    TAI as a 2-part Julian Date
+**     dta        double    UT1-TAI in seconds
+**
+**  Returned:
+**     ut11,ut12  double    UT1 as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  tai1+tai2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tai1 is the Julian
+**     Day Number and tai2 is the fraction of a day.  The returned
+**     UT11,UT12 follow suit.
+**
+**  2  The argument dta, i.e. UT1-TAI, is an observed quantity, and is
+**     available from IERS tabulations.
+**
+**  Reference:
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2)
+/*
+**  - - - - - - - - - -
+**   i a u T a i u t c
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  International Atomic Time, TAI, to
+**  Coordinated Universal Time, UTC.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tai1,tai2  double   TAI as a 2-part Julian Date (Note 1)
+**
+**  Returned:
+**     utc1,utc2  double   UTC as a 2-part quasi Julian Date (Notes 1-3)
+**
+**  Returned (function value):
+**                int      status: +1 = dubious year (Note 4)
+**                                  0 = OK
+**                                 -1 = unacceptable date
+**
+**  Notes:
+**
+**  1  tai1+tai2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tai1 is the Julian
+**     Day Number and tai2 is the fraction of a day.  The returned utc1
+**     and utc2 form an analogous pair, except that a special convention
+**     is used, to deal with the problem of leap seconds - see the next
+**     note.
+**
+**  2) JD cannot unambiguously represent UTC during a leap second unless
+**     special measures are taken.  The convention in the present
+**     function is that the JD day represents UTC days whether the
+**     length is 86399, 86400 or 86401 SI seconds.
+**
+**  3) The function iauD2dtf can be used to transform the UTC quasi-JD
+**     into calendar date and clock time, including UTC leap second
+**     handling.
+**
+**  4) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat for further details.
+**
+**  Called:
+**     iauJd2cal    JD to Gregorian calendar
+**     iauDat       delta(AT) = TAI-UTC
+**     iauCal2jd    Gregorian calendar to JD
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauTcbtdb(double tcb1, double tcb2, double *tdb1, double *tdb2)
+/*
+**  - - - - - - - - - -
+**   i a u T c b t d b
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  Barycentric Coordinate Time, TCB, to
+**  Barycentric Dynamical Time, TDB.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tcb1,tcb2  double    TCB as a 2-part Julian Date
+**
+**  Returned:
+**     tdb1,tdb2  double    TDB as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  tcb1+tcb2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tcb1 is the Julian
+**     Day Number and tcb2 is the fraction of a day.  The returned
+**     tdb1,tdb2 follow suit.
+**
+**  2  The 2006 IAU General Assembly introduced a conventional linear
+**     transformation between TDB and TCB.  This transformation
+**     compensates for the drift between TCB and terrestrial time TT,
+**     and keeps TDB approximately centered on TT.  Because the
+**     relationship between TT and TCB depends on the adopted solar
+**     system ephemeris, the degree of alignment between TDB and TT over
+**     long intervals will vary according to which ephemeris is used.
+**     Former definitions of TDB attempted to avoid this problem by
+**     stipulating that TDB and TT should differ only by periodic
+**     effects.  This is a good description of the nature of the
+**     relationship but eluded precise mathematical formulation.  The
+**     conventional linear relationship adopted in 2006 sidestepped
+**     these difficulties whilst delivering a TDB that in practice was
+**     consistent with values before that date.
+**
+**  3  TDB is essentially the same as Teph, the time argument for the
+**     JPL solar system ephemerides.
+**
+**  Reference:
+**
+**     IAU 2006 Resolution B3
+**
+*/
+
+
+
+int iauTcgtt(double tcg1, double tcg2, double *tt1, double *tt2)
+/*
+**  - - - - - - - - -
+**   i a u T c g t t
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Geocentric Coordinate Time, TCG, to
+**  Terrestrial Time, TT.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tcg1,tcg2  double    TCG as a 2-part Julian Date
+**
+**  Returned:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Note:
+**
+**     tcg1+tcg2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tcg1 is the Julian
+**     Day Number and tcg22 is the fraction of a day.  The returned
+**     tt1,tt2 follow suit.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),.
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     IAU 2000 Resolution B1.9
+**
+*/
+
+
+
+int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2)
+/*
+**  - - - - - - - - - -
+**   i a u T d b t c b
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  Barycentric Dynamical Time, TDB, to
+**  Barycentric Coordinate Time, TCB.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tdb1,tdb2  double    TDB as a 2-part Julian Date
+**
+**  Returned:
+**     tcb1,tcb2  double    TCB as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  tdb1+tdb2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tdb1 is the Julian
+**     Day Number and tdb2 is the fraction of a day.  The returned
+**     tcb1,tcb2 follow suit.
+**
+**  2  The 2006 IAU General Assembly introduced a conventional linear
+**     transformation between TDB and TCB.  This transformation
+**     compensates for the drift between TCB and terrestrial time TT,
+**     and keeps TDB approximately centered on TT.  Because the
+**     relationship between TT and TCB depends on the adopted solar
+**     system ephemeris, the degree of alignment between TDB and TT over
+**     long intervals will vary according to which ephemeris is used.
+**     Former definitions of TDB attempted to avoid this problem by
+**     stipulating that TDB and TT should differ only by periodic
+**     effects.  This is a good description of the nature of the
+**     relationship but eluded precise mathematical formulation.  The
+**     conventional linear relationship adopted in 2006 sidestepped
+**     these difficulties whilst delivering a TDB that in practice was
+**     consistent with values before that date.
+**
+**  3  TDB is essentially the same as Teph, the time argument for the
+**     JPL solar system ephemerides.
+**
+**  Reference:
+**
+**     IAU 2006 Resolution B3
+**
+*/
+
+
+
+int iauTdbtt(double tdb1, double tdb2, double dtr,
+             double *tt1, double *tt2 )
+/*
+**  - - - - - - - - -
+**   i a u T d b t t
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Barycentric Dynamical Time, TDB, to
+**  Terrestrial Time, TT.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     dtb1,tdb2  double    TDB as a 2-part Julian Date
+**     dtr        double    TDB-TT in seconds
+**
+**  Returned:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  tdb1+tdb2 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where tdb1 is the Julian
+**     Day Number and tdb2 is the fraction of a day.  The returned
+**     tt1,tt2 follow suit.
+**
+**  2  The argument dtr represents the quasi-periodic component of the
+**     GR transformation between TT and TCB.  It is dependent upon the
+**     adopted solar-system ephemeris, and can be obtained by numerical
+**     integration, by interrogating a precomputed time ephemeris or by
+**     evaluating a model such as that implemented in the SOFA function
+**     iauDtdb.   The quantity is dominated by an annual term of 1.7 ms
+**     amplitude.
+**
+**  3  TDB is essentially the same as Teph, the time argument for the
+**     JPL solar system ephemerides.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     IAU 2006 Resolution 3
+**
+*/
+
+
+
+int iauTf2a(int s, int ihour, int imin, double sec, double *rad)
+/*
+**  - - - - - - - -
+**   i a u T f 2 a
+**  - - - - - - - -
+**
+**  Convert hours, minutes, seconds to radians.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  support function.
+**
+**  Given:
+**     s         int     sign:  '-' = negative, otherwise positive
+**     ihour     int     hours
+**     imin      int     minutes
+**     sec       double  seconds
+**
+**  Returned:
+**     days      double  angle in radians
+**
+**  Returned (function value):
+**               int     status:  0 = OK
+**                                1 = ihour outside range 0-23
+**                                2 = imin outside range 0-59
+**                                3 = sec outside range 0-59.999...
+**
+**  Notes:
+**
+**  1)  The result is computed even if any of the range checks fail.
+**
+**  2)  Negative ihour, imin and/or sec produce a warning status, but
+**      the absolute value is used in the conversion.
+**
+*/
+
+
+
+int iauTf2d(int s, int ihour, int imin, double sec, double *days)
+/*
+**  - - - - - - - -
+**   i a u T f 2 d
+**  - - - - - - - -
+**
+**  Convert hours, minutes, seconds to days.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  support function.
+**
+**  Given:
+**     s         int     sign:  '-' = negative, otherwise positive
+**     ihour     int     hours
+**     imin      int     minutes
+**     sec       double  seconds
+**
+**  Returned:
+**     days      double  interval in days
+**
+**  Returned (function value):
+**               int     status:  0 = OK
+**                                1 = ihour outside range 0-23
+**                                2 = imin outside range 0-59
+**                                3 = sec outside range 0-59.999...
+**
+**  Notes:
+**
+**  1)  The result is computed even if any of the range checks fail.
+**
+**  2)  Negative ihour, imin and/or sec produce a warning status, but
+**      the absolute value is used in the conversion.
+**
+*/
+
+
+
 void iauTr(double r[3][3], double rt[3][3])
 /*
 **  - - - - - -
@@ -10332,6 +11032,484 @@ void iauTrxpv(double r[3][3], double pv[2][3], double trpv[2][3])
 **  Called:
 **     iauTr        transpose r-matrix
 **     iauRxpv      product of r-matrix and pv-vector
+**
+*/
+
+
+
+int iauTttai(double tt1, double tt2, double *tai1, double *tai2)
+/*
+**  - - - - - - - - -
+**   i a u T t t a i
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Terrestrial Time, TT, to International
+**  Atomic Time, TAI.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**
+**  Returned:
+**     tai1,tai2  double    TAI as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Note:
+**
+**     tt1+tt2 is Julian Date, apportioned in any convenient way between
+**     the two arguments, for example where tt1 is the Julian Day Number
+**     and tt2 is the fraction of a day.  The returned tai1,tai2 follow
+**     suit.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauTttcg(double tt1, double tt2, double *tcg1, double *tcg2)
+/*
+**  - - - - - - - - -
+**   i a u T t t c g
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Terrestrial Time, TT, to Geocentric
+**  Coordinate Time, TCG.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**
+**  Returned:
+**     tcg1,tcg2  double    TCG as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Note:
+**
+**     tt1+tt2 is Julian Date, apportioned in any convenient way between
+**     the two arguments, for example where tt1 is the Julian Day Number
+**     and tt2 is the fraction of a day.  The returned tcg1,tcg2 follow
+**     suit.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     IAU 2000 Resolution B1.9
+**
+*/
+
+
+
+int iauTttdb(double tt1, double tt2, double dtr,
+             double *tdb1, double *tdb2)
+/*
+**  - - - - - - - - -
+**   i a u T t t d b
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Terrestrial Time, TT, to Barycentric
+**  Dynamical Time, TDB.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**     dtr        double    TDB-TT in seconds
+**
+**  Returned:
+**     tdb1,tdb2  double    TDB as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  tt1+tt2 is Julian Date, apportioned in any convenient way between
+**     the two arguments, for example where tt1 is the Julian Day Number
+**     and tt2 is the fraction of a day.  The returned tdb1,tdb2 follow
+**     suit.
+**
+**  2  The argument dtr represents the quasi-periodic component of the
+**     GR transformation between TT and TCB.  It is dependent upon the
+**     adopted solar-system ephemeris, and can be obtained by numerical
+**     integration, by interrogating a precomputed time ephemeris or by
+**     evaluating a model such as that implemented in the SOFA function
+**     iauDtdb.   The quantity is dominated by an annual term of 1.7 ms
+**     amplitude.
+**
+**  3  TDB is essentially the same as Teph, the time argument for the JPL
+**     solar system ephemerides.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     IAU 2006 Resolution 3
+**
+*/
+
+
+
+int iauTtut1(double tt1, double tt2, double dt,
+             double *ut11, double *ut12)
+/*
+**  - - - - - - - - -
+**   i a u T t u t 1
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Terrestrial Time, TT, to Universal Time,
+**  UT1.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     tt1,tt2    double    TT as a 2-part Julian Date
+**     dt         double    TT-UT1 in seconds
+**
+**  Returned:
+**     ut11,ut12  double    UT1 as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  tt1+tt2 is Julian Date, apportioned in any convenient way between
+**     the two arguments, for example where tt1 is the Julian Day Number
+**     and tt2 is the fraction of a day.  The returned ut11,ut12 follow
+**     suit.
+**
+**  2  The argument dt is classical Delta T.
+**
+**  Reference:
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauUt1tai(double ut11, double ut12, double dta,
+              double *tai1, double *tai2)
+/*
+**  - - - - - - - - - -
+**   i a u U t 1 t a i
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  Universal Time, UT1, to International
+**  Atomic Time, TAI.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     ut11,ut12  double    UT1 as a 2-part Julian Date
+**     dta        double    UT1-TAI in seconds
+**
+**  Returned:
+**     tai1,tai2  double    TAI as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  ut11+ut12 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where ut11 is the Julian
+**     Day Number and ut12 is the fraction of a day.  The returned
+**     TAI1,TAI2 follow suit.
+**
+**  2  The argument dta, i.e. UT1-TAI, is an observed quantity, and is
+**     available from IERS tabulations.
+**
+**  Reference:
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauUt1tt(double ut11, double ut12, double dt,
+             double *tt1, double *tt2)
+/*
+**  - - - - - - - - -
+**   i a u U t 1 t t
+**  - - - - - - - - -
+**
+**  Time scale transformation:  Universal Time, UT1, to Terrestrial
+**  Time, TT.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     ut11,ut12  double    UT1 as a 2-part Julian Date
+**     dt         double    TT-UT1 in seconds
+**
+**  Returned:
+**     tt1,tt2    double    TAI as a 2-part Julian Date
+**
+**  Returned (function value):
+**                int       status:  0 = OK
+**
+**  Notes:
+**
+**  1  ut11+ut12 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where ut11 is the Julian
+**     Day Number and ut12 is the fraction of a day.  The returned
+**     tt1,tt2 follow suit.
+**
+**  2  The argument dt is classical Delta T.
+**
+**  Reference:
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauUt1utc(double ut11, double ut12, double dut1,
+              double *utc1, double *utc2)
+/*
+**  - - - - - - - - - -
+**   i a u U t 1 u t c
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  Universal Time, UT1, to Coordinated
+**  Universal Time, UTC.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     ut11,ut12  double   UT1 as a 2-part Julian Date (Note 1)
+**     dut1       double   Delta UT1: UT1-UTC in seconds (Note 2)
+**
+**  Returned:
+**     utc1,utc2  double   UTC as a 2-part quasi Julian Date (Notes 3,4)
+**
+**  Returned (function value):
+**                int      status: +1 = dubious year (Note 5)
+**                                  0 = OK
+**                                 -1 = unacceptable date
+**
+**  Notes:
+**
+**  1  ut11+ut12 is Julian Date, apportioned in any convenient way
+**     between the two arguments, for example where ut11 is the Julian
+**     Day Number and ut12 is the fraction of a day.  The returned utc1
+**     and utc2 form an analogous pair, except that a special convention
+**     is used, to deal with the problem of leap seconds - see Note 3.
+**
+**  2) Delta UT1 can be obtained from tabulations provided by the
+**     International Earth Rotation and Reference Systems Service.  The
+**     value changes abruptly by 1s at a leap second;  however, close to
+**     a leap second the algorithm used here is tolerant of the "wrong"
+**     choice of value being made.
+**
+**  3) JD cannot unambiguously represent UTC during a leap second unless
+**     special measures are taken.  The convention in the present
+**     function is that the returned quasi JD day UTC1+UTC2 represents
+**     UTC days whether the length is 86399, 86400 or 86401 SI seconds.
+**
+**  4) The function iauD2dtf can be used to transform the UTC quasi-JD
+**     into calendar date and clock time, including UTC leap second
+**     handling.
+**
+**  5) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat for further details.
+**
+**  Called:
+**     iauJd2cal    JD to Gregorian calendar
+**     iauDat       delta(AT) = TAI-UTC
+**     iauCal2jd    Gregorian calendar to JD
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauUtctai(double utc1, double utc2, double *tai1, double *tai2)
+/*
+**  - - - - - - - - - -
+**   i a u U t c t a i
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  Coordinated Universal Time, UTC, to
+**  International Atomic Time, TAI.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     utc1,utc2  double   UTC as a 2-part quasi Julian Date (Notes 1-4)
+**
+**  Returned:
+**     tai1,tai2  double   TAI as a 2-part Julian Date (Note 5)
+**
+**  Returned (function value):
+**                int      status: +1 = dubious year (Note 3)
+**                                  0 = OK
+**                                 -1 = unacceptable date
+**
+**  Notes:
+**
+**  1) utc1+utc2 is quasi Julian Date (see Note 2), apportioned in any
+**     convenient way between the two arguments, for example where utc1
+**     is the Julian Day Number and utc2 is the fraction of a day.
+**
+**  2) JD cannot unambiguously represent UTC during a leap second unless
+**     special measures are taken.  The convention in the present
+**     function is that the JD day represents UTC days whether the
+**     length is 86399, 86400 or 86401 SI seconds.
+**
+**  3) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat  for further details.
+**
+**  4) The function iauDtf2d converts from calendar date and time of day
+**     into 2-part Julian Date, and in the case of UTC implements the
+**     leap-second-ambiguity convention described above.
+**
+**  5) The returned TAI1,TAI2 are such that their sum is the TAI Julian
+**     Date.
+**
+**  Called:
+**     iauJd2cal    JD to Gregorian calendar
+**     iauDat       delta(AT) = TAI-UTC
+**     iauCal2jd    Gregorian calendar to JD
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+*/
+
+
+
+int iauUtcut1(double utc1, double utc2, double dut1,
+              double *ut11, double *ut12)
+/*
+**  - - - - - - - - - -
+**   i a u U t c u t 1
+**  - - - - - - - - - -
+**
+**  Time scale transformation:  Coordinated Universal Time, UTC, to
+**  Universal Time, UT1.
+**
+**  This function is part of the International Astronomical Union's
+**  SOFA (Standards of Fundamental Astronomy) software collection.
+**
+**  Status:  canonical.
+**
+**  Given:
+**     utc1,utc2  double   UTC as a 2-part quasi Julian Date (Notes 1-4)
+**     dut1       double   Delta UT1 = UT1-UTC in seconds (Note 5)
+**
+**  Returned:
+**     ut11,ut12  double   UT1 as a 2-part Julian Date (Note 6)
+**
+**  Returned (function value):
+**                int      status: +1 = dubious year (Note 7)
+**                                  0 = OK
+**                                 -1 = unacceptable date
+**
+**  Notes:
+**
+**  1) utc1+utc2 is quasi Julian Date (see Note 2), apportioned in any
+**     convenient way between the two arguments, for example where utc1
+**     is the Julian Day Number and utc2 is the fraction of a day.
+**
+**  2) JD cannot unambiguously represent UTC during a leap second unless
+**     special measures are taken.  The convention in the present
+**     function is that the JD day represents UTC days whether the
+**     length is 86399, 86400 or 86401 SI seconds.
+**
+**  3) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat  for further details.
+**
+**  4) The function iauDtf2d  converts from calendar date and time of
+**     day into 2-part Julian Date, and in the case of UTC implements
+**     the leap-second-ambiguity convention described above.
+**
+**  5) Delta UT1 can be obtained from tabulations provided by the
+**     International Earth Rotation and Reference Systems Service.  It
+**     It is the caller's responsibility to supply a DUT argument
+**     containing the UT1-UTC value that matches the given UTC.
+**
+**  6) The returned ut11,ut12 are such that their sum is the UT1 Julian
+**     Date.
+**
+**  7) The warning status "dubious year" flags UTCs that predate the
+**     introduction of the time scale and that are too far in the future
+**     to be trusted.  See iauDat for further details.
+**
+**  References:
+**
+**     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
+**     IERS Technical Note No. 32, BKG (2004)
+**
+**     Explanatory Supplement to the Astronomical Almanac,
+**     P. Kenneth Seidelmann (ed), University Science Books (1992)
+**
+**  Called:
+**     iauJd2cal    JD to Gregorian calendar
+**     iauDat       delta(AT) = TAI-UTC
+**     iauUtctai    UTC to TAI
+**     iauTaiut1    TAI to UT1
 **
 */
 
@@ -10696,7 +11874,7 @@ void iauZr(double r[3][3])
 **
 */
 
-copyr.lis                                                2009 October 25
+copyr.lis                                              2010 September 10
 
 
 COPYRIGHT NOTICE
@@ -10708,8 +11886,8 @@ and C versions.)
 
 *+----------------------------------------------------------------------
 *
-*  Copyright (C) 2009
-*  Standards Of Fundamental Astronomy Review Board
+*  Copyright (C) 2010
+*  Standards Of Fundamental Astronomy Board
 *  of the International Astronomical Union.
 *
 *  =====================
@@ -10721,7 +11899,7 @@ and C versions.)
 *  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 *  WHICH APPLY TO ITS USE.
 *
-*  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+*  1. The Software is owned by the IAU SOFA Board ("SOFA").
 *
 *  2. Permission is granted to anyone to use the SOFA software for any
 *     purpose, including commercial applications, free of charge and
@@ -10746,7 +11924,7 @@ and C versions.)
 *        from the original SOFA software.
 *
 *     c) The name(s) of all routine(s) in your derived work shall not
-*        include the prefix "iau_".
+*        include the prefix "iau".
 *
 *     d) The origin of the SOFA components of your derived work must
 *        not be misrepresented;  you must not claim that you wrote the
@@ -10792,11 +11970,12 @@ and C versions.)
 *  Correspondence concerning SOFA software should be addressed as
 *  follows:
 *
-*      By email:  sofa@rl.ac.uk
+*      By email:  sofa@ukho.gov.uk
 *      By post:   IAU SOFA Center
-*                 STFC Rutherford Appleton Laboratory
-*                 Harwell Science and Innovation Campus
-*                 Didcot, Oxfordshire, OX11 0QX
+*                 HM Nautical Almanac Office
+*                 UK Hydrographic Office
+*                 Admiralty Way, Taunton
+*                 Somerset, TA1 2DN
 *                 United Kingdom
 *
 *-----------------------------------------------------------------------
@@ -10869,11 +12048,11 @@ file sofam.h.
 **  This file is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  This revision:   2009 December 18
+**  This revision:   2010 May 16
 **
-**  SOFA release 2009-12-31
+**  SOFA release YYYY-MM-DD
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 
 #include "sofa.h"
@@ -10905,15 +12084,6 @@ file sofam.h.
 /* Length of tropical year B1900 (days) */
 #define DTY (365.242198781)
 
-/* Reference epoch (J2000.0), Julian Date */
-#define DJ00 (2451545.0)
-
-/* Julian Date of Modified Julian Date zero */
-#define DJM0 (2400000.5)
-
-/* Reference epoch (J2000.0), Modified Julian Date */
-#define DJM00 (51544.5)
-
 /* Seconds per day. */
 #define DAYSEC (86400.0)
 
@@ -10926,11 +12096,33 @@ file sofam.h.
 /* Days per Julian millennium */
 #define DJM (365250.0)
 
+/* Reference epoch (J2000.0), Julian Date */
+#define DJ00 (2451545.0)
+
+/* Julian Date of Modified Julian Date zero */
+#define DJM0 (2400000.5)
+
+/* Reference epoch (J2000.0), Modified Julian Date */
+#define DJM00 (51544.5)
+
+/* 1977 Jan 1.0 as MJD */
+#define DJM77 (43144.0)
+
+/* TT minus TAI (s) */
+#define TTMTAI (32.184)
+
 /* AU (m) */
 #define DAU (149597870e3)
 
 /* Speed of light (AU per day) */
 #define DC (DAYSEC / 499.004782)
+
+/* L_G = 1 - d(TT)/d(TCG) */
+#define ELG (6.969290134e-10)
+
+/* L_B = 1 - d(TDB)/d(TCB), and TDB (s) at TAI 1977/1/1.0 */
+#define ELB (1.550519768e-8)
+#define TDB0 (-6.55e-5)
 
 /* dint(A) - truncate to nearest whole number towards zero (double) */
 #define dint(A) ((A)<0.0?ceil(A):floor(A))
@@ -10945,8 +12137,8 @@ file sofam.h.
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -10958,7 +12150,7 @@ file sofam.h.
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -10983,7 +12175,7 @@ file sofam.h.
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -11029,42 +12221,47 @@ file sofam.h.
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/
 
-board.lis                                                2009 October 30
+board.lis                                              2010 November 23
 
 
 
-IAU STANDARDS OF FUNDAMENTAL ASTRONOMY REVIEW BOARD
+IAU STANDARDS OF FUNDAMENTAL ASTRONOMY BOARD
 
 
 Current Membership
 
    John Bangert           United States Naval Observatory
+   Steven Bell            Her Majesty's Nautical Almanac Office
    Mark Calabretta        Australia Telescope National Facility
-   Anne-Marie Gontier     Paris Observatory
-   Catherine Hohenkerk    Her Majesty's Nautical Almanac Office
+   Nicole Capitaine       Paris Observatory
+   William Folkner        Jet Propulsion Laboratory
+   George Hobbs           Australia Telescope National Facility
+   Catherine Hohenkerk    Her Majesty's Nautical Almanac Office (Chair)
    Wen-Jing Jin           Shanghai Observatory
-   Brian Luzum            United States Naval Observatory
+   Brian Luzum            United States Naval Observatory (IERS)
    Zinovy Malkin          Pulkovo Observatory, St Petersburg
    Jeffrey Percival       University of Wisconsin
-   Patrick Wallace        Rutherford Appleton Laboratory      (chair)
+   Patrick Wallace        Rutherford Appleton Laboratory
 
 
 Past Members
 
    Wim Brouw              University of Groningen
-   Dennis McCarthy        United States Naval Observatory
+   Anne-Marie Gontier     Paris Observatory
    George Kaplan          United States Naval Observatory
+   Dennis McCarthy        United States Naval Observatory
    Skip Newhall           Jet Propulsion Laboratory
 
 
-The e-mail address for the Board chair is Patrick.Wallace@stfc.ac.uk
+The e-mail for the Board chair is Catherine.Hohenkerk@ukho.gov.uk
 

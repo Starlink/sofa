@@ -1,4 +1,4 @@
-sofa_vml.lis                                              2008 October 7
+sofa_vml.lis                                            2010 September 5
 
                    --------------------------
                    SOFA Vector/Matrix Library
@@ -181,15 +181,19 @@ OPERATIONS ON ANGLES
 
      ANP       normalize radians to range 0 to 2pi
      ANPM      normalize radians to range -pi to +pi
-     A2TF      decompose radians into hms
-     A2AF      decompose radians into d ' "
-     D2TF      decompose days into hms
+     A2TF      decompose radians into hours, minutes, seconds
+     A2AF      decompose radians into degrees, arcminutes, arcseconds
+     AF2A      degrees, arcminutes, arcseconds to radians
+     D2TF      decompose days into hours, minutes, seconds
+     TF2A      hours, minutes, seconds to radians
+     TF2D      hours, minutes, seconds to days
 
 
 CALLS: FORTRAN VERSION
 
    CALL iau_A2AF  ( NDP, ANGLE, SIGN, IDMSF )
    CALL iau_A2TF  ( NDP, ANGLE, SIGN, IHMSF )
+   CALL iau_AF2A  ( S, IDEG, IAMIN, ASEC, RAD, J )
    D =  iau_ANP   ( A )
    D =  iau_ANPM  ( A )
    CALL iau_C2S   ( P, THETA, PHI )
@@ -234,6 +238,8 @@ CALLS: FORTRAN VERSION
    CALL iau_SEPS  ( AL, AP, BL, BP, S )
    CALL iau_SXP   ( S, P, SP )
    CALL iau_SXPV  ( S, PV, SPV )
+   CALL iau_TF2A  ( S, IHOUR, IMIN, SEC, RAD, J )
+   CALL iau_TF2D  ( S, IHOUR, IMIN, SEC, DAYS, J )
    CALL iau_TR    ( R, RT )
    CALL iau_TRXP  ( R, P, TRP )
    CALL iau_TRXPV ( R, PV, TRPV )
@@ -246,6 +252,7 @@ CALLS: C VERSION
 
         iauA2af  ( ndp, angle, &sign, idmsf );
         iauA2tf  ( ndp, angle, &sign, ihmsf );
+   i =  iauAf2a  ( s, ideg, iamin, asec, &rad );
    d =  iauAnp   ( a );
    d =  iauAnpm  ( a );
         iauC2s   ( p, &theta, &phi );
@@ -290,6 +297,8 @@ CALLS: C VERSION
     d = iauSeps  ( al, ap, bl, bp );
         iauSxp   ( s, p, sp );
         iauSxpv  ( s, pv, spv );
+    i = iauTf2a  ( s, ihour, imin, sec, &rad );
+    i = iauTf2d  ( s, ihour, imin, sec, &days );
         iauTr    ( r, rt );
         iauTrxp  ( r, p, trp );
         iauTrxpv ( r, pv, trpv );

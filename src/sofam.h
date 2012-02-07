@@ -11,11 +11,11 @@
 **  This file is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  This revision:   2009 December 18
+**  This revision:   2010 May 16
 **
-**  SOFA release 2009-12-31
+**  SOFA release YYYY-MM-DD
 **
-**  Copyright (C) 2009 IAU SOFA Review Board.  See notes at end.
+**  Copyright (C) 2010 IAU SOFA Board.  See notes at end.
 */
 
 #include "sofa.h"
@@ -47,15 +47,6 @@
 /* Length of tropical year B1900 (days) */
 #define DTY (365.242198781)
 
-/* Reference epoch (J2000.0), Julian Date */
-#define DJ00 (2451545.0)
-
-/* Julian Date of Modified Julian Date zero */
-#define DJM0 (2400000.5)
-
-/* Reference epoch (J2000.0), Modified Julian Date */
-#define DJM00 (51544.5)
-
 /* Seconds per day. */
 #define DAYSEC (86400.0)
 
@@ -68,11 +59,33 @@
 /* Days per Julian millennium */
 #define DJM (365250.0)
 
+/* Reference epoch (J2000.0), Julian Date */
+#define DJ00 (2451545.0)
+
+/* Julian Date of Modified Julian Date zero */
+#define DJM0 (2400000.5)
+
+/* Reference epoch (J2000.0), Modified Julian Date */
+#define DJM00 (51544.5)
+
+/* 1977 Jan 1.0 as MJD */
+#define DJM77 (43144.0)
+
+/* TT minus TAI (s) */
+#define TTMTAI (32.184)
+
 /* AU (m) */
 #define DAU (149597870e3)
 
 /* Speed of light (AU per day) */
 #define DC (DAYSEC / 499.004782)
+
+/* L_G = 1 - d(TT)/d(TCG) */
+#define ELG (6.969290134e-10)
+
+/* L_B = 1 - d(TDB)/d(TCB), and TDB (s) at TAI 1977/1/1.0 */
+#define ELB (1.550519768e-8)
+#define TDB0 (-6.55e-5)
 
 /* dint(A) - truncate to nearest whole number towards zero (double) */
 #define dint(A) ((A)<0.0?ceil(A):floor(A))
@@ -87,8 +100,8 @@
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2009
-**  Standards Of Fundamental Astronomy Review Board
+**  Copyright (C) 2010
+**  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
 **  =====================
@@ -100,7 +113,7 @@
 **  BY USING THIS SOFTWARE YOU ACCEPT THE FOLLOWING TERMS AND CONDITIONS
 **  WHICH APPLY TO ITS USE.
 **
-**  1. The Software is owned by the IAU SOFA Review Board ("SOFA").
+**  1. The Software is owned by the IAU SOFA Board ("SOFA").
 **
 **  2. Permission is granted to anyone to use the SOFA software for any
 **     purpose, including commercial applications, free of charge and
@@ -125,7 +138,7 @@
 **        from the original SOFA software.
 **
 **     c) The name(s) of all routine(s) in your derived work shall not
-**        include the prefix "iau_".
+**        include the prefix "iau".
 **
 **     d) The origin of the SOFA components of your derived work must
 **        not be misrepresented;  you must not claim that you wrote the
@@ -171,11 +184,12 @@
 **  Correspondence concerning SOFA software should be addressed as
 **  follows:
 **
-**      By email:  sofa@rl.ac.uk
+**      By email:  sofa@ukho.gov.uk
 **      By post:   IAU SOFA Center
-**                 STFC Rutherford Appleton Laboratory
-**                 Harwell Science and Innovation Campus
-**                 Didcot, Oxfordshire, OX11 0QX
+**                 HM Nautical Almanac Office
+**                 UK Hydrographic Office
+**                 Admiralty Way, Taunton
+**                 Somerset, TA1 2DN
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/

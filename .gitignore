@@ -9,7 +9,7 @@ libtool
 configure
 config.*
 libtool
-
+*.dSYM
 
 Makefile
 Makefile.in

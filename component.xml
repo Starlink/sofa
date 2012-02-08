@@ -2,8 +2,8 @@
 <!DOCTYPE component SYSTEM "componentinfo.dtd">
 <!-- component.xml.  Generated from component.xml.in by configure. -->
 
-<component id="starutil" support="U">
-  <version>2009-02-1</version>
+<component id="sofa" support="U">
+  <version>2010-12-01</version>
   <path>libraries/starutil</path>
   <description>Standards of Fundamental Astronomy</description>
   <abstract><p> 

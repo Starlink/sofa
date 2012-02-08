@@ -2,7 +2,7 @@ dnl    Process this file with autoconf to produce a configure script
 AC_REVISION($Revision: 27534 $)
   
 dnl    Initialisation: package name and version number
-AC_INIT(starutil, 2009-02-1, sofa@star.rl.ac.uk)
+AC_INIT(sofa, 2010-12-01, sofa@star.rl.ac.uk)
   
 dnl    Require autoconf-2.50 at least
 AC_PREREQ(2.50)
@@ -11,7 +11,7 @@ AM_INIT_AUTOMAKE(1.8.2-starlink)
   
 dnl    Sanity-check: name a file in the source directory -- if this
 dnl    isn't found then configure will complain
-AC_CONFIG_SRCDIR([sofa.h])
+AC_CONFIG_SRCDIR([src/sofa.h])
  
   
 dnl    Include defaults for Starlink configurations

@@ -214,6 +214,7 @@ t_sofa_c_SOURCES = src/t_sofa_c.c
 t_sofa_c_LDADD = libsofa_c.la
 
 dist_pkgdata_DATA = \
+00READ.ME \
 doc/board.lis \
 doc/board.pdf \
 doc/changes.lis \

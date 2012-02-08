@@ -4,7 +4,7 @@
 
 <component id="@PACKAGE@" support="U">
   <version>@PACKAGE_VERSION@</version>
-  <path>libraries/starutil</path>
+  <path>thirdparty/sofa/sofa</path>
   <description>Standards of Fundamental Astronomy</description>
   <abstract><p> 
     This library is the official IAU SOFA implementation.

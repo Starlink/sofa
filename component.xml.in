@@ -6,11 +6,11 @@
   <version>@PACKAGE_VERSION@</version>
   <path>thirdparty/sofa/sofa</path>
   <description>Standards of Fundamental Astronomy</description>
-  <abstract><p> 
+  <abstract><p>
     This library is the official IAU SOFA implementation.
     </p></abstract>
   <dependencies @STAR_DEPENDENCIES_ATTRIBUTES@>
-    @STAR_DEPENDENCIES_CHILDREN@
+@STAR_DEPENDENCIES_CHILDREN@
   </dependencies>
   <developers>
     <person>

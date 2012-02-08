@@ -6,11 +6,11 @@
   <version>2010-12-01</version>
   <path>thirdparty/sofa/sofa</path>
   <description>Standards of Fundamental Astronomy</description>
-  <abstract><p> 
+  <abstract><p>
     This library is the official IAU SOFA implementation.
     </p></abstract>
   <dependencies >
-    
+
   </dependencies>
   <developers>
     <person>

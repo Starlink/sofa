@@ -1,53 +1,86 @@
-Changes for SOFA Issue: 2012-12-01
 
-New routines:
-============
+               SOFA - Issue: 2012-03-01
+               ========================
+               
+* The license terms and conditions have been changed slightly.  The
+  stipulation that modified versions must not bear names that have
+  the prefix "iau" or "sofa" has been clarified, and acknowledgement 
+  of SOFA has been downgraded to a request."
 
-af2a.c
-d2dtf.c
-dtf2d.c
+SOFA ANSI C Library
+-------------------
+
+Version number aligned with the Fortran version number to 9.
+
+Updated/changed routines
+------------------------
+
+dat.c         Leap second for 2012 June 30 added
+
+af2a          First argument changed from 'int s' to 'char s'
+tf2a          First argument changed from 'int s' to 'char s'
+tf2d          First argument changed from 'int s' to 'char s'
+d2dtf         First argument changed from 'char *scale' to 'const char *scale'
+dtf2d         First argument changed from 'char *scale' to 'const char *scale'
+
+t_sofa_c      Test program updated due to the above.
+
+sofa.h        Updated to reflect the changes listed above. 
+
+sofam.h       Note added that the constants defined in the file are 
+              used only in the context of the SOFA Software, and have
+              no official IAU status.
+              Reference Ellipsoids defined via symbols 
+              WGS84=1, GRS80=2 and WGS72=3. 
+
+Description of changes
+----------------------
+
+* In iauDat a leap second has been added for 2012 June 30.
+
+* In iauAf2a, iauTf2a and iauTf2d, the data type of the sign
+  argument has been changed to char, for clarity and for
+  consistency with the converse functions iauA2af, iauA2tf and
+  iauD2tf.
+  
+* The scale arguments of the C functions iauD2dtf and iauDtf2d have
+  been changed from char* to const char* to allow read-only strings
+  (in particular string literals) to be used without risking
+  compiler warnings.  Analogous changes have been made to the viv
+  and vvd functions inside the test program t_sofa_c.
+
+* In iauEform, iauGc2gd and iauGd2gc can use the symbols defined in
+  the sofam.h file for the reference ellipsoids WGS84=1, GRS80=2 and 
+  WGS72=3.
+
+Errata/updates to the ANSI C code
+---------------------------------
+
+sofam.h       Function dsign(A,B) was only valid for +ve A.
+              The comment for the constant DS2R has been corrected.
+                                          
+Errata to documentation
+-----------------------
+
+d2tf.c
+dtdb.c
+nut06a.c
+p06e.c
+tdbtt.c
+ut1tai.c
+ut1tt.c
+
+Cosmetic changes
+----------------
+
 taitt.c
 taiut1.c
 taiutc.c
 tcbtdb.c
-tcgtt.c
 tdbtcb.c
-tdbtt.c
-tf2a.c
-tf2d.c
 tttai.c
-tttcg.c
 tttdb.c
 ttut1.c
-ut1tai.c
-ut1tt.c
 ut1utc.c
-utctai.c
-utcut1.c
 
-Changes:
-=======
-
-* dtdb.c: status downgraded from canonical model to support routine
-
-* gc2gd.c: WGS72 reference ellipsoid added to note.
-
-* gc2gde.c: commenting error for status corrected.
-
-* gd2gc.c: WGS72 reference ellipsoid added to note.
-
-* jdcalf.c: bug corrected - result was truncated not rounded.
-
-* makefile: new routines added.
-
-* nut00b.c: copyright statement was missing.
-
-* rm2v.c: use of mixed-mode eliminated.
-
-* sofa.h: new routines added.
-
-* sofam.h: constants for time scale support added.
-
-* t_sofa_c.c: new routines added.
-
-2010/12/01
+2012/02/28

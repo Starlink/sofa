@@ -2,7 +2,7 @@ dnl    Process this file with autoconf to produce a configure script
 AC_REVISION($Revision: 27534 $)
   
 dnl    Initialisation: package name and version number
-AC_INIT(sofa, 2012-03-01, sofa@star.rl.ac.uk)
+AC_INIT(sofa, 2012-03-01, sofa@ukho.gov.uk)
   
 dnl    Require autoconf-2.50 at least
 AC_PREREQ(2.50)

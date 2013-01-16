@@ -93,11 +93,11 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 **
 **  4) The fraction of day is used only for dates before the
 **     introduction of leap seconds, the first of which occurred at the
-**     end of 1971.  It is tested for validity (zero to less than 1 is
-**     the valid range) even if not used;  if invalid, zero is used and
-**     status j=-4 is returned.  For many applications, setting fd to
-**     zero is acceptable;  the resulting error is always less than 3 ms
-**     (and occurs only pre-1972).
+**     end of 1971.  It is tested for validity (0 to 1 is the valid
+**     range) even if not used;  if invalid, zero is used and status
+**     j=-4 is returned.  For many applications, setting fd to zero is
+**     acceptable;  the resulting error is always less than 3 ms (and
+**     occurs only pre-1972).
 **
 **  5) The status value returned in the case where there are multiple
 **     errors refers to the first error detected.  For example, if the
@@ -117,7 +117,7 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 **  Called:
 **     iauCal2jd    Gregorian calendar to Julian Day number
 **
-**  This revision:  2012 January 5
+**  This revision:  2012 June 14
 **
 **  SOFA release 2012-03-01
 **
@@ -207,7 +207,7 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
    *deltat = da = 0.0;
 
 /* If invalid fraction of a day, set error status and give up. */
-   if (fd < 0.0 || fd >= 1.0) return -4;
+   if (fd < 0.0 || fd > 1.0) return -4;
 
 /* Convert the date into an MJD. */
    j = iauCal2jd(iy, im, id, &djm0, &djm);

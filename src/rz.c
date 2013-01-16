@@ -19,40 +19,46 @@ void iauRz(double psi, double r[3][3])
 **  Given and returned:
 **     r      double[3][3]    r-matrix, rotated
 **
-**  Sign convention:  The matrix can be used to rotate the reference
-**  frame of a vector.  Calling This function with positive psi
-**  incorporates in the matrix an additional rotation, about the z-axis,
-**  anticlockwise as seen looking towards the origin from positive z.
+**  Notes:
 **
-**  Called:
-**     iauIr        initialize r-matrix to identity
-**     iauRxr       product of two r-matrices
-**     iauCr        copy r-matrix
+**  1) Calling this function with positive psi incorporates in the
+**     supplied r-matrix r an additional rotation, about the z-axis,
+**     anticlockwise as seen looking towards the origin from positive z.
 **
-**  This revision:  2008 May 22
+**  2) The additional rotation can be represented by this matrix:
+**
+**         (  + cos(psi)   + sin(psi)     0  )
+**         (                                 )
+**         (  - sin(psi)   + cos(psi)     0  )
+**         (                                 )
+**         (       0            0         1  )
+**
+**  This revision:  2012 April 3
 **
 **  SOFA release 2012-03-01
 **
 **  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
 */
 {
-   double s, c, a[3][3], w[3][3];
+   double s, c, a00, a01, a02, a10, a11, a12;
 
 
-/* Matrix representing new rotation. */
    s = sin(psi);
    c = cos(psi);
-   iauIr(a);
-   a[0][0] =  c;
-   a[1][0] = -s;
-   a[0][1] =  s;
-   a[1][1] =  c;
 
-/* Rotate. */
-   iauRxr(a, r, w);
+   a00 =   c*r[0][0] + s*r[1][0];
+   a01 =   c*r[0][1] + s*r[1][1];
+   a02 =   c*r[0][2] + s*r[1][2];
+   a10 = - s*r[0][0] + c*r[1][0];
+   a11 = - s*r[0][1] + c*r[1][1];
+   a12 = - s*r[0][2] + c*r[1][2];
 
-/* Return result. */
-   iauCr(w, r);
+   r[0][0] = a00;
+   r[0][1] = a01;
+   r[0][2] = a02;
+   r[1][0] = a10;
+   r[1][1] = a11;
+   r[1][2] = a12;
 
    return;
 

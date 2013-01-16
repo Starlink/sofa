@@ -16,21 +16,22 @@ void iauZr(double r[3][3])
 **  Returned:
 **     r        double[3][3]    r-matrix
 **
-**  This revision:  2008 May 11
+**  This revision:  2012 April 3
 **
 **  SOFA release 2012-03-01
 **
 **  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
 */
 {
-   int i, j;
-
-
-   for (i = 0; i < 3; i++) {
-      for (j = 0; j < 3; j++) {
-         r[i][j] = 0.0;
-      }
-   }
+   r[0][0] = 0.0;
+   r[0][1] = 0.0;
+   r[0][2] = 0.0;
+   r[1][0] = 0.0;
+   r[1][1] = 0.0;
+   r[1][2] = 0.0;
+   r[2][0] = 0.0;
+   r[2][1] = 0.0;
+   r[2][2] = 0.0;
 
    return;
 

@@ -17,42 +17,48 @@ void iauRx(double phi, double r[3][3])
 **     phi    double          angle (radians)
 **
 **  Given and returned:
-**     r      double[3][3]    r-matrix
+**     r      double[3][3]    r-matrix, rotated
 **
-**  Sign convention:  The matrix can be used to rotate the reference
-**  frame of a vector.  Calling this function with positive phi
-**  incorporates in the matrix an additional rotation, about the x-axis,
-**  anticlockwise as seen looking towards the origin from positive x.
+**  Notes:
 **
-**  Called:
-**     iauIr        initialize r-matrix to identity
-**     iauRxr       product of two r-matrices
-**     iauCr        copy r-matrix
+**  1) Calling this function with positive phi incorporates in the
+**     supplied r-matrix r an additional rotation, about the x-axis,
+**     anticlockwise as seen looking towards the origin from positive x.
 **
-**  This revision:  2008 May 22
+**  2) The additional rotation can be represented by this matrix:
+**
+**         (  1        0            0      )
+**         (                               )
+**         (  0   + cos(phi)   + sin(phi)  )
+**         (                               )
+**         (  0   - sin(phi)   + cos(phi)  )
+**
+**  This revision:  2012 April 3
 **
 **  SOFA release 2012-03-01
 **
 **  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
 */
 {
-   double s, c, a[3][3], w[3][3];
+   double s, c, a10, a11, a12, a20, a21, a22;
 
 
-/* Matrix representing new rotation. */
    s = sin(phi);
    c = cos(phi);
-   iauIr(a);
-   a[1][1] =  c;
-   a[2][1] = -s;
-   a[1][2] =  s;
-   a[2][2] =  c;
 
-/* Rotate. */
-   iauRxr(a, r, w);
+   a10 =   c*r[1][0] + s*r[2][0];
+   a11 =   c*r[1][1] + s*r[2][1];
+   a12 =   c*r[1][2] + s*r[2][2];
+   a20 = - s*r[1][0] + c*r[2][0];
+   a21 = - s*r[1][1] + c*r[2][1];
+   a22 = - s*r[1][2] + c*r[2][2];
 
-/* Return result. */
-   iauCr(w, r);
+   r[1][0] = a10;
+   r[1][1] = a11;
+   r[1][2] = a12;
+   r[2][0] = a20;
+   r[2][1] = a21;
+   r[2][2] = a22;
 
    return;
 

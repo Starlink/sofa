@@ -83,4 +83,25 @@ tttdb.c
 ttut1.c
 ut1utc.c
 
-2012/02/28
+
+Revisions - 2012/07/10
+======================
+
+Updated routines:
+----------------
+
+dat.c           The validation of the FD argument has been eased so as 
+                to include exactly 1.0 in the acceptable range.  
+
+plan94.c        It has been pointed out that the comments have the
+                dimensions of the PV-vector the wrong way round.
+
+                For pv double[3][2] planet p,v (heliocentric, J2000.0, AU,AU/d)
+
+                read pv double[2][3] planet p,v (heliocentric, J2000.0, AU,AU/d)
+
+ir.c            The array elements for these 5 routines are now set up
+rx.c            explicitly so as to improve efficiency.
+ry.c
+rz.c
+zr.c

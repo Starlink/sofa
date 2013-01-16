@@ -22,7 +22,7 @@ int iauPlan94(double date1, double date2, int np, double pv[2][3])
 **                             5=Jupiter, 6=Saturn, 7=Uranus, 8=Neptune)
 **
 **  Returned (argument):
-**     pv     double[3][2] planet p,v (heliocentric, J2000.0, AU,AU/d)
+**     pv     double[2][3] planet p,v (heliocentric, J2000.0, AU,AU/d)
 **
 **  Returned (function value):
 **            int          status: -1 = illegal NP (outside 1-8)
@@ -63,12 +63,12 @@ int iauPlan94(double date1, double date2, int np, double pv[2][3])
 **  4) On successful return, the array pv contains the following:
 **
 **        pv[0][0]   x      }
-**        pv[1][0]   y      } heliocentric position, AU
-**        pv[2][0]   z      }
+**        pv[0][1]   y      } heliocentric position, AU
+**        pv[0][2]   z      }
 **
-**        pv[0][1]   xdot   }
+**        pv[1][0]   xdot   }
 **        pv[1][1]   ydot   } heliocentric velocity, AU/d
-**        pv[2][1]   zdot   }
+**        pv[1][2]   zdot   }
 **
 **     The reference frame is equatorial and is with respect to the
 **     mean equator and equinox of epoch J2000.0.
@@ -162,7 +162,7 @@ int iauPlan94(double date1, double date2, int np, double pv[2][3])
 **              Chapront-Touze, M., Francou, G., and Laskar, J.,
 **              Astron. Astrophys. 282, 663 (1994).
 **
-**  This revision:  2009 December 17
+**  This revision:  2012 March 8
 **
 **  SOFA release 2012-03-01
 **

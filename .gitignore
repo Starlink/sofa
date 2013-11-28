@@ -28,3 +28,4 @@ starconf.status
 t_sofa_c
 *.tar.gz
 test-driver
+src/.dirstamp

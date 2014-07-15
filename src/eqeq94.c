@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauEqeq94(double date1, double date2)
 /*
@@ -45,6 +45,7 @@ double iauEqeq94(double date1, double date2)
 **        Greenwich apparent ST = GMST + equation of the equinoxes
 **
 **  Called:
+**     iauAnpm      normalize angle into range +/- pi
 **     iauNut80     nutation, IAU 1980
 **     iauObl80     mean obliquity, IAU 1980
 **
@@ -55,11 +56,11 @@ double iauEqeq94(double date1, double date2)
 **     Capitaine, N. & Gontier, A.-M., 1993, Astron. Astrophys., 275,
 **     645-650.
 **
-**  This revision:  2008 May 24
+**  This revision:  2013 August 31
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double t,  om,  dpsi,  deps,  eps0, ee;
@@ -85,7 +86,7 @@ double iauEqeq94(double date1, double date2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

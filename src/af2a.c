@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 #include <stdlib.h>
 
 int iauAf2a(char s, int ideg, int iamin, double asec, double *rad)
@@ -39,11 +39,11 @@ int iauAf2a(char s, int ideg, int iamin, double asec, double *rad)
 **  3)  If there are multiple errors, the status value reflects only the
 **      first, the smallest taking precedence.
 **
-**  This revision:  2012 February 13
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 
@@ -61,7 +61,7 @@ int iauAf2a(char s, int ideg, int iamin, double asec, double *rad)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

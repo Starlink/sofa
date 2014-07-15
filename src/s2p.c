@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauS2p(double theta, double phi, double r, double p[3])
 /*
@@ -25,11 +25,11 @@ void iauS2p(double theta, double phi, double r, double p[3])
 **     iauS2c       spherical coordinates to unit vector
 **     iauSxp       multiply p-vector by scalar
 **
-**  This revision:  2008 May 11
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double u[3];
@@ -42,7 +42,7 @@ void iauS2p(double theta, double phi, double r, double p[3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

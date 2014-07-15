@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauBp06(double date1, double date2,
              double rb[3][3], double rp[3][3], double rbp[3][3])
@@ -52,12 +52,16 @@ void iauBp06(double date1, double date2,
 **  4) The matrix rbp transforms vectors from GCRS to mean of date by
 **     applying frame bias then precession.  It is the product rp x rb.
 **
+**  5) It is permissible to re-use the same array in the returned
+**     arguments.  The arrays are filled in the order given.
+**
 **  Called:
 **     iauPfw06     bias-precession F-W angles, IAU 2006
 **     iauFw2m      F-W angles to r-matrix
 **     iauPmat06    PB matrix, IAU 2006
 **     iauTr        transpose r-matrix
 **     iauRxr       product of two r-matrices
+**     iauCr        copy r-matrix
 **
 **  References:
 **
@@ -65,32 +69,35 @@ void iauBp06(double date1, double date2,
 **
 **     Wallace, P.T. & Capitaine, N., 2006, Astron.Astrophys. 459, 981
 **
-**  This revision:  2009 December 17
+**  This revision:  2013 August 21
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
-   double gamb, phib, psib, epsa, rbt[3][3];
+   double gamb, phib, psib, epsa, rbpw[3][3], rbt[3][3];
 
 
 /* B matrix. */
    iauPfw06(DJM0, DJM00, &gamb, &phib, &psib, &epsa);
    iauFw2m(gamb, phib, psib, epsa, rb);
 
-/* PxB matrix. */
-   iauPmat06(date1, date2, rbp);
+/* PxB matrix (temporary). */
+   iauPmat06(date1, date2, rbpw);
 
 /* P matrix. */
    iauTr(rb, rbt);
-   iauRxr(rbp, rbt, rp);
+   iauRxr(rbpw, rbt, rp);
+
+/* PxB matrix. */
+   iauCr(rbpw, rbp);
 
    return;
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

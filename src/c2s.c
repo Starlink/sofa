@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauC2s(double p[3], double *theta, double *phi)
 /*
@@ -28,11 +28,11 @@ void iauC2s(double p[3], double *theta, double *phi)
 **
 **  3) At either pole, zero theta is returned.
 **
-**  This revision:  2008 May 11
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double x, y, z, d2;
@@ -50,7 +50,7 @@ void iauC2s(double p[3], double *theta, double *phi)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

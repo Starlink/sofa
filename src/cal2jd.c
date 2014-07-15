@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauCal2jd(int iy, int im, int id, double *djm0, double *djm)
 /*
@@ -48,11 +48,11 @@ int iauCal2jd(int iy, int im, int id, double *djm0, double *djm)
 **     P. Kenneth Seidelmann (ed), University Science Books (1992),
 **     Section 12.92 (p604).
 **
-**  This revision:  2009 October 19
+**  This revision:  2013 August 7
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int j, ly, my;
@@ -82,7 +82,7 @@ int iauCal2jd(int iy, int im, int id, double *djm0, double *djm)
 /* Return result. */
    my = (im - 14) / 12;
    iypmy = (long) (iy + my);
-   *djm0 = 2400000.5;
+   *djm0 = DJM0;
    *djm = (double)((1461L * (iypmy + 4800L)) / 4L
                  + (367L * (long) (im - 2 - 12 * my)) / 12L
                  - (3L * ((iypmy + 4900L) / 100L)) / 4L
@@ -93,7 +93,7 @@ int iauCal2jd(int iy, int im, int id, double *djm0, double *djm)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

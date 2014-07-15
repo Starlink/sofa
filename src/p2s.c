@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauP2s(double p[3], double *theta, double *phi, double *r)
 /*
@@ -31,11 +31,11 @@ void iauP2s(double p[3], double *theta, double *phi, double *r)
 **     iauC2s       p-vector to spherical
 **     iauPm        modulus of p-vector
 **
-**  This revision:  2008 May 22
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    iauC2s(p, theta, phi);
@@ -45,7 +45,7 @@ void iauP2s(double p[3], double *theta, double *phi, double *r)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

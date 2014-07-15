@@ -1,9 +1,9 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauC2i06a(double date1, double date2, double rc2i[3][3])
 /*
 **  - - - - - - - - - -
-**   i a u _ c 2 i 0 6 a
+**   i a u C 2 i 0 6 a
 **  - - - - - - - - - -
 **
 **  Form the celestial-to-intermediate matrix for a given date using the
@@ -56,19 +56,19 @@ void iauC2i06a(double date1, double date2, double rc2i[3][3])
 **  Called:
 **     iauPnm06a    classical NPB matrix, IAU 2006/2000A
 **     iauBpn2xy    extract CIP X,Y coordinates from NPB matrix
-**     iauS06       the CIO locator s, Given X,Y, IAU 2006
-**     iauC2ixys    celestial-to-intermediate matrix, Given X,Y and s
+**     iauS06       the CIO locator s, given X,Y, IAU 2006
+**     iauC2ixys    celestial-to-intermediate matrix, given X,Y and s
 **
 **  References:
 **
 **     McCarthy, D. D., Petit, G. (eds.), 2004, IERS Conventions (2003),
 **     IERS Technical Note No. 32, BKG
 **
-**  This revision:  2008 May 13
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double rbpn[3][3], x, y, s;
@@ -90,7 +90,7 @@ void iauC2i06a(double date1, double date2, double rc2i[3][3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

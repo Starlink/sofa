@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauGc2gd ( int n, double xyz[3],
                double *elong, double *phi, double *height )
@@ -20,7 +20,7 @@ int iauGc2gd ( int n, double xyz[3],
 **     xyz     double[3]  geocentric vector (Note 2)
 **
 **  Returned:
-**     elong   double     longitude (radians, east +ve)
+**     elong   double     longitude (radians, east +ve, Note 3)
 **     phi     double     latitude (geodetic, radians, Note 3)
 **     height  double     height above ellipsoid (geodetic, Notes 2,3)
 **
@@ -48,7 +48,7 @@ int iauGc2gd ( int n, double xyz[3],
 **
 **  3) An error status -1 means that the identifier n is illegal.  An
 **     error status -2 is theoretically impossible.  In all error cases,
-**     phi and height are both set to -1e9.
+**     all three results are set to -1e9.
 **
 **  4) The inverse transformation is performed in the function iauGd2gc.
 **
@@ -56,11 +56,11 @@ int iauGc2gd ( int n, double xyz[3],
 **     iauEform     Earth reference ellipsoids
 **     iauGc2gde    geocentric to geodetic transformation, general
 **
-**  This revision:  2012 Febuary 23
+**  This revision:  2013 September 1
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int j;
@@ -78,6 +78,7 @@ int iauGc2gd ( int n, double xyz[3],
 
 /* Deal with any errors. */
    if ( j < 0 ) {
+      *elong = -1e9;
       *phi = -1e9;
       *height = -1e9;
    }
@@ -87,7 +88,7 @@ int iauGc2gd ( int n, double xyz[3],
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

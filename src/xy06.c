@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauXy06(double date1, double date2, double *x, double *y)
 /*
@@ -90,16 +90,16 @@ void iauXy06(double date1, double date2, double *x, double *y)
 **
 **     Wallace, P.T. & Capitaine, N., 2006, Astron.Astrophys. 459, 981
 **
-**  This revision:  2009 October 16
+**  This revision:  2013 August 21
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 
 /* Maximum power of T in the polynomials for X and Y */
-#define MAXPT (5)
+   enum { MAXPT = 5 };
 
 /* Polynomial coefficients (arcsec, X then Y). */
    static const double xyp[2][MAXPT+1] = {
@@ -2712,7 +2712,7 @@ void iauXy06(double date1, double date2, double *x, double *y)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

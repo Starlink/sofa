@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauUtcut1(double utc1, double utc2, double dut1,
               double *ut11, double *ut12)
@@ -23,7 +23,7 @@ int iauUtcut1(double utc1, double utc2, double dut1,
 **     ut11,ut12  double   UT1 as a 2-part Julian Date (Note 6)
 **
 **  Returned (function value):
-**                int      status: +1 = dubious year (Note 7)
+**                int      status: +1 = dubious year (Note 3)
 **                                  0 = OK
 **                                 -1 = unacceptable date
 **
@@ -39,24 +39,20 @@ int iauUtcut1(double utc1, double utc2, double dut1,
 **     length is 86399, 86400 or 86401 SI seconds.
 **
 **  3) The warning status "dubious year" flags UTCs that predate the
-**     introduction of the time scale and that are too far in the future
-**     to be trusted.  See iauDat  for further details.
+**     introduction of the time scale or that are too far in the future
+**     to be trusted.  See iauDat for further details.
 **
-**  4) The function iauDtf2d  converts from calendar date and time of
+**  4) The function iauDtf2d converts from calendar date and time of
 **     day into 2-part Julian Date, and in the case of UTC implements
 **     the leap-second-ambiguity convention described above.
 **
 **  5) Delta UT1 can be obtained from tabulations provided by the
-**     International Earth Rotation and Reference Systems Service.  It
-**     It is the caller's responsibility to supply a DUT argument
+**     International Earth Rotation and Reference Systems Service.
+**     It is the caller's responsibility to supply a dut1 argument
 **     containing the UT1-UTC value that matches the given UTC.
 **
 **  6) The returned ut11,ut12 are such that their sum is the UT1 Julian
 **     Date.
-**
-**  7) The warning status "dubious year" flags UTCs that predate the
-**     introduction of the time scale and that are too far in the future
-**     to be trusted.  See iauDat for further details.
 **
 **  References:
 **
@@ -72,11 +68,11 @@ int iauUtcut1(double utc1, double utc2, double dut1,
 **     iauUtctai    UTC to TAI
 **     iauTaiut1    TAI to UT1
 **
-**  This revision:  2010 May 16
+**  This revision:  2013 August 12
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int iy, im, id, js, jw;
@@ -105,7 +101,7 @@ int iauUtcut1(double utc1, double utc2, double dut1,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

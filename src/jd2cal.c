@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauJd2cal(double dj1, double dj2,
               int *iy, int *im, int *id, double *fd)
@@ -31,7 +31,7 @@ int iauJd2cal(double dj1, double dj2,
 **  Notes:
 **
 **  1) The earliest valid date is -68569.5 (-4900 March 1).  The
-**     largest value accepted is 10^9.
+**     largest value accepted is 1e9.
 **
 **  2) The Julian Date is apportioned in any convenient way between
 **     the arguments dj1 and dj2.  For example, JD=2450123.7 could
@@ -55,16 +55,16 @@ int iauJd2cal(double dj1, double dj2,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992),
 **     Section 12.92 (p604).
 **
-**  This revision:  2008 May 26
+**  This revision:  2013 August 7
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* Minimum and maximum allowed JD */
-   static const double djmin = -68569.5;
-   static const double djmax = 1e9;
+   const double DJMIN = -68569.5;
+   const double DJMAX = 1e9;
 
    long jd, l, n, i, k;
    double dj, d1, d2, f1, f2, f, d;
@@ -72,7 +72,7 @@ int iauJd2cal(double dj1, double dj2,
 
 /* Verify date is acceptable. */
    dj = dj1 + dj2;
-   if (dj < djmin || dj > djmax) return -1;
+   if (dj < DJMIN || dj > DJMAX) return -1;
 
 /* Copy the date, big then small, and re-align to midnight. */
    if (dj1 >= dj2) {
@@ -109,7 +109,7 @@ int iauJd2cal(double dj1, double dj2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

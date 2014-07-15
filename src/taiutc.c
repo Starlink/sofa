@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2)
 /*
@@ -37,20 +37,21 @@ int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2)
 **  2) JD cannot unambiguously represent UTC during a leap second unless
 **     special measures are taken.  The convention in the present
 **     function is that the JD day represents UTC days whether the
-**     length is 86399, 86400 or 86401 SI seconds.
+**     length is 86399, 86400 or 86401 SI seconds.  In the 1960-1972 era
+**     there were smaller jumps (in either direction) each time the
+**     linear UTC(TAI) expression was changed, and these "mini-leaps"
+**     are also included in the SOFA convention.
 **
 **  3) The function iauD2dtf can be used to transform the UTC quasi-JD
 **     into calendar date and clock time, including UTC leap second
 **     handling.
 **
 **  4) The warning status "dubious year" flags UTCs that predate the
-**     introduction of the time scale and that are too far in the future
+**     introduction of the time scale or that are too far in the future
 **     to be trusted.  See iauDat for further details.
 **
 **  Called:
-**     iauJd2cal    JD to Gregorian calendar
-**     iauDat       delta(AT) = TAI-UTC
-**     iauCal2jd    Gregorian calendar to JD
+**     iauUtctai    UTC to TAI
 **
 **  References:
 **
@@ -60,16 +61,16 @@ int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2)
 **     Explanatory Supplement to the Astronomical Almanac,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992)
 **
-**  This revision:  2011 May 14
+**  This revision:  2013 September 12
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int big1;
-   int i, iy, im, id, js;
-   double a1, a2, d1, dats1, d2, fd, ddats, dats2, datd, as1, as2, da;
+   int i, j;
+   double a1, a2, u1, u2, g1, g2;
 
 
 /* Put the two parts of the TAI into big-first order. */
@@ -82,61 +83,37 @@ int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2)
       a2 = tai1;
    }
 
-/* See if the TAI can possibly be in a leap-second day. */
-   d1 = a1;
-   dats1 = 0.0;
-   for ( i = -1; i <= 3; i++ ) {
-      d2 = a2 + (double) i;
-      if ( iauJd2cal(d1, d2, &iy, &im, &id, &fd) ) return -1;
-      js = iauDat(iy, im, id, 0.0, &dats2);
-      if ( js < 0 ) return -1;
-      if ( i == -1 ) dats1 = dats2;
-      ddats = dats2 - dats1;
-      datd = dats1 / DAYSEC;
-      if ( fabs(ddats) >= 0.5 ) {
+/* Initial guess for UTC. */
+   u1 = a1;
+   u2 = a2;
 
-      /* Yes.  Get TAI for the start of the UTC day that */
-      /* ends in a leap. */
-         if ( iauCal2jd(iy, im, id, &d1, &d2) ) return -1;
-         as1 = d1;
-         as2 = d2 - 1.0 + datd;
+/* Iterate (though in most cases just once is enough). */
+   for ( i = 0; i < 3; i++ ) {
 
-      /* Is the TAI after this point? */
-         da = a1 - as1;
-         da = da + ( a2 - as2 );
-         if ( da > 0 ) {
+   /* Guessed UTC to TAI. */
+      j = iauUtctai(u1, u2, &g1, &g2);
+      if ( j < 0 ) return j;
 
-         /* Yes:  fraction of the current UTC day that has elapsed. */
-            fd = da * DAYSEC / ( DAYSEC + ddats );
-
-         /* Ramp TAI-UTC to bring about SOFA's JD(UTC) convention. */
-            datd += ddats * ( fd <= 1.0 ? fd : 1.0 ) / DAYSEC;
-         }
-
-      /* Done. */
-         break;
-      }
-      dats1 = dats2;
+   /* Adjust guessed UTC. */
+      u2 += a1 - g1;
+      u2 += a2 - g2;
    }
-
-/* Subtract the (possibly adjusted) TAI-UTC from TAI to give UTC. */
-   a2 -= datd;
 
 /* Return the UTC result, preserving the TAI order. */
    if ( big1 ) {
-      *utc1 = a1;
-      *utc2 = a2;
+      *utc1 = u1;
+      *utc2 = u2;
    } else {
-      *utc1 = a2;
-      *utc2 = a1;
+      *utc1 = u2;
+      *utc2 = u1;
    }
 
 /* Status. */
-   return js;
+   return j;
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

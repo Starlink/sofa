@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauPn06(double date1, double date2, double dpsi, double deps,
              double *epsa,
@@ -79,8 +79,8 @@ void iauPn06(double date1, double date2, double dpsi, double deps,
 **      equinox of date.  It is the product rn x rbp, applying frame
 **      bias, precession and nutation in that order.
 **
-**  9)  The X,Y,Z coordinates of the IAU 2000B Celestial Intermediate
-**      Pole are elements (3,1-3) of the matrix rbpn.
+**  9)  The X,Y,Z coordinates of the Celestial Intermediate Pole are
+**      elements (3,1-3) of the GCRS-to-true matrix, i.e. rbpn[2][0-2].
 **
 **  10) It is permissible to re-use the same array in the returned
 **      arguments.  The arrays are filled in the stated order.
@@ -98,11 +98,11 @@ void iauPn06(double date1, double date2, double dpsi, double deps,
 **
 **     Wallace, P.T. & Capitaine, N., 2006, Astron.Astrophys. 459, 981
 **
-**  This revision:  2009 December 17
+**  This revision:  2013 November 14
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double gamb, phib, psib, eps, r1[3][3], r2[3][3], rt[3][3];
@@ -141,7 +141,7 @@ void iauPn06(double date1, double date2, double dpsi, double deps,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

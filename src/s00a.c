@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauS00a(double date1, double date2)
 /*
@@ -57,9 +57,9 @@ double iauS00a(double date1, double date2)
 **     instead the IAU 2000B truncated model.
 **
 **  Called:
-**     iauPnm00a     classical NPB matrix, IAU 2000A
-**     iauBnp2xy     extract CIP X,Y from the BPN matrix
-**     iauS00        the CIO locator s, given X,Y, IAU 2000A
+**     iauPnm00a    classical NPB matrix, IAU 2000A
+**     iauBnp2xy    extract CIP X,Y from the BPN matrix
+**     iauS00       the CIO locator s, given X,Y, IAU 2000A
 **
 **  References:
 **
@@ -74,11 +74,11 @@ double iauS00a(double date1, double date2)
 **     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
 **     IERS Technical Note No. 32, BKG (2004)
 **
-**  This revision:  2010 January 18
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double rbpn[3][3], x, y, s;
@@ -97,7 +97,7 @@ double iauS00a(double date1, double date2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

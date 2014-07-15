@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauGmst82(double dj1, double dj2)
 /*
@@ -28,10 +28,10 @@ double iauGmst82(double dj1, double dj2)
 **
 **             dj1            dj2
 **
-**         2450123.7D0        0D0        (JD method)
-**          2451545D0      -1421.3D0     (J2000 method)
-**         2400000.5D0     50123.2D0     (MJD method)
-**         2450123.5D0       0.2D0       (date & time method)
+**         2450123.7          0          (JD method)
+**          2451545        -1421.3       (J2000 method)
+**         2400000.5       50123.2       (MJD method)
+**         2450123.5         0.2         (date & time method)
 **
 **     The JD method is the most natural and convenient to use in
 **     cases where the loss of several decimal digits of resolution
@@ -65,11 +65,11 @@ double iauGmst82(double dj1, double dj2)
 **
 **     Aoki et al., Astron. Astrophys. 105, 359-361 (1982).
 **
-**  This revision:  2008 May 24
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* Coefficients of IAU 1982 GMST-UT1 model */
@@ -105,7 +105,7 @@ double iauGmst82(double dj1, double dj2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

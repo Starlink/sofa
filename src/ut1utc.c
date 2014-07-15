@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauUt1utc(double ut11, double ut12, double dut1,
               double *utc1, double *utc2)
@@ -51,7 +51,7 @@ int iauUt1utc(double ut11, double ut12, double dut1,
 **     handling.
 **
 **  5) The warning status "dubious year" flags UTCs that predate the
-**     introduction of the time scale and that are too far in the future
+**     introduction of the time scale or that are too far in the future
 **     to be trusted.  See iauDat for further details.
 **
 **  Called:
@@ -67,11 +67,11 @@ int iauUt1utc(double ut11, double ut12, double dut1,
 **     Explanatory Supplement to the Astronomical Almanac,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992)
 **
-**  This revision:  2011 May 14
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int big1;
@@ -147,7 +147,7 @@ int iauUt1utc(double ut11, double ut12, double dut1,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

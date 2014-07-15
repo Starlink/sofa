@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauXys06a(double date1, double date2,
                double *x, double *y, double *s)
@@ -64,17 +64,17 @@ void iauXys06a(double date1, double date2,
 **
 **     Wallace, P.T. & Capitaine, N., 2006, Astron.Astrophys. 459, 981
 **
-**  This revision:  2008 May 11
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double rbpn[3][3];
 
 
-/* Form the bias-precession-nutation matrix, IAU 2000A. */
+/* Form the bias-precession-nutation matrix, IAU 2006/2000A. */
    iauPnm06a(date1, date2, rbpn);
 
 /* Extract X,Y. */
@@ -87,7 +87,7 @@ void iauXys06a(double date1, double date2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauPm(double p[3])
 /*
@@ -19,25 +19,18 @@ double iauPm(double p[3])
 **  Returned (function value):
 **            double        modulus
 **
-**  This revision:  2008 May 22
+**  This revision:  2013 August 7
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
-   double w;
-
-
-   w  = sqrt( p[0] * p[0]
-            + p[1] * p[1]
-            + p[2] * p[2] );
-
-   return w;
+   return sqrt( p[0]*p[0] + p[1]*p[1] + p[2]*p[2] );
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

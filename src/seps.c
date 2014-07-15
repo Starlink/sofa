@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauSeps(double al, double ap, double bl, double bp)
 /*
@@ -26,11 +26,11 @@ double iauSeps(double al, double ap, double bl, double bp)
 **     iauS2c       spherical coordinates to unit vector
 **     iauSepp      angular separation between two p-vectors
 **
-**  This revision:  2008 May 16
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double ac[3], bc[3], s;
@@ -47,7 +47,7 @@ double iauSeps(double al, double ap, double bl, double bp)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

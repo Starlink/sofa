@@ -29,3 +29,6 @@ t_sofa_c
 *.tar.gz
 test-driver
 src/.dirstamp
+t_sofa_c.log
+t_sofa_c.trs
+test-suite.log

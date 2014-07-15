@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauStarpv(double ra, double dec,
               double pmr, double pmd, double px, double rv,
@@ -118,11 +118,11 @@ int iauStarpv(double ra, double dec,
 **
 **     Stumpff, P., 1985, Astron.Astrophys. 144, 232-240.
 **
-**  This revision:  2009 July 6
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* Smallest allowed parallax */
@@ -218,7 +218,7 @@ int iauStarpv(double ra, double dec,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

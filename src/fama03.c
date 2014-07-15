@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauFama03(double t)
 /*
@@ -39,11 +39,11 @@ double iauFama03(double t)
 **     Souchay, J., Loysel, B., Kinoshita, H., Folgueira, M. 1999,
 **     Astron.Astrophys.Supp.Ser. 135, 111
 **
-**  This revision:  2009 December 16
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double a;
@@ -56,7 +56,7 @@ double iauFama03(double t)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

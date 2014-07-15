@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauDtdb(double date1, double date2,
                double ut, double elong, double u, double v)
@@ -162,11 +162,11 @@ double iauDtdb(double date1, double date2,
 **     Simon, J.L., Bretagnon, P., Chapront, J., Chapront-Touze, M.,
 **     Francou, G. & Laskar, J., Astron.Astrophys., 282, 663-683 (1994).
 **
-**  This revision:  2012 February 14
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double t, tsol, w, elsun, emsun, d, elj, els, wt, w0, w1, w2, w3, w4,
@@ -1167,7 +1167,7 @@ double iauDtdb(double date1, double date2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

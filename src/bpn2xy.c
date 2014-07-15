@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauBpn2xy(double rbpn[3][3], double *x, double *y)
 /*
@@ -39,11 +39,11 @@ void iauBpn2xy(double rbpn[3][3], double *x, double *y)
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
 **
-**  This revision:  2010 January 18
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* Extract the X,Y coordinates. */
@@ -54,7 +54,7 @@ void iauBpn2xy(double rbpn[3][3], double *x, double *y)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

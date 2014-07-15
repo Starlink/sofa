@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauA2tf(int ndp, double angle, char *sign, int ihmsf[4])
 /*
@@ -54,13 +54,13 @@ void iauA2tf(int ndp, double angle, char *sign, int ihmsf[4])
 **  3) The absolute value of angle may exceed 2pi.  In cases where it
 **     does not, it is up to the caller to test for and handle the
 **     case where angle is very nearly 2pi and rounds up to 24 hours,
-**     by testing for ihmsf[0]=24 and setting ihmsf(0-3) to zero.
+**     by testing for ihmsf[0]=24 and setting ihmsf[0-3] to zero.
 **
-**  This revision:  2008 May 11
+**  This revision:  2013 July 31
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* Scale then use days to h,m,s function. */
@@ -70,7 +70,7 @@ void iauA2tf(int ndp, double angle, char *sign, int ihmsf[4])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

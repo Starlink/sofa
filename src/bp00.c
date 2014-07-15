@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauBp00(double date1, double date2,
              double rb[3][3], double rp[3][3], double rbp[3][3])
@@ -75,19 +75,18 @@ void iauBp00(double date1, double date2,
 **     n.b. The celestial ephemeris origin (CEO) was renamed "celestial
 **          intermediate origin" (CIO) by IAU 2006 Resolution 2.
 **
-**  This revision:  2010 January 18
+**  This revision:  2013 August 21
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* J2000.0 obliquity (Lieske et al. 1977) */
    const double EPS0 = 84381.448 * DAS2R;
 
-   double t, dpsibi, depsbi;
-   double dra0, psia77, oma77, chia, dpsipr, depspr, psia, oma,
-          rbw[3][3];
+   double t, dpsibi, depsbi, dra0, psia77, oma77, chia,
+          dpsipr, depspr, psia, oma, rbw[3][3];
 
 
 /* Interval between fundamental epoch J2000.0 and current date (JC). */
@@ -102,23 +101,23 @@ void iauBp00(double date1, double date2,
    chia   = (  10.5526 + (-2.38064 + (-0.001125) * t) * t) * t * DAS2R;
 
 /* Apply IAU 2000 precession corrections. */
-   iauPr00(date1, date2, &dpsipr,  &depspr);
+   iauPr00(date1, date2, &dpsipr, &depspr);
    psia = psia77 + dpsipr;
    oma  = oma77  + depspr;
 
 /* Frame bias matrix: GCRS to J2000.0. */
    iauIr(rbw);
    iauRz(dra0, rbw);
-   iauRy(dpsibi * sin(EPS0), rbw);
+   iauRy(dpsibi*sin(EPS0), rbw);
    iauRx(-depsbi, rbw);
    iauCr(rbw, rb);
 
 /* Precession matrix: J2000.0 to mean of date. */
    iauIr(rp);
-   iauRx(EPS0,  rp);
+   iauRx(EPS0, rp);
    iauRz(-psia, rp);
-   iauRx(-oma,  rp);
-   iauRz(chia,  rp);
+   iauRx(-oma, rp);
+   iauRz(chia, rp);
 
 /* Bias-precession matrix: GCRS to mean of date. */
    iauRxr(rp, rbw, rbp);
@@ -127,7 +126,7 @@ void iauBp00(double date1, double date2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

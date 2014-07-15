@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauFk5hz(double r5, double d5, double date1, double date2,
               double *rh, double *dh)
@@ -74,11 +74,11 @@ void iauFk5hz(double r5, double d5, double date1, double date2,
 **
 **     F.Mignard & M.Froeschle, 2000, Astron.Astrophys. 354, 732-739.
 **
-**  This revision:  2009 December 17
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double t, p5e[3], r5h[3][3], s5h[3], vst[3], rst[3][3], p5[3],
@@ -114,7 +114,7 @@ void iauFk5hz(double r5, double d5, double date1, double date2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauFw2xy(double gamb, double phib, double psi, double eps,
               double *x, double *y)
@@ -21,7 +21,7 @@ void iauFw2xy(double gamb, double phib, double psi, double eps,
 **     eps      double    F-W angle epsilon (radians)
 **
 **  Returned:
-**     x,y      double    CIP X,Y ("radians")
+**     x,y      double    CIP unit vector X,Y
 **
 **  Notes:
 **
@@ -44,7 +44,8 @@ void iauFw2xy(double gamb, double phib, double psi, double eps,
 **
 **        NxPxB = R_1(-epsA).R_3(-psi).R_1(phib).R_3(gamb)
 **
-**     X,Y are elements (3,1) and (3,2) of the matrix.
+**     The returned values x,y are elements [2][0] and [2][1] of the
+**     matrix.  Near J2000.0, they are essentially angles in radians.
 **
 **  Called:
 **     iauFw2m      F-W angles to r-matrix
@@ -54,11 +55,11 @@ void iauFw2xy(double gamb, double phib, double psi, double eps,
 **
 **     Hilton, J. et al., 2006, Celest.Mech.Dyn.Astron. 94, 351
 **
-**  This revision:  2009 December 17
+**  This revision:  2013 September 2
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double r[3][3];
@@ -74,7 +75,7 @@ void iauFw2xy(double gamb, double phib, double psi, double eps,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

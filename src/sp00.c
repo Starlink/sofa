@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauSp00(double date1, double date2)
 /*
@@ -52,11 +52,11 @@ double iauSp00(double date1, double date2)
 **     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
 **     IERS Technical Note No. 32, BKG (2004)
 **
-**  This revision:  2008 May 24
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double t, sp;
@@ -72,7 +72,7 @@ double iauSp00(double date1, double date2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

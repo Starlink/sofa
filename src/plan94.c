@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauPlan94(double date1, double date2, int np, double pv[2][3])
 /*
@@ -162,11 +162,11 @@ int iauPlan94(double date1, double date2, int np, double pv[2][3])
 **              Chapront-Touze, M., Francou, G., and Laskar, J.,
 **              Astron. Astrophys. 282, 663 (1994).
 **
-**  This revision:  2012 March 8
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 /* Gaussian constant */
@@ -468,7 +468,7 @@ int iauPlan94(double date1, double date2, int np, double pv[2][3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

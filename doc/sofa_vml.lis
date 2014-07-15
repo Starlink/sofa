@@ -1,4 +1,4 @@
-sofa_vml.lis                                            2010 September 5
+sofa_vml.lis                                              2013 October 8
 
                    --------------------------
                    SOFA Vector/Matrix Library
@@ -8,9 +8,9 @@ PREFACE
 
 The routines described here comprise the SOFA vector/matrix library.
 Their general appearance and coding style conforms to conventions
-agreed by the SOFA Review Board, and their functions, names and
-algorithms have been ratified by the Board.  Procedures for
-soliciting and agreeing additions to the library are still evolving.
+agreed by the SOFA Board, and their functions, names and algorithms have
+been ratified by the Board.  Procedures for soliciting and agreeing
+additions to the library are still evolving.
 
 
 PROGRAMMING LANGUAGES

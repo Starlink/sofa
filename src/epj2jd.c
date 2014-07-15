@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauEpj2jd(double epj, double *djm0, double *djm)
 /*
@@ -14,7 +14,7 @@ void iauEpj2jd(double epj, double *djm0, double *djm)
 **  Status:  support function.
 **
 **  Given:
-**     epj      double    Julian Epoch (e.g. 1996.8D0)
+**     epj      double    Julian Epoch (e.g. 1996.8)
 **
 **  Returned:
 **     djm0     double    MJD zero-point: always 2400000.5
@@ -31,21 +31,21 @@ void iauEpj2jd(double epj, double *djm0, double *djm)
 **
 **     Lieske, J.H., 1979, Astron.Astrophys. 73, 282.
 **
-**  This revision:  2008 May 11
+**  This revision:  2013 August 7
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
-   *djm0 = 2400000.5;
-   *djm  =   51544.5 + (epj - 2000.0) * 365.25;
+   *djm0 = DJM0;
+   *djm  = DJM00 + (epj - 2000.0) * 365.25;
 
    return;
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

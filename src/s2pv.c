@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauS2pv(double theta, double phi, double r,
              double td, double pd, double rd,
@@ -26,11 +26,11 @@ void iauS2pv(double theta, double phi, double r,
 **  Returned:
 **     pv       double[2][3]    pv-vector
 **
-**  This revision:  2008 May 25
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double st, ct, sp, cp, rcp, x, y, rpd, w;
@@ -57,7 +57,7 @@ void iauS2pv(double theta, double phi, double r,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

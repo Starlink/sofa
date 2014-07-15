@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauC2tcio(double rc2i[3][3], double era, double rpom[3][3],
                double rc2t[3][3])
@@ -18,7 +18,7 @@ void iauC2tcio(double rc2i[3][3], double era, double rpom[3][3],
 **
 **  Given:
 **     rc2i     double[3][3]    celestial-to-intermediate matrix
-**     era      double          Earth rotation angle
+**     era      double          Earth rotation angle (radians)
 **     rpom     double[3][3]    polar-motion matrix
 **
 **  Returned:
@@ -57,11 +57,11 @@ void iauC2tcio(double rc2i[3][3], double era, double rpom[3][3],
 **     McCarthy, D. D., Petit, G. (eds.), 2004, IERS Conventions (2003),
 **     IERS Technical Note No. 32, BKG
 **
-**  This revision:  2008 May 11
+**  This revision:  2013 August 24
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double r[3][3];
@@ -76,7 +76,7 @@ void iauC2tcio(double rc2i[3][3], double era, double rpom[3][3],
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

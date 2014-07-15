@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauPr00(double date1, double date2, double *dpsipr, double *depspr)
 /*
@@ -71,11 +71,11 @@ void iauPr00(double date1, double date2, double *dpsipr, double *depspr)
 **     Wallace, P.T., "Software for Implementing the IAU 2000
 **     Resolutions", in IERS Workshop 5.1 (2002).
 **
-**  This revision:  2009 December 17
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double t;
@@ -96,7 +96,7 @@ void iauPr00(double date1, double date2, double *dpsipr, double *depspr)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 #include <string.h>
 
 int iauD2dtf(const char *scale, int ndp, double d1, double d2,
@@ -60,10 +60,13 @@ int iauD2dtf(const char *scale, int ndp, double d1, double d2,
 **  4) JD cannot unambiguously represent UTC during a leap second unless
 **     special measures are taken.  The SOFA internal convention is that
 **     the quasi-JD day represents UTC days whether the length is 86399,
-**     86400 or 86401 SI seconds.
+**     86400 or 86401 SI seconds.  In the 1960-1972 era there were
+**     smaller jumps (in either direction) each time the linear UTC(TAI)
+**     expression was changed, and these "mini-leaps" are also included
+**     in the SOFA convention.
 **
 **  5) The warning status "dubious year" flags UTCs that predate the
-**     introduction of the time scale and that are too far in the future
+**     introduction of the time scale or that are too far in the future
 **     to be trusted.  See iauDat for further details.
 **
 **  6) For calendar conventions and limitations, see iauCal2jd.
@@ -73,17 +76,17 @@ int iauD2dtf(const char *scale, int ndp, double d1, double d2,
 **     iauD2tf      decompose days to hms
 **     iauDat       delta(AT) = TAI-UTC
 **
-**  This revision:  2012 February 12
+**  This revision:  2014 February 15
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int leap;
    char s;
    int iy1, im1, id1, js, iy2, im2, id2, ihmsf1[4], i;
-   double a1, b1, fd, dat1, w, dat2, ddt;
+   double a1, b1, fd, dat0, dat12, w, dat24, dleap;
 
 
 /* The two-part JD. */
@@ -92,58 +95,85 @@ int iauD2dtf(const char *scale, int ndp, double d1, double d2,
 
 /* Provisional calendar date. */
    js = iauJd2cal(a1, b1, &iy1, &im1, &id1, &fd);
-   if ( js ) return js < 0 ? -1 : js;
+   if ( js ) return -1;
 
 /* Is this a leap second day? */
    leap = 0;
    if ( ! strcmp(scale,"UTC") ) {
 
-   /* TAI-UTC today. */
-      js = iauDat(iy1, im1, id1, fd, &dat1);
+   /* TAI-UTC at 0h today. */
+      js = iauDat(iy1, im1, id1, 0.0, &dat0);
       if ( js < 0 ) return -1;
 
-   /* TAI-UTC tomorrow (at noon, to avoid rounding effects). */
+   /* TAI-UTC at 12h today (to detect drift). */
+      js = iauDat(iy1, im1, id1, 0.5, &dat12);
+      if ( js < 0 ) return -1;
+
+   /* TAI-UTC at 0h tomorrow (to detect jumps). */
       js = iauJd2cal(a1+1.5, b1-fd, &iy2, &im2, &id2, &w);
-      js = iauDat(iy2, im2, id2, 0.0, &dat2);
+      if ( js ) return -1;
+      js = iauDat(iy2, im2, id2, 0.0, &dat24);
       if ( js < 0 ) return -1;
 
-   /* The change in TAI-UTC (seconds). */
-      ddt = dat2 - dat1;
+   /* Any sudden change in TAI-UTC (seconds). */
+      dleap = dat24 - (2.0*dat12 - dat0);
 
    /* If leap second day, scale the fraction of a day into SI. */
-      leap = fabs(ddt) > 0.5;
-      if (leap) fd += fd * ddt/DAYSEC;
+      leap = (dleap != 0.0);
+      if (leap) fd += fd * dleap/DAYSEC;
    }
 
 /* Provisional time of day. */
    iauD2tf ( ndp, fd, &s, ihmsf1 );
 
-/* Is this a leap second day? */
-   if ( ! leap ) {
+/* Has the (rounded) time gone past 24h? */
+   if ( ihmsf1[0] > 23 ) {
 
-   /* No.  Has the time rounded up to 24h? */
-      if ( ihmsf1[0] > 23 ) {
+   /* Yes.  We probably need tomorrow's calendar date. */
+      js = iauJd2cal(a1+1.5, b1-fd, &iy2, &im2, &id2, &w);
+      if ( js ) return -1;
 
-      /* Yes.  We will need tomorrow's calendar date. */
-         js = iauJd2cal(a1+1.5, b1-fd, &iy2, &im2, &id2, &w);
+   /* Is today a leap second day? */
+      if ( ! leap ) {
 
-      /* Use 0h tomorrow. */
+      /* No.  Use 0h tomorrow. */
          iy1 = iy2;
          im1 = im2;
          id1 = id2;
-         for ( i = 0; i < 4; i++ ) {
-            ihmsf1[i] = 0;
+         ihmsf1[0] = 0;
+         ihmsf1[1] = 0;
+         ihmsf1[2] = 0;
+
+      } else {
+
+      /* Yes.  Are we past the leap second itself? */
+         if ( ihmsf1[2] > 0 ) {
+
+         /* Yes.  Use tomorrow but allow for the leap second. */
+            iy1 = iy2;
+            im1 = im2;
+            id1 = id2;
+            ihmsf1[0] = 0;
+            ihmsf1[1] = 0;
+            ihmsf1[2] = 0;
+
+         } else {
+
+         /* No.  Use 23 59 60... today. */
+            ihmsf1[0] = 23;
+            ihmsf1[1] = 59;
+            ihmsf1[2] = 60;
          }
-      }
-   } else {
 
-   /* This is a leap second day.  Has the time reached or passed 24h? */
-      if ( ihmsf1[0] > 23 ) {
-
-      /* Yes.  Use 23 59 60... */
-         ihmsf1[0] = 23;
-         ihmsf1[1] = 59;
-         ihmsf1[2] = 60;
+      /* If rounding to 10s or coarser always go up to new day. */
+         if ( ndp < 0 && ihmsf1[2] == 60 ) {
+            iy1 = iy2;
+            im1 = im2;
+            id1 = id2;
+            ihmsf1[0] = 0;
+            ihmsf1[1] = 0;
+            ihmsf1[2] = 0;
+         }
       }
    }
 
@@ -156,11 +186,11 @@ int iauD2dtf(const char *scale, int ndp, double d1, double d2,
    }
 
 /* Status. */
-   return js < 0 ? -1 : js;
+   return js;
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

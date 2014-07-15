@@ -27,13 +27,13 @@
 #
 #    Also:
 #      make all           same as make
-#      make deinstall     deinstall the library
+#      make uninstall     deinstall the library and header files
 #      make check         test the build
 #      make installcheck  same as make test
-#      make distclean     clean up and deinstall
-#      make realclean     same as make clean
+#      make distclean     delete all generated binaries
+#      make realclean     same as distclean
 #
-# Last revision:   2010 September 7
+# Last revision:   2013 September 2
 #
 # Copyright International Astronomical Union.  All rights reserved.
 #
@@ -91,11 +91,38 @@ SOFA_INC_NAMES = sofa.h sofam.h
 SOFA_INC = $(SOFA_INC_DIR)sofa.h $(SOFA_INC_DIR)sofam.h
 
 # The list of SOFA/C library object files.
+
 SOFA_OBS = iauA2af.o \
            iauA2tf.o \
+           iauAb.o \
            iauAf2a.o \
            iauAnp.o \
            iauAnpm.o \
+           iauApcg.o \
+           iauApcg13.o \
+           iauApci.o \
+           iauApci13.o \
+           iauApco.o \
+           iauApco13.o \
+           iauApcs.o \
+           iauApcs13.o \
+           iauAper.o \
+           iauAper13.o \
+           iauApio.o \
+           iauApio13.o \
+           iauAtci13.o \
+           iauAtciq.o \
+           iauAtciqn.o \
+           iauAtciqz.o \
+           iauAtco13.o \
+           iauAtic13.o \
+           iauAticq.o \
+           iauAticqn.o \
+           iauAtio13.o \
+           iauAtioq.o \
+           iauAtoc13.o \
+           iauAtoi13.o \
+           iauAtoiq.o \
            iauBi00.o \
            iauBp00.o \
            iauBp06.o \
@@ -174,6 +201,9 @@ SOFA_OBS = iauA2af.o \
            iauIr.o \
            iauJd2cal.o \
            iauJdcalf.o \
+           iauLd.o \
+           iauLdn.o \
+           iauLdsun.o \
            iauNum00a.o \
            iauNum00b.o \
            iauNum06a.o \
@@ -199,6 +229,8 @@ SOFA_OBS = iauA2af.o \
            iauPmat06.o \
            iauPmat76.o \
            iauPmp.o \
+           iauPmpx.o \
+           iauPmsafe.o \
            iauPn.o \
            iauPn00.o \
            iauPn00a.o \
@@ -221,10 +253,12 @@ SOFA_OBS = iauA2af.o \
            iauPvmpv.o \
            iauPvppv.o \
            iauPvstar.o \
+           iauPvtob.o \
            iauPvu.o \
            iauPvup.o \
            iauPvxpv.o \
            iauPxp.o \
+           iauRefco.o \
            iauRm2v.o \
            iauRv2m.o \
            iauRx.o \
@@ -296,30 +330,28 @@ install $(SOFA_LIB) : $(INSTALL_DIRS) $(SOFA_LIB_NAME) $(SOFA_INC)
 	cp $(SOFA_LIB_NAME) $(SOFA_LIB_DIR)
 
 # Deinstall the library and header files.
-deinstall:
-	rm -f $(SOFA_LIB) $(SOFA_INC)
+uninstall:
+	- $(RM) $(SOFA_LIB) $(SOFA_INC)
 
 # Test the build.
 check: $(SOFA_TEST_NAME) $(SOFA_INC_NAMES) $(SOFA_LIB_NAME)
 	$(CCOMPC) $(CFLAGX) $(SOFA_TEST_NAME) $(SOFA_LIB_NAME) \
         -lm -o $(SOFA_TEST)
 	./$(SOFA_TEST)
-	rm -f $(SOFA_TEST)
 
 # Test the installed library.
 installcheck test: $(SOFA_TEST_NAME) $(SOFA_INC) $(SOFA_LIB)
 	$(CCOMPC) $(CFLAGX) $(SOFA_TEST_NAME) -I$(SOFA_INC_DIR) \
         -L$(SOFA_LIB_DIR) -lsofa_c -lm -o $(SOFA_TEST)
 	./$(SOFA_TEST)
-	rm -f $(SOFA_TEST)
 
-# Local clean up.
-clean realclean:
-	rm -f $(SOFA_OBS) $(SOFA_LIB_NAME)
+# Delete object files.
+clean :
+	- $(RM) $(SOFA_OBS)
 
-# Clean up and deinstall.
-distclean:
-	rm -f $(SOFA_OBS) $(SOFA_LIB_NAME) $(SOFA_INC) $(SOFA_LIB)
+# Delete all generated binaries in the current directory.
+realclean distclean : clean
+	- $(RM) $(SOFA_LIB_NAME) $(SOFA_TEST)
 
 # Create the installation directories if not already present.
 $(INSTALL_DIRS):
@@ -341,12 +373,64 @@ iauA2af.o   : a2af.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ a2af.c
 iauA2tf.o   : a2tf.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ a2tf.c
+iauAb.o     : ab.c     sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ab.c
 iauAf2a.o   : af2a.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ af2a.c
 iauAnp.o    : anp.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ anp.c
 iauAnpm.o   : anpm.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ anpm.c
+iauApcg.o   : apcg.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apcg.c
+iauApcg13.o : apcg13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apcg13.c
+iauApci.o   : apci.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apci.c
+iauApci13.o : apci13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apci13.c
+iauApco.o   : apco.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apco.c
+iauApco13.o : apco13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apco13.c
+iauApcs.o   : apcs.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apcs.c
+iauApcs13.o : apcs13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apcs13.c
+iauAper.o   : aper.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ aper.c
+iauAper13.o : aper13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ aper13.c
+iauApio.o   : apio.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apio.c
+iauApio13.o : apio13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ apio13.c
+iauAtci13.o : atci13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atci13.c
+iauAtciq.o  : atciq.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atciq.c
+iauAtciqn.o : atciqn.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atciqn.c
+iauAtciqz.o : atciqz.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atciqz.c
+iauAtco13.o : atco13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atco13.c
+iauAtic13.o : atic13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atic13.c
+iauAticq.o  : aticq.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ aticq.c
+iauAticqn.o : aticqn.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ aticqn.c
+iauAtio13.o : atio13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atio13.c
+iauAtioq.o  : atioq.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atioq.c
+iauAtoc13.o : atoc13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atoc13.c
+iauAtoi13.o : atoi13.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atoi13.c
+iauAtoiq.o  : atoiq.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ atoiq.c
 iauBi00.o   : bi00.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ bi00.c
 iauBp00.o   : bp00.c   sofa.h sofam.h
@@ -503,6 +587,12 @@ iauJd2cal.o : jd2cal.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ jd2cal.c
 iauJdcalf.o : jdcalf.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ jdcalf.c
+iauLd.o     : ld.c     sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ld.c
+iauLdn.o    : ldn.c    sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ldn.c
+iauLdsun.o  : ldsun.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ ldsun.c
 iauNum00a.o : num00a.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ num00a.c
 iauNum00b.o : num00b.c sofa.h sofam.h
@@ -553,6 +643,10 @@ iauPmat76.o : pmat76.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pmat76.c
 iauPmp.o    : pmp.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pmp.c
+iauPmpx.o   : pmpx.c   sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ pmpx.c
+iauPmsafe.o : pmsafe.c sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ pmsafe.c
 iauPn.o     : pn.c     sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pn.c
 iauPn00.o   : pn00.c   sofa.h sofam.h
@@ -597,6 +691,8 @@ iauPvppv.o  : pvppv.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pvppv.c
 iauPvstar.o : pvstar.c sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pvstar.c
+iauPvtob.o  : pvtob.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ pvtob.c
 iauPvu.o    : pvu.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pvu.c
 iauPvup.o   : pvup.c   sofa.h sofam.h
@@ -605,6 +701,8 @@ iauPvxpv.o  : pvxpv.c  sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pvxpv.c
 iauPxp.o    : pxp.c    sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ pxp.c
+iauRefco.o  : refco.c  sofa.h sofam.h
+	$(CCOMPC) $(CFLAGF) -o $@ refco.c
 iauRm2v.o   : rm2v.c   sofa.h sofam.h
 	$(CCOMPC) $(CFLAGF) -o $@ rm2v.c
 iauRv2m.o   : rv2m.c   sofa.h sofam.h

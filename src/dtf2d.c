@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 #include <string.h>
 
 int iauDtf2d(const char *scale, int iy, int im, int id,
@@ -54,7 +54,10 @@ int iauDtf2d(const char *scale, int iy, int im, int id,
 **  4) JD cannot unambiguously represent UTC during a leap second unless
 **     special measures are taken.  The SOFA internal convention is that
 **     the quasi-JD day represents UTC days whether the length is 86399,
-**     86400 or 86401 SI seconds.
+**     86400 or 86401 SI seconds.  In the 1960-1972 era there were
+**     smaller jumps (in either direction) each time the linear UTC(TAI)
+**     expression was changed, and these "mini-leaps" are also included
+**     in the SOFA convention.
 **
 **  5) The warning status "time is after end of day" usually means that
 **     the sec argument is greater than 60.0.  However, in a day ending
@@ -62,7 +65,7 @@ int iauDtf2d(const char *scale, int iy, int im, int id,
 **     of a negative leap second).
 **
 **  6) The warning status "dubious year" flags UTCs that predate the
-**     introduction of the time scale and that are too far in the future
+**     introduction of the time scale or that are too far in the future
 **     to be trusted.  See iauDat for further details.
 **
 **  7) Only in the case of continuous and regular time scales (TAI, TT,
@@ -77,15 +80,15 @@ int iauDtf2d(const char *scale, int iy, int im, int id,
 **     iauDat       delta(AT) = TAI-UTC
 **     iauJd2cal    JD to Gregorian calendar
 **
-**  This revision:  2012 February 12
+**  This revision:  2013 July 26
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    int js, iy2, im2, id2;
-   double dj, w, day, seclim, dat1, dat2, ddt, time;
+   double dj, w, day, seclim, dat0, dat12, dat24, dleap, time;
 
 
 /* Today's Julian Day Number. */
@@ -95,29 +98,33 @@ int iauDtf2d(const char *scale, int iy, int im, int id,
 
 /* Day length and final minute length in seconds (provisional). */
    day = DAYSEC;
-   seclim = 60;
+   seclim = 60.0;
 
 /* Deal with the UTC leap second case. */
    if ( ! strcmp(scale,"UTC") ) {
 
-   /* TAI-UTC today. */
-      js = iauDat(iy, im, id, 0.0, &dat1);
+   /* TAI-UTC at 0h today. */
+      js = iauDat(iy, im, id, 0.0, &dat0);
       if ( js < 0 ) return js;
 
-   /* TAI-UTC tomorrow. */
-      js = iauJd2cal ( dj, 1.0, &iy2, &im2, &id2, &w);
+   /* TAI-UTC at 12h today (to detect drift). */
+      js = iauDat(iy, im, id, 0.5, &dat12);
+      if ( js < 0 ) return js;
+
+   /* TAI-UTC at 0h tomorrow (to detect jumps). */
+      js = iauJd2cal ( dj, 1.5, &iy2, &im2, &id2, &w);
       if ( js ) return js;
-      js = iauDat(iy2, im2, id2, 0.0, &dat2);
+      js = iauDat(iy2, im2, id2, 0.0, &dat24);
       if ( js < 0 ) return js;
 
-   /* The change in TAI-UTC (seconds). */
-      ddt = dat2 - dat1;
+   /* Any sudden change in TAI-UTC between today and tomorrow. */
+      dleap = dat24 - (2.0*dat12 - dat0);
 
    /* If leap second day, correct the day and final minute lengths. */
-      if ( fabs(ddt) > 0.5 ) {
-         day += ddt;
-         if ( ihr == 23 && imn == 59 ) seclim += ddt;
-      }
+      day += dleap;
+      if ( ihr == 23 && imn == 59 ) seclim += dleap;
+
+   /* End of UTC-specific actions. */
    }
 
 /* Validate the time. */
@@ -150,7 +157,7 @@ int iauDtf2d(const char *scale, int iy, int im, int id,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

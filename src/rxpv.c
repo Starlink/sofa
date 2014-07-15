@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauRxpv(double r[3][3], double pv[2][3], double rpv[2][3])
 /*
@@ -26,11 +26,11 @@ void iauRxpv(double r[3][3], double pv[2][3], double rpv[2][3])
 **  Called:
 **     iauRxp       product of r-matrix and p-vector
 **
-**  This revision:  2008 October 28
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    iauRxp(r, pv[0], rpv[0]);
@@ -40,7 +40,7 @@ void iauRxpv(double r[3][3], double pv[2][3], double rpv[2][3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

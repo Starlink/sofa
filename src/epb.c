@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauEpb(double dj1, double dj2)
 /*
@@ -24,33 +24,28 @@ double iauEpb(double dj1, double dj2)
 **     The Julian Date is supplied in two pieces, in the usual SOFA
 **     manner, which is designed to preserve time resolution.  The
 **     Julian Date is available as a single number by adding dj1 and
-**     dj2.  The maximum resolution is achieved if dj1 is 2451545D0
+**     dj2.  The maximum resolution is achieved if dj1 is 2451545.0
 **     (J2000.0).
 **
 **  Reference:
 **
-**     Lieske,J.H., 1979. Astron.Astrophys.,73,282.
+**     Lieske, J.H., 1979. Astron.Astrophys., 73, 282.
 **
-**  This revision:  2009 December 16
+**  This revision:  2013 August 21
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
-/* J2000.0 minus B1900.0 (2415019.81352) in Julian days */
-   static const double D1900 = 36524.68648;
+/* J2000.0-B1900.0 (2415019.81352) in days */
+   const double D1900 = 36524.68648;
 
-   double epb;
-
-
-   epb = 1900.0 + ((dj1 - DJ00) + (dj2 + D1900)) / DTY;
-
-   return epb;
+   return 1900.0 + ((dj1 - DJ00) + (dj2 + D1900)) / DTY;
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauSxpv(double s, double pv[2][3], double spv[2][3])
 /*
@@ -21,16 +21,16 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3])
 **     spv     double[2][3]    s * pv
 **
 **  Note:
-**     It is permissible for pv and psv to be the same array
+**     It is permissible for pv and spv to be the same array
 **
 **  Called:
 **     iauS2xpv     multiply pv-vector by two scalars
 **
-**  This revision:  2008 October 28
+**  This revision:  2013 August 7
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    iauS2xpv(s, s, pv, spv);
@@ -39,7 +39,7 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

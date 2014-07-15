@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauTcbtdb(double tcb1, double tcb2, double *tdb1, double *tdb2)
 /*
@@ -52,11 +52,11 @@ int iauTcbtdb(double tcb1, double tcb2, double *tdb1, double *tdb2)
 **
 **     IAU 2006 Resolution B3
 **
-**  This revision:  2011 May 14
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
 
@@ -86,7 +86,7 @@ int iauTcbtdb(double tcb1, double tcb2, double *tdb1, double *tdb2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

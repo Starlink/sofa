@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauNum00a(double date1, double date2, double rmatn[3][3])
 /*
@@ -57,11 +57,11 @@ void iauNum00a(double date1, double date2, double rmatn[3][3])
 **     P. Kenneth Seidelmann (ed), University Science Books (1992),
 **     Section 3.222-3 (p114).
 **
-**  This revision:  2008 May 12
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double dpsi, deps, epsa, rb[3][3], rp[3][3], rbp[3][3], rbpn[3][3];
@@ -75,7 +75,7 @@ void iauNum00a(double date1, double date2, double rmatn[3][3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

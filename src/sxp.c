@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 void iauSxp(double s, double p[3], double sp[3])
 /*
@@ -23,11 +23,11 @@ void iauSxp(double s, double p[3], double sp[3])
 **  Note:
 **     It is permissible for p and sp to be the same array.
 **
-**  This revision:  2008 October 28
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    sp[0] = s * p[0];
@@ -38,7 +38,7 @@ void iauSxp(double s, double p[3], double sp[3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

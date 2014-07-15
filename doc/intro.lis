@@ -1,4 +1,4 @@
-intro.lis                                               2010 September 5
+intro.lis                                                 2010 October 8
 
 
                   -------------------------------
@@ -9,21 +9,21 @@ intro.lis                                               2010 September 5
   SOFA stands for "Standards Of Fundamental Astronomy".  The SOFA
   software libraries are a collection of subprograms, in source-
   code form, which implement official IAU algorithms for fundamental-
-  astronomy computations.   The subprograms at present comprise 131
+  astronomy computations.   The subprograms at present comprise 164
   "astronomy" routines supported by 55 "vector/matrix" routines,
   available in both Fortran77 and C implementations.
 
 
 THE SOFA INITIATIVE
 
-SOFA is an IAU Service which operates under Division 1 (Fundamental
-Astronomy) and reports through Commission 19 (Rotation of the Earth).
+SOFA is an IAU Service which operates as a Standing Working Group under
+Division A (Fundamental Astronomy).
 
 The IAU set up the SOFA initiative at the 1994 General Assembly, to
 promulgate an authoritative set of fundamental-astronomy constants and
 algorithms.  At the subsequent General Assembly, in 1997, the
-appointment of a SOFA Review Board and the selection of a site for the
-SOFA Center (the outlet for SOFA products) were announced.
+appointment of a review board and the selection of a site for the SOFA
+Center (the outlet for SOFA products) were announced.
 
 The SOFA initiative was originally proposed by the IAU Working Group on
 Astronomical Standards (WGAS), under the chairmanship of
@@ -32,7 +32,7 @@ establish and maintain an accessible and authoritative set of constants,
 algorithms and procedures that implement standard models used in
 fundamental astronomy".  The SOFA Software Libraries implement the
 "algorithms" part of the SOFA initiative.  They were developed under the
-supervision of an international panel called the SOFA Review Board.  The
+supervision of an international panel called the SOFA Board.  The
 current membership of this panel is listed in an appendix.
 
 A feature of the original SOFA software proposals was that the products
@@ -48,12 +48,11 @@ visible as individual text files and will run on a variety of platforms.
 
 ALGORITHMS
 
-The SOFA Review Board's initial goal has been to create a set of
-callable subprograms.  Whether "subroutines" or "functions", they are
-all referred to simply as "routines".  They are designed for use by
-software developers wishing to write complete applications;  no
-runnable, free-standing applications are included in SOFA's present
-plans.
+The SOFA Board's initial goal has been to create a set of callable
+subprograms.  Whether "subroutines" or "functions", they are all
+referred to simply as "routines".  They are designed for use by software
+developers wishing to write complete applications;  no runnable, free-
+standing applications are included in SOFA's present plans.
 
 The algorithms are drawn from a variety of sources.  Because most of the
 routines so far developed have either been standard "text-book"
@@ -75,7 +74,7 @@ SCOPE
 The routines currently available are listed in the next two chapters of
 this document.
 
-The "astronomy" library comprises 131 routines (plus one obsolete
+The "astronomy" library comprises 164 routines (plus one obsolete
 Fortran routine that now appears under a revised name).  The areas
 addressed include calendars, time scales, ephemerides, precession-
 nutation, star space-motion, star catalog transformations and
@@ -130,7 +129,10 @@ detail what the routine does and how it is used.
 The file sofa_pn.pdf describes the SOFA tools for precession-nutation
 and other aspects of Earth attitude and includes example code and (see
 the appendix) diagrams showing the interrelationships between the
-routines supporting the latest (IAU 2006/2000A) models.
+routines supporting the latest (IAU 2006/2000A) models.  Four other
+documents introduce time scale transformations (sofa_ts_f.pdf and
+sofa_ts_c.pdf for Fortran and C users respectively) and astrometric
+transformations (sofa_ast_f.pdf and sofa_ast_c.pdf).
 
 
 PROGRAMMING LANGUAGES AND STANDARDS
@@ -175,12 +177,11 @@ encountered on some systems.
 COPYRIGHT ISSUES
 
 Copyright for all of the SOFA software and documentation is owned by the
-IAU SOFA Review Board.  The Software is made available free of charge
-for all classes of user, including commercial.  However, there are
-strict rules designed to avoid unauthorized variants coming into
-circulation.  It is permissible to distribute derived works and other
-modifications, but they must be clearly marked to avoid confusion with
-the SOFA originals.
+IAU SOFA Board.  The Software is made available free of charge for all
+classes of user, including commercial.  However, there are strict rules
+designed to avoid unauthorized variants coming into circulation.  It is
+permissible to distribute derived works and other modifications, but
+they must be clearly marked to avoid confusion with the SOFA originals.
 
 Further details are included in the block of comments which concludes
 every routine.  The text is also set out in an appendix to the present

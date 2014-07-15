@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 int iauStarpm(double ra1, double dec1,
               double pmr1, double pmd1, double px1, double rv1,
@@ -97,7 +97,7 @@ int iauStarpm(double ra1, double dec1,
 **     this way, the status, initially zero, has 1 added to it.
 **
 **  7) If the space velocity is a significant fraction of c (see the
-**     constant VMAX in the function iauStarpv),  it is arbitrarily set
+**     constant VMAX in the function iauStarpv), it is arbitrarily set
 **     to zero.  When this action occurs, 2 is added to the status.
 **
 **  8) The relativistic adjustment carried out in the iauStarpv function
@@ -111,11 +111,11 @@ int iauStarpm(double ra1, double dec1,
 **     iauPdp       scalar product of two p-vectors
 **     iauPvstar    space motion pv-vector to star catalog data
 **
-**  This revision:  2008 May 16
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double pv1[2][3], tl1, dt, pv[2][3], r2, rdv, v2, c2mv2, tl2,
@@ -159,7 +159,7 @@ int iauStarpm(double ra1, double dec1,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

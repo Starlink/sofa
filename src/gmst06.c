@@ -1,4 +1,4 @@
-#include "sofam.h"
+#include "sofa.h"
 
 double iauGmst06(double uta, double utb, double tta, double ttb)
 /*
@@ -63,11 +63,11 @@ double iauGmst06(double uta, double utb, double tta, double ttb)
 **     Capitaine, N., Wallace, P.T. & Chapront, J., 2005,
 **     Astron.Astrophys. 432, 355
 **
-**  This revision:  2008 May 24
+**  This revision:  2013 June 18
 **
-**  SOFA release 2012-03-01
+**  SOFA release 2013-12-02
 **
-**  Copyright (C) 2012 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
 */
 {
    double t, gmst;
@@ -90,7 +90,7 @@ double iauGmst06(double uta, double utb, double tta, double ttb)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2012
+**  Copyright (C) 2013
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

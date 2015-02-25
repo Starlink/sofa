@@ -11,11 +11,11 @@
 **  This file is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  This revision:   2013 August 22
+**  This revision:   2015 January 28
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2015-02-09
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2015 IAU SOFA Board.  See notes at end.
 */
 
 #include "sofam.h"
@@ -57,7 +57,7 @@ void iauApco(double date1, double date2,
              iauASTROM *astrom);
 int iauApco13(double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
-              double phpa, double tk, double rh, double wl,
+              double phpa, double tc, double rh, double wl,
               iauASTROM *astrom, double *eo);
 void iauApcs(double date1, double date2, double pv[2][3],
              double ebpv[2][3], double ehp[3],
@@ -72,7 +72,7 @@ void iauApio(double sp, double theta,
              iauASTROM *astrom);
 int iauApio13(double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
-              double phpa, double tk, double rh, double wl,
+              double phpa, double tc, double rh, double wl,
               iauASTROM *astrom);
 void iauAtci13(double rc, double dc,
                double pr, double pd, double px, double rv,
@@ -90,7 +90,7 @@ int iauAtco13(double rc, double dc,
               double pr, double pd, double px, double rv,
               double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
-              double phpa, double tk, double rh, double wl,
+              double phpa, double tc, double rh, double wl,
               double *aob, double *zob, double *hob,
               double *dob, double *rob, double *eo);
 void iauAtic13(double ri, double di,
@@ -103,7 +103,7 @@ void iauAticqn(double ri, double di, iauASTROM *astrom,
 int iauAtio13(double ri, double di,
               double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
-              double phpa, double tk, double rh, double wl,
+              double phpa, double tc, double rh, double wl,
               double *aob, double *zob, double *hob,
               double *dob, double *rob);
 void iauAtioq(double ri, double di, iauASTROM *astrom,
@@ -112,12 +112,12 @@ void iauAtioq(double ri, double di, iauASTROM *astrom,
 int iauAtoc13(const char *type, double ob1, double ob2,
               double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
-              double phpa, double tk, double rh, double wl,
+              double phpa, double tc, double rh, double wl,
               double *rc, double *dc);
 int iauAtoi13(const char *type, double ob1, double ob2,
               double utc1, double utc2, double dut1,
               double elong, double phi, double hm, double xp, double yp,
-              double phpa, double tk, double rh, double wl,
+              double phpa, double tc, double rh, double wl,
               double *ri, double *di);
 void iauAtoiq(const char *type,
               double ob1, double ob2, iauASTROM *astrom,
@@ -128,17 +128,16 @@ void iauLdn(int n, iauLDBODY b[], double ob[3], double sc[3],
             double sn[3]);
 void iauLdsun(double p[3], double e[3], double em, double p1[3]);
 void iauPmpx(double rc, double dc, double pr, double pd,
-             double px, double rv, double pmt, double vob[3],
+             double px, double rv, double pmt, double pob[3],
              double pco[3]);
 int iauPmsafe(double ra1, double dec1, double pmr1, double pmd1,
               double px1, double rv1,
               double ep1a, double ep1b, double ep2a, double ep2b,
               double *ra2, double *dec2, double *pmr2, double *pmd2,
               double *px2, double *rv2);
-void iauPvtob(double elong, double phi, double hm,
-              double xp, double yp, double sp, double theta,
-              double pv[2][3]);
-void iauRefco(double phpa, double tk, double rh, double wl,
+void iauPvtob(double elong, double phi, double height, double xp,
+              double yp, double sp, double theta, double pv[2][3]);
+void iauRefco(double phpa, double tc, double rh, double wl,
               double *refa, double *refb);
 
 /* Astronomy/Ephemerides */
@@ -248,8 +247,10 @@ void iauPnm00b(double date1, double date2, double rbpn[3][3]);
 void iauPnm06a(double date1, double date2, double rnpb[3][3]);
 void iauPnm80(double date1, double date2, double rmatpn[3][3]);
 void iauPom00(double xp, double yp, double sp, double rpom[3][3]);
-void iauPr00(double date1, double date2, double *dpsipr, double *depspr);
-void iauPrec76(double ep01, double ep02, double ep11, double ep12,
+void iauPr00(double date1, double date2,
+             double *dpsipr, double *depspr);
+void iauPrec76(double date01, double date02,
+               double date11, double date12,
                double *zeta, double *z, double *theta);
 double iauS00(double date1, double date2, double x, double y);
 double iauS00a(double date1, double date2);
@@ -284,10 +285,6 @@ double iauGst06a(double uta, double utb, double tta, double ttb);
 double iauGst94(double uta, double utb);
 
 /* Astronomy/SpaceMotion */
-int iauPmsafe(double ra1, double dec1, double pmr1, double pmd1,
-              double px1, double rv1, double ep1a, double ep1b,
-              double ep2a, double ep2b, double *ra2, double *dec2,
-              double *pmr2, double *pmd2, double *px2, double *rv2);
 int iauPvstar(double pv[2][3], double *ra, double *dec,
               double *pmr, double *pmd, double *px, double *rv);
 int iauStarpv(double ra, double dec,
@@ -314,6 +311,10 @@ int iauStarpm(double ra1, double dec1,
               double *ra2, double *dec2,
               double *pmr2, double *pmd2, double *px2, double *rv2);
 
+/* Astronomy/GalacticCoordinates */
+void iauG2icrs ( double dl, double db, double *dr, double *dd );
+void iauIcrs2g ( double dr, double dd, double *dl, double *db );
+
 /* Astronomy/GeodeticGeocentric */
 int iauEform(int n, double *a, double *f);
 int iauGc2gd(int n, double xyz[3],
@@ -324,8 +325,6 @@ int iauGd2gc(int n, double elong, double phi, double height,
              double xyz[3]);
 int iauGd2gce(double a, double f,
               double elong, double phi, double height, double xyz[3]);
-void iauPvtob(double elong, double phi, double height, double xp,
-              double yp, double sp, double theta, double pv[2][3]);
 
 /* Astronomy/Timescales */
 int iauD2dtf(const char *scale, int ndp, double d1, double d2,
@@ -447,7 +446,7 @@ void iauSxpv(double s, double pv[2][3], double spv[2][3]);
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2015
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

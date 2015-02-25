@@ -6,7 +6,7 @@ void iauLdsun(double p[3], double e[3], double em, double p1[3])
 **   i a u L d s u n
 **  - - - - - - - - -
 **
-**  Light deflection by the Sun.
+**  Deflection of starlight by the Sun.
 **
 **  This function is part of the International Astronomical Union's
 **  SOFA (Standards of Fundamental Astronomy) software collection.
@@ -14,12 +14,12 @@ void iauLdsun(double p[3], double e[3], double em, double p1[3])
 **  Status:  support function.
 **
 **  Given:
-**     p      double[3]  direction from observer to source (unit vector)
+**     p      double[3]  direction from observer to star (unit vector)
 **     e      double[3]  direction from Sun to observer (unit vector)
 **     em     double     distance from Sun to observer (au)
 **
 **  Returned:
-**     p1     double[3]  observer to deflected source (unit vector)
+**     p1     double[3]  observer to deflected star (unit vector)
 **
 **  Notes:
 **
@@ -37,11 +37,11 @@ void iauLdsun(double p[3], double e[3], double em, double p1[3])
 **  Called:
 **     iauLd        light deflection by a solar-system body
 **
-**  This revision:   2013 August 30
+**  This revision:   2014 September 1
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2015-02-09
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2015 IAU SOFA Board.  See notes at end.
 */
 {
    iauLd(1.0, p, p, e, em, 1e-9, p1);
@@ -50,7 +50,7 @@ void iauLdsun(double p[3], double e[3], double em, double p1[3])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2015
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

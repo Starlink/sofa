@@ -110,6 +110,7 @@ src/fk5hip.c \
 src/fk5hz.c \
 src/fw2m.c \
 src/fw2xy.c \
+src/g2icrs.c \
 src/gc2gd.c \
 src/gc2gde.c \
 src/gd2gc.c \
@@ -124,6 +125,7 @@ src/gst06a.c \
 src/gst94.c \
 src/h2fk5.c \
 src/hfk5z.c \
+src/icrs2g.c \
 src/ir.c \
 src/jd2cal.c \
 src/jdcalf.c \

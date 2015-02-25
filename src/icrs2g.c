@@ -1,48 +1,117 @@
 #include "sofa.h"
 
-double iauEpj(double dj1, double dj2)
+void iauIcrs2g ( double dr, double dd, double *dl, double *db )
 /*
-**  - - - - - - -
-**   i a u E p j
-**  - - - - - - -
+**  - - - - - - - - - -
+**   i a u I c r s 2 g
+**  - - - - - - - - - -
 **
-**  Julian Date to Julian Epoch.
+**  Transformation from ICRS to Galactic Coordinates.
 **
 **  This function is part of the International Astronomical Union's
-**  SOFA (Standards Of Fundamental Astronomy) software collection.
+**  SOFA (Standards of Fundamental Astronomy) software collection.
 **
-**  Status:  support function.
+**  Status:  support routine.
 **
 **  Given:
-**     dj1,dj2    double     Julian Date (see note)
+**     dr     double      ICRS right ascension (radians)
+**     dd     double      ICRS declination (radians)
 **
-**  Returned (function value):
-**                double     Julian Epoch
+**  Returned:
+**     dl     double      galactic longitude (radians)
+**     db     double      galactic latitude (radians)
 **
-**  Note:
+**  Notes:
 **
-**     The Julian Date is supplied in two pieces, in the usual SOFA
-**     manner, which is designed to preserve time resolution.  The
-**     Julian Date is available as a single number by adding dj1 and
-**     dj2.  The maximum resolution is achieved if dj1 is 2451545.0
-**     (J2000.0).
+**  1) The IAU 1958 system of Galactic coordinates was defined with
+**     respect to the now obsolete reference system FK4 B1950.0.  When
+**     interpreting the system in a modern context, several factors have
+**     to be taken into account:
+**
+**     . The inclusion in FK4 positions of the E-terms of aberration.
+**
+**     . The distortion of the FK4 proper motion system by differential
+**       Galactic rotation.
+**
+**     . The use of the B1950.0 equinox rather than the now-standard
+**       J2000.0.
+**
+**     . The frame bias between ICRS and the J2000.0 mean place system.
+**
+**     The Hipparcos Catalogue (Perryman & ESA 1997) provides a rotation
+**     matrix that transforms directly between ICRS and Galactic
+**     coordinates with the above factors taken into account.  The
+**     matrix is derived from three angles, namely the ICRS coordinates
+**     of the Galactic pole and the longitude of the ascending node of
+**     the galactic equator on the ICRS equator.  They are given in
+**     degrees to five decimal places and for canonical purposes are
+**     regarded as exact.  In the Hipparcos Catalogue the matrix
+**     elements are given to 10 decimal places (about 20 microarcsec).
+**     In the present SOFA function the matrix elements have been
+**     recomputed from the canonical three angles and are given to 30
+**     decimal places.
+**
+**  2) The inverse transformation is performed by the function iauG2icrs.
+**
+**  Called:
+**     iauAnp       normalize angle into range 0 to 2pi
+**     iauAnpm      normalize angle into range +/- pi
+**     iauS2c       spherical coordinates to unit vector
+**     iauRxp       product of r-matrix and p-vector
+**     iauC2s       p-vector to spherical
 **
 **  Reference:
+**     Perryman M.A.C. & ESA, 1997, ESA SP-1200, The Hipparcos and Tycho
+**     catalogues.  Astrometric and photometric star catalogues
+**     derived from the ESA Hipparcos Space Astrometry Mission.  ESA
+**     Publications Division, Noordwijk, Netherlands.
 **
-**     Lieske, J.H., 1979, Astron.Astrophys. 73, 282.
-**
-**  This revision:  2013 August 7
+**  This revision:   2015 January 20
 **
 **  SOFA release 2015-02-09
 **
 **  Copyright (C) 2015 IAU SOFA Board.  See notes at end.
 */
 {
-   double epj;
+   double v1[3], v2[3];
 
-   epj = 2000.0 + ((dj1 - DJ00) + dj2) / DJY;
+/*
+**  L2,B2 system of galactic coordinates in the form presented in the
+**  Hipparcos Catalogue.  In degrees:
+**
+**  P = 192.85948    right ascension of the Galactic north pole in ICRS
+**  Q =  27.12825    declination of the Galactic north pole in ICRS
+**  R =  32.93192    longitude of the ascending node of the Galactic
+**                   plane on the ICRS equator
+**
+**  ICRS to galactic rotation matrix, obtained by computing
+**  R_3(-R) R_1(pi/2-Q) R_3(pi/2+P) to the full precision shown:
+*/
+   double r[3][3] = { { -0.054875560416215368492398900454,
+                        -0.873437090234885048760383168409,
+                        -0.483835015548713226831774175116 },
+                      { +0.494109427875583673525222371358,
+                        -0.444829629960011178146614061616,
+                        +0.746982244497218890527388004556 },
+                      { -0.867666149019004701181616534570,
+                        -0.198076373431201528180486091412,
+                        +0.455983776175066922272100478348 } };
 
-   return epj;
+
+/* Spherical to Cartesian. */
+   iauS2c(dr, dd, v1);
+
+/* ICRS to Galactic. */
+   iauRxp(r, v1, v2);
+
+/* Cartesian to spherical. */
+   iauC2s(v2, dl, db);
+
+/* Express in conventional ranges. */
+   *dl = iauAnp(*dl);
+   *db = iauAnpm(*db);
+
+/* Finished. */
 
 /*----------------------------------------------------------------------
 **
@@ -139,4 +208,5 @@ double iauEpj(double dj1, double dj2)
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/
+
 }

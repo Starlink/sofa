@@ -2,7 +2,7 @@ dnl    Process this file with autoconf to produce a configure script
 AC_REVISION($Revision: 27534 $)
   
 dnl    Initialisation: package name and version number
-AC_INIT([sofa], [2012-07-10], [sofa@ukho.gov.uk])
+AC_INIT([sofa], [2015-02-09], [sofa@ukho.gov.uk])
 AC_CONFIG_AUX_DIR([build-aux])
   
 dnl    Require autoconf-2.50 at least

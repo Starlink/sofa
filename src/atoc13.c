@@ -148,9 +148,9 @@ int iauAtoc13(const char *type, double ob1, double ob2,
 **
 **  This revision:   2013 October 9
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2016-05-03
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
 */
 {
    int j;
@@ -178,7 +178,7 @@ int iauAtoc13(const char *type, double ob1, double ob2,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2016
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

@@ -36,7 +36,7 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 **     :  even if no leap seconds have been       :
 **     :  added.                                  :
 **     :                                          :
-**     :  Latest leap second:  2012 June 30       :
+**     :  Latest leap second:  2016 December 31   :
 **     :                                          :
 **     :__________________________________________:
 **
@@ -62,6 +62,7 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 **                      -2 = bad month
 **                      -3 = bad day (Note 3)
 **                      -4 = bad fraction (Note 4)
+**                      -5 = internal error (Note 5)
 **
 **  Notes:
 **
@@ -102,7 +103,9 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 **  5) The status value returned in the case where there are multiple
 **     errors refers to the first error detected.  For example, if the
 **     month and day are 13 and 32 respectively, status -2 (bad month)
-**     will be returned.
+**     will be returned.  The "internal error" status refers to a
+**     case that is impossible but causes some compilers to issue a
+**     warning.
 **
 **  6) In cases where a valid result is not available, zero is returned.
 **
@@ -117,15 +120,15 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 **  Called:
 **     iauCal2jd    Gregorian calendar to JD
 **
-**  This revision:  2013 August 21
+**  This revision:  2016 July 7
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2016-05-03
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
 */
 {
 /* Release year for this version of iauDat */
-   enum { IYV = 2013};
+   enum { IYV = 2016};
 
 /* Reference dates (MJD) and drift rates (s/day), pre leap seconds */
    static const double drift[][2] = {
@@ -192,11 +195,13 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
       { 1999,  1, 32.0       },
       { 2006,  1, 33.0       },
       { 2009,  1, 34.0       },
-      { 2012,  7, 35.0       }
+      { 2012,  7, 35.0       },
+      { 2015,  7, 36.0       },
+      { 2017,  1, 37.0       }
    };
 
 /* Number of Delta(AT) changes */
-   const int NDAT = sizeof changes / sizeof changes[0];
+   enum { NDAT = (int) (sizeof changes / sizeof changes[0]) };
 
 /* Miscellaneous local variables */
    int j, i, m;
@@ -229,6 +234,9 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
       if (m >= (12 * changes[i].iyear + changes[i].month)) break;
    }
 
+/* Prevent underflow warnings. */
+   if (i < 0) return -5;
+
 /* Get the Delta(AT). */
    da = changes[i].delat;
 
@@ -243,7 +251,7 @@ int iauDat(int iy, int im, int id, double fd, double *deltat )
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2016
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

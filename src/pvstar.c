@@ -100,9 +100,9 @@ int iauPvstar(double pv[2][3], double *ra, double *dec,
 **
 **  This revision:  2013 June 18
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2016-05-03
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
 */
 {
    double r, x[3], vr, ur[3], vt, ut[3], bett, betr, d, w, del,
@@ -161,7 +161,7 @@ int iauPvstar(double pv[2][3], double *ra, double *dec,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2016
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

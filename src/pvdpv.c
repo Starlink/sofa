@@ -32,9 +32,9 @@ void iauPvdpv(double a[2][3], double b[2][3], double adb[2])
 **
 **  This revision:  2013 June 18
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2016-05-03
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
 */
 {
    double adbd, addb;
@@ -56,7 +56,7 @@ void iauPvdpv(double a[2][3], double b[2][3], double adb[2])
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2016
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

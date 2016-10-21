@@ -85,9 +85,9 @@ void iauAtci13(double rc, double dc,
 **
 **  This revision:   2013 October 9
 **
-**  SOFA release 2013-12-02
+**  SOFA release 2016-05-03
 **
-**  Copyright (C) 2013 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
 */
 {
 /* Star-independent astrometry parameters */
@@ -104,7 +104,7 @@ void iauAtci13(double rc, double dc,
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2013
+**  Copyright (C) 2016
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

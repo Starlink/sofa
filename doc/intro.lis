@@ -1,4 +1,4 @@
-intro.lis                                                 2010 October 8
+intro.lis                                                  2016 March 14
 
 
                   -------------------------------
@@ -9,7 +9,7 @@ intro.lis                                                 2010 October 8
   SOFA stands for "Standards Of Fundamental Astronomy".  The SOFA
   software libraries are a collection of subprograms, in source-
   code form, which implement official IAU algorithms for fundamental-
-  astronomy computations.   The subprograms at present comprise 164
+  astronomy computations.   The subprograms at present comprise 176
   "astronomy" routines supported by 55 "vector/matrix" routines,
   available in both Fortran77 and C implementations.
 
@@ -74,11 +74,11 @@ SCOPE
 The routines currently available are listed in the next two chapters of
 this document.
 
-The "astronomy" library comprises 164 routines (plus one obsolete
+The "astronomy" library comprises 176 routines (plus one obsolete
 Fortran routine that now appears under a revised name).  The areas
-addressed include calendars, time scales, ephemerides, precession-
-nutation, star space-motion, star catalog transformations and
-geodetic/geocentric transformations.
+addressed include calendars, astrometry, time scales, Earth rotation,
+ephemerides, precession-nutation, star catalog transformations,
+and geodetic/geocentric transformations.
 
 The "vector-matrix" library, comprising 55 routines, contains a
 collection of simple tools for manipulating the vectors, matrices and
@@ -126,13 +126,14 @@ At present there is little free-standing documentation about individual
 routines.  However, each routine has preamble comments which specify in
 detail what the routine does and how it is used.
 
-The file sofa_pn.pdf describes the SOFA tools for precession-nutation
-and other aspects of Earth attitude and includes example code and (see
-the appendix) diagrams showing the interrelationships between the
-routines supporting the latest (IAU 2006/2000A) models.  Four other
-documents introduce time scale transformations (sofa_ts_f.pdf and
-sofa_ts_c.pdf for Fortran and C users respectively) and astrometric
-transformations (sofa_ast_f.pdf and sofa_ast_c.pdf).
+The files sofa_pn_f.pdf and sofa_pn_c.pdf (for Fortran and C users
+respectively) describe the SOFA tools for precession-nutation
+and other aspects of Earth attitude, and include example code and,
+in an appendix, diagrams showing the interrelationships between the
+routines supporting the latest (IAU 2006/2000A) models.  Two other pairs
+of documents introduce time scale transformations (sofa_ts_f.pdf and
+sofa_ts_c.pdf ) and astrometric transformations (sofa_ast_f.pdf and
+sofa_ast_c.pdf).
 
 
 PROGRAMMING LANGUAGES AND STANDARDS

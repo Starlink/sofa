@@ -1,4 +1,4 @@
-sofa_lib.lis                                            2013 November 19
+sofa_lib.lis                                               2016 March 10
 
                      ----------------------
                      SOFA Astronomy Library
@@ -111,8 +111,12 @@ ROUTINES
      LDN       light deflection by multiple solar-system bodies
      LDSUN     light deflection by the Sun
      PMPX      apply proper motion and parallax
+     PMSAFE    apply proper motion, with zero-parallax precautions
      PVTOB     observatory position and velocity
+     PVSTAR    space motion pv-vector to star catalog data
      REFCO     refraction constants
+     STARPM    apply proper motion
+     STARPV    star catalog data to space motion pv-vector
 
   Time scales
 
@@ -183,6 +187,10 @@ ROUTINES
      EORS      equation of the origins, given NPB matrix and s
      FW2M      Fukushima-Williams angles to r-matrix
      FW2XY     Fukushima-Williams angles to X,Y
+     LTP       long-term precession matrix
+     LTPB      long-term precession matrix, including ICRS frame bias
+     LTPECL    long-term precession of the ecliptic
+     LTPEQU    long-term precession of the equator
      NUM00A    nutation matrix, IAU 2000A
      NUM00B    nutation matrix, IAU 2000B
      NUM06A    nutation matrix, IAU 2006/2000A
@@ -240,11 +248,6 @@ ROUTINES
      FAUR03    mean longitude of Uranus
      FAVE03    mean longitude of Venus
 
-  Star space motion
-
-     PVSTAR    space motion pv-vector to star catalog data
-     STARPV    star catalog data to space motion pv-vector
-
   Star catalog conversions
 
      FK52H     transform FK5 star data into the Hipparcos system
@@ -252,8 +255,20 @@ ROUTINES
      FK5HZ     FK5 to Hipparcos assuming zero Hipparcos proper motion
      H2FK5     transform Hipparcos star data into the FK5 system
      HFK5Z     Hipparcos to FK5 assuming zero Hipparcos proper motion
-     PMSAFE    apply proper motion, with zero-parallax precautions
-     STARPM    apply proper motion
+
+  Ecliptic coordinates
+
+     ECEQ06    ecliptic to ICRS, IAU 2006
+     ECM06     rotation matrix, ICRS to ecliptic, IAU 2006
+     EQEC06    ICRS to ecliptic, IAU 2006
+     LTECEQ    ecliptic to ICRS, long term
+     LTECM     rotation matrix, ICRS to ecliptic, long-term
+     LTEQEC    ICRS to ecliptic, long term
+
+  Galactic coordinates
+
+     G2ICRS    transform IAU 1958 galactic coordinates to ICRS
+     ICRS2G    transform ICRS coordinates to IAU 1958 Galactic
 
   Geodetic/geocentric
 
@@ -262,7 +277,6 @@ ROUTINES
      GC2GDE    geocentric to geodetic given ellipsoid a,f
      GD2GC     geodetic to geocentric for a nominated ellipsoid
      GD2GCE    geodetic to geocentric given ellipsoid a,f
-
 
   Obsolete
 
@@ -332,6 +346,8 @@ CALLS: FORTRAN VERSION
    CALL iau_DAT    ( IY, IM, ID, FD, DELTAT, J )
    D =  iau_DTDB   ( DATE1, DATE2, UT, ELONG, U, V )
    CALL iau_DTF2D  ( SCALE, IY, IM, ID, IHR, IMN, SEC, D1, D2, J )
+   CALL iau_ECEQ06 ( DATE1, DATE2, DL, DB, DR, DD )
+   CALL iau_ECM06  ( DATE1, DATE2, RM );
    D =  iau_EE00   ( DATE1, DATE2, EPSA, DPSI )
    D =  iau_EE00A  ( DATE1, DATE2 )
    D =  iau_EE00B  ( DATE1, DATE2 )
@@ -345,6 +361,7 @@ CALLS: FORTRAN VERSION
    D =  iau_EPJ    ( DJ1, DJ2 )
    CALL iau_EPJ2JD ( EPJ, DJM0, DJM )
    CALL iau_EPV00  ( DJ1, DJ2, PVH, PVB, J )
+   CALL iau_EQEC06 ( DATE1, DATE2, DR, DD, DL, DB )
    D =  iau_EQEQ94 ( DATE1, DATE2 )
    D =  iau_ERA00  ( DJ1, DJ2 )
    D =  iau_FAD03  ( T )
@@ -367,6 +384,7 @@ CALLS: FORTRAN VERSION
    CALL iau_FK5HZ  ( R5, D5, DATE1, DATE2, RH, DH )
    CALL iau_FW2M   ( GAMB, PHIB, PSI, EPS, R )
    CALL iau_FW2XY  ( GAMB, PHIB, PSI, EPS, X, Y )
+   CALL iau_G2ICRS ( DL, DB, DR, DD )
    CALL iau_GC2GD  ( N, XYZ, ELONG, PHI, HEIGHT, J )
    CALL iau_GC2GDE ( A, F, XYZ, ELONG, PHI, HEIGHT, J )
    CALL iau_GD2GC  ( N, ELONG, PHI, HEIGHT, XYZ, J )
@@ -382,11 +400,19 @@ CALLS: FORTRAN VERSION
    CALL iau_H2FK5  ( RH, DH, DRH, DDH, PXH, RVH,
   :                  R5, D5, DR5, DD5, PX5, RV5 )
    CALL iau_HFK5Z  ( RH, DH, DATE1, DATE2, R5, D5, DR5, DD5 )
+   CALL iau_ICRS2G ( DR, DD, DL, DB  )
    CALL iau_JD2CAL ( DJ1, DJ2, IY, IM, ID, FD, J )
    CALL iau_JDCALF ( NDP, DJ1, DJ2, IYMDF, J )
    CALL iau_LD     ( BM, P, Q, E, EM, DLIM, P1 )
    CALL iau_LDN    ( N, B, OB, SC, SN )
    CALL iau_LDSUN  ( P, E, EM, P1 )
+   CALL iau_LTECEQ ( EPJ, DL, DB, DR, DD )
+   CALL iau_LTECM  ( EPJ, RM] )
+   CALL iau_LTEQEC ( EPJ, DR, DD, DL, DB )
+   CALL iau_LTP    ( EPJ, RP )
+   CALL iau_LTPB   ( EPJ, RPB )
+   CALL iau_LTPECL ( EPJ, VEC )
+   CALL iau_LTPEQU ( EPJ, VEQ )
    CALL iau_NUM00A ( DATE1, DATE2, RMATN )
    CALL iau_NUM00B ( DATE1, DATE2, RMATN )
    CALL iau_NUM06A ( DATE1, DATE2, RMATN )
@@ -525,6 +551,8 @@ CALLS: C VERSION
    i = iauDat    ( iy, im, id, fd, &deltat );
    d = iauDtdb   ( date1, date2, ut, elong, u, v );
    i = iauDtf2d  ( scale, iy, im, id, ihr, imn, sec, &d1, &d2 );
+       iauEceq06 ( date1, date2, dl, db, &dr, &dd );
+       iauEcm06  ( date1, date2, rm );
    d = iauEe00   ( date1, date2, epsa, dpsi );
    d = iauEe00a  ( date1, date2 );
    d = iauEe00b  ( date1, date2 );
@@ -538,6 +566,7 @@ CALLS: C VERSION
    d = iauEpj    ( dj1, dj2 );
        iauEpj2jd ( epj, &djm0, &djm );
    i = iauEpv00  ( dj1, dj2, pvh, pvb );
+       iauEqec06 ( date1, date2, dr, dd, &dl, &db );
    d = iauEqeq94 ( date1, date2 );
    d = iauEra00  ( dj1, dj2 );
    d = iauFad03  ( t );
@@ -560,6 +589,7 @@ CALLS: C VERSION
        iauFk5hz  ( r5, d5, date1, date2, &rh, &dh );
        iauFw2m   ( gamb, phib, psi, eps, r );
        iauFw2xy  ( gamb, phib, psi, eps, &x, &y );
+       iauG2icrs ( dl, db, &dr, &dd );
    i = iauGc2gd  ( n, xyz, &elong, &phi, &height );
    i = iauGc2gde ( a, f, xyz, &elong, &phi, &height );
    i = iauGd2gc  ( n, elong, phi, height, xyz );
@@ -576,11 +606,19 @@ CALLS: C VERSION
                    &r5, &d5, &dr5, &dd5, &px5, &rv5 );
        iauHfk5z  ( rh, dh, date1, date2,
                    &r5, &d5, &dr5, &dd5 );
+       iauIcrs2g ( dr, dd, &dl, &db );
    i = iauJd2cal ( dj1, dj2, &iy, &im, &id, &fd );
    i = iauJdcalf ( ndp, dj1, dj2, iymdf );
        iauLd     ( bm, p, q, e, em, dlim, p1 );
        iauLdn    ( n, b, ob, sc, sn );
        iauLdsun  ( p, e, em, p1 );
+       iauLteceq ( epj,  dl, db, &dr, &dd );
+       iauLtecm  ( epj,  rm );
+       iauLteqec ( epj,  dr,  dd, &dl, &db );
+       iauLtp    ( epj,  rp );
+       iauLtpb   ( epj,  rpb );
+       iauLtpecl ( epj,  vec );
+       iauLtpequ ( epj,  veq );
        iauNum00a ( date1, date2, rmatn );
        iauNum00b ( date1, date2, rmatn );
        iauNum06a ( date1, date2, rmatn );

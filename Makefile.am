@@ -268,7 +268,7 @@ doc/sofa_ast_c.pdf \
 doc/sofa_ast_summary.pdf \
 doc/sofa_lib.lis \
 doc/sofa_lib.pdf \
-doc/sofa_pn.pdf \
+doc/sofa_pn_c.pdf \
 doc/sofa_ts_c.pdf \
 doc/sofa_vml.lis \
 doc/sofa_vml.pdf \
